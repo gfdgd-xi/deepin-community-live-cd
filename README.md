@@ -29,6 +29,15 @@
   
 ![图片.png](https://storage.deepin.org/thread/202212240937174208_图片.png)  
   
+## 地址
+- [https://bbs.deepin.org/user/239113](https://bbs.deepin.org/user/239113)
+- [https://gitee.com/gfdgd-xi/deepin-community-live-cd/](https://gitee.com/gfdgd-xi/deepin-community-live-cd/)  
+- [https://github.com/gfdgd-xi/deepin-community-live-cd/](https://github.com/gfdgd-xi/deepin-community-live-cd/)
+- [https://www.gitlink.org.cn/gfdgd_xi/deepin-community-live-cd](https://www.gitlink.org.cn/gfdgd_xi/deepin-community-live-cd)
+- [https://jihulab.com/gfdgd-xi/deepin-community-live-cd/](https://jihulab.com/gfdgd-xi/deepin-community-live-cd/)
+- [http://dclc.gfdgdxi.top/](http://dclc.gfdgdxi.top/)
+- [http://gfdgd-xi.gitee.io/deepin-community-live-cd](http://gfdgd-xi.gitee.io/deepin-community-live-cd)
+
 ## 下载链接  
 ### Deepin Community Live CD 非 Install 版  
 鹤川云盘：[https://pan.hechuanyun.xyz/s/Weua](https://pan.hechuanyun.xyz/s/Weua)    
@@ -283,4 +292,4 @@
 [![星火社区作品集/spark-webapp-runtime 运行器](https://gitee.com/spark-community-works-collections/spark-webapp-runtime-runner/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/spark-community-works-collections/spark-webapp-runtime-runner)     
 [![gfdgd xi/定时器](https://gitee.com/gfdgd-xi/timer/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/gfdgd-xi/timer)     
   
-## ©2022-Now gfdgd xi、为什么您不喜欢熊出没和阿布呢   
+# ©2022-Now gfdgd xi、为什么您不喜欢熊出没和阿布呢   
