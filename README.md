@@ -39,6 +39,8 @@
 - [http://gfdgd-xi.gitee.io/deepin-community-live-cd](http://gfdgd-xi.gitee.io/deepin-community-live-cd)
 
 ## 下载链接  
+[http://dclc.gfdgdxi.top/Download](http://dclc.gfdgdxi.top/Download)  
+
 ### Deepin Community Live CD 非 Install 版  
 鹤川云盘：[https://pan.hechuanyun.xyz/s/Weua](https://pan.hechuanyun.xyz/s/Weua)    
 123云盘：[https://www.123pan.com/s/pDSKVv-yRpWv](https://www.123pan.com/s/pDSKVv-yRpWv)    
