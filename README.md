@@ -1,4 +1,6 @@
 # Deepin Community Live CD  
+## New Kernel 系列
+见 https://github.com/gfdgd-xi/dclc-kernel/  
 ## 非 Install 版介绍  
 > deepin 发布的 Live CD 有点古老，功能有少许不全，在部分新电脑是无法启动，对 ventoy 兼容性不是很好，同时我也想自己定制一个属于自己的 Live CD，于是这个 Live CD 就出现了    
 > 旧版 Live CD：    
@@ -294,4 +296,4 @@
 [![星火社区作品集/spark-webapp-runtime 运行器](https://gitee.com/spark-community-works-collections/spark-webapp-runtime-runner/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/spark-community-works-collections/spark-webapp-runtime-runner)     
 [![gfdgd xi/定时器](https://gitee.com/gfdgd-xi/timer/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/gfdgd-xi/timer)     
   
-# ©2022-Now gfdgd xi、为什么您不喜欢熊出没和阿布呢   
+# ©2022-Now gfdgd xi
