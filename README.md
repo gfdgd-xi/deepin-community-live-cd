@@ -1,153 +1,294 @@
 # Deepin Community Live CD  
-## New Kernel 系列
-见 https://github.com/gfdgd-xi/dclc-kernel/  
-## 非 Install 版介绍  
-> deepin 发布的 Live CD 有点古老，功能有少许不全，在部分新电脑是无法启动，对 ventoy 兼容性不是很好，同时我也想自己定制一个属于自己的 Live CD，于是这个 Live CD 就出现了    
-> 旧版 Live CD：    
-> ![image.png](https://storage.deepin.org/thread/202203201424371318_image.png)    
-> ![image.png](https://storage.deepin.org/thread/202203201425394425_image.png)    
-  
-此 Live CD 基于 deepin 20.8 和原 Live CD 2.0 制作，安装部分维护工具（如果还有需要添加的就说），感谢 [https://bbs.deepin.org/post/166409](https://bbs.deepin.org/post/166409) 的作者 [@xchngg](https://bbs.deepin.org/user/108842)的参考文档，本 Live CD 1.2.1 及以前版本使用该方案打包，测试 Ventoy 在 Legacy 和 UEFT 模式下均可运行此 Live CD，有常用驱动（网卡、显卡、声卡），理论上能运行 deepin 20.6 均可运行    
-同时也借鉴了以下文章的内容：    
-[https://bbs.deepin.org/post/228930](https://bbs.deepin.org/post/228930) [@deepin-superuser](user/278484)    
-  
-[https://bbs.deepin.org/post/228568](https://bbs.deepin.org/post/228568)  [@木一明](user/160805)    
-  
-**install、full 用户密码（包括root密码）为：123456**    
-**tiny、mini root 密码未知**    
-  
-![image.png](https://storage.deepin.org/thread/202209112148168591_image.png)  
-  
-![image.png](https://storage.deepin.org/thread/202209112150178582_image.png)  
-  
-![image.png](https://storage.deepin.org/thread/202209112151255384_image.png)  
-  
-## Install 版介绍  
-这个镜像是接着 Deepin Community Live CD 系列的（Deepin Community Live CD 简称为 `DCLC`，Deepin Community Live CD 系统是什么？传送门：https://bbs.deepin.org/post/242933） ，自然此镜像会同时拥有原 Deepin Community Live CD 的功能和系统安装功能    
-也为了简化安装后的操作，会预装一些软件以及一些配置等等    
-***注意：这个和鸿玩并不一样，不会修改任何有关 deepin 的系统信息，包括但不限于系统版本、系统 logo 等等***    
-***且并不是 deepin 的下游发行版，只是一个定制的镜像***    
-***Live CD 模式下用户默认密码：123456，root 密码：123456，安装到本地的不受此影响***    
-  
-![图片.png](https://storage.deepin.org/thread/202212240937174208_图片.png)  
-  
-## 地址
-- [https://bbs.deepin.org/user/239113](https://bbs.deepin.org/user/239113)
-- [https://gitee.com/gfdgd-xi/deepin-community-live-cd/](https://gitee.com/gfdgd-xi/deepin-community-live-cd/)  
-- [https://github.com/gfdgd-xi/deepin-community-live-cd/](https://github.com/gfdgd-xi/deepin-community-live-cd/)
-- [https://www.gitlink.org.cn/gfdgd_xi/deepin-community-live-cd](https://www.gitlink.org.cn/gfdgd_xi/deepin-community-live-cd)
-- [https://jihulab.com/gfdgd-xi/deepin-community-live-cd/](https://jihulab.com/gfdgd-xi/deepin-community-live-cd/)
-- [http://dclc.gfdgdxi.top/](http://dclc.gfdgdxi.top/)
-- [http://gfdgd-xi.gitee.io/deepin-community-live-cd](http://gfdgd-xi.gitee.io/deepin-community-live-cd)
+## 介绍
+Deepin Community Live CD 是一个让用户能够在系统出现问题时进行临时的维护和工作的镜像，预装了较为常用的维护工具，部分安装镜像还带系统安装功能。  
 
-## 下载链接  
-[http://dclc.gfdgdxi.top/Download](http://dclc.gfdgdxi.top/Download)  
+## 系列划分
+### 不支持系统安装功能的系列（Tiny、Mini、Full、Full-15.11、Debian、Debian-Core）
+#### Tiny
+在 Deepin 官方的 Deepin Live CD 2.0 的基础上修改而来，只更新了镜像内核（使用 `dde15` 桌面环境）
+#### Mini
+在 Tiny 的基础上增加了一些维护软件（使用 `dde15` 桌面环境）
+#### Full
+基于 Deepin 20，预装了一些常用的维护软件（使用 `dde20` 桌面环境）
+#### Debian-Core
+基于 Debian，没有 GUI
+#### Debian
+在 Debian-Core 的基础添加了桌面环境并预装常用维护软件（使用 `xfce4` 桌面环境）
 
-### Deepin Community Live CD 非 Install 版  
-鹤川云盘：[https://pan.hechuanyun.xyz/s/Weua](https://pan.hechuanyun.xyz/s/Weua)    
-123云盘：[https://www.123pan.com/s/pDSKVv-yRpWv](https://www.123pan.com/s/pDSKVv-yRpWv)    
+### 支持系统安装功能的系列（Install、New Kernel）
+#### Install
+基于 Deepin 20，在预装 Live 模式下常用的维护软件的基础上，新增了系统安装程序并预装一些常用软件
+#### New Kernel
+基于 Deepin 15/20/23，使用更新版本的内核，项目地址：https://github.com/gfdgd-xi/dclc-kernel  
+（基于 Deepin 15/20/23）
+
+## Live CD 默认账号和密码（使用 sudo 时均不需要输入密码）
+### Tiny
+未知
+### Mini
+未知
+### Full
+root: 123456  
+live: 123456
+### Install
+root: 123456  
+live: 123456  
+### Install Kernel
+未知
+### Debian
+root: 123456  
+live: 123456  
+### Debian-Core
+root: 123456
+
+## 历史版本
+<table>
+<thead>
+<tr>
+<th align="center">版本号</th>
+<th align="center">tiny</th>
+<th align="center">mini</th>
+<th align="center">full</th>
+<th align="center">install</th>
+<th align="center">tiny(本地版本)</th>
+<th align="center">mini(本地版本)</th>
+<th align="center">full(本地版本)</th>
+<th align="center">install(本地版本)</th>
+<th align="center">15.11</th>
+<th align="center">debian</th>
+<th align="center">debian-core</th>
+<th align="center">debian（本地版本）</th>
+<th align="center">debian-core（本地版本）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">2.0.0（未发布）</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">×</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+</tr>
+<tr>
+<td align="center">1.7.0</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.6.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.5.0</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.4.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.3.0</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.2.1</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.2.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.1.1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.1.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.5</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">×</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.4</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.3</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.2</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.0-rc</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.0-beta</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
   
-百度网盘：链接: [https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w](https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w) 提取码: ejr7  
-![image.png](https://storage.deepin.org/thread/202203201435562540_image.png)  
-  
-和彩云：链接: [https://caiyun.139.com/m/i?0r5CLA9upgtMT](https://caiyun.139.com/m/i?0r5CLA9upgtMT) 提取码:nEy6  
-![qrcode-分享.jpeg](https://storage.deepin.org/thread/202203201439423300_qrcode-%E5%88%86%E4%BA%AB.jpeg)  
-  
-### Deepin Community Live CD Install 版  
-  
-鹤川云盘：[https://pan.hechuanyun.xyz/s/Weua](https://pan.hechuanyun.xyz/s/Weua)    
-123 云盘：[https://www.123pan.com/s/pDSKVv-yRpWv](https://www.123pan.com/s/pDSKVv-yRpWv)    
-迅雷云盘：[https://pan.xunlei.com/s/VNF2FXAW-Ygci78DPS3b6bVxA1?pwd=5mgs](https://pan.xunlei.com/s/VNF2FXAW-Ygci78DPS3b6bVxA1?pwd=5mgs)   提取码：5mgs  
-  
-![image.png](https://storage.deepin.org/thread/202210231313582420_image.png)    
-  
-百度网盘：链接: [https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w](https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w) 提取码: ejr7  
-![image.png](https://storage.deepin.org/thread/202203201435562540_image.png)    
-  
-## 5个版本区别  
-如果不想知道，无脑选 full  或 install 版本  
-### tiny 版  
-  
-（当然大小并不 tiny）只是在原版 Live CD 升级了内核，没有多的更新，也没有重新打包（所以壁纸也没有换），适用于应急或者空间、网速以及对功能要求不高且电脑配置较低以及语言非简体中文的用户    
-![VirtualBox_deepin live cd Test_08_05_2022_15_36_25.png](https://storage.deepin.org/thread/202205081536449227_VirtualBox_deepinlivecdTest_08_05_2022_15_36_25.png)    
-![image.png](https://storage.deepin.org/thread/202211082115502052_image.png)  
-  
-### mini 版  
-在 tiny 版本的基础上，更新并预装了部分原来没有的应用，目前 1.1.0-mini 新预装了 vim、timeshift，将 lights-firefox 升级为 firefox，适用于嫌弃 full 版本空间大以及 tiny 版本功能不全和电脑配置较低以及语言非简体中文的用户    
-![图片.png](https://storage.deepin.org/thread/202212222214448582_图片.png)  
-  
-![图片.png](https://storage.deepin.org/thread/202212222215035384_图片.png)  
-  
-### full 版  
-  
-（和上面两个版本无关）基于 deepin 20.8 打包，功能较为完整、预装程序也比较多，但无法选择语言（即不能和 tiny、mini 版本一样启动选择语言），如果没有特殊的问题，建议使用这个版本  
-  
-![图片.png](https://storage.deepin.org/thread/202212222219111297_图片.png)  
-  
-![图片.png](https://storage.deepin.org/thread/202212222219339267_图片.png)  
-  
-![图片.png](https://storage.deepin.org/thread/202212222221006137_图片.png)  
-  
-### install  
-  
-基于 deepin 20.8 打包，功能非常完整，并未精简过多应用，支持直接运行系官方的安装向导，定位是社区定制的系统安装镜像，同时有 Live CD 的维护功能和系统安装功能  
-1.7.0 的 install 版还需要再等等    
-详细介绍可见：https://bbs.deepin.org/post/244651  
-  
-![image.png](https://storage.deepin.org/thread/202211082108573458_image.png)  
-  
-![image.png](https://storage.deepin.org/thread/202211082110097514_image.png)  
-  
-## 打包所带的程序  
-### Deepin Community Live CD（非 Install 版）  
-1. 远程协助  
-2. TestDisk  
-3. ukoapp  
-4. deepin 修复工具  
-5. CPU-G/CPU-X  
-6. GParted  
-7. 字符映射表  
-8. Timeshift  
-9. lub  
-10. deepin 全家桶  
-11. todesk  
-12. Live CD 工具（会过期）  
-13. Pardus Boot Repair  
-14. PowerISO  
-15. 一个小型的应用商店  
-16. 深度备份还原工具  
-17. Grub Customizer  
-18. QQ For Linux（2.0.1）  
-19. boot repair  
-20. Ghost  
-21. ……  
-  
-### Deepin Community Live CD Install 版  
-1. 星火应用商店（联网会自动更新）  
-2. Wine 运行器（联网会自动更新）  
-3. QQ（Wine）（会根据网络情况自动选择星火应用商店的版本或官方应用商店的版本）  
-4. 微信（Wine）（会根据网络情况自动选择星火应用商店的版本或官方应用商店的版本）  
-5. WPS Office（联网时自动安装）  
-6. 钉钉（联网时自动安装）  
-7. Todesk  
-8. TimeShift  
-9. udom 工具箱  
-10. deepin 全家桶  
-11. UOS远程协助  
-12. rdp 远程桌面连接工具  
-13. 搜狗输入法  
-14. deepin wine6 stable  
-15. 星火应用商店应用源（只存在于 Live CD 环境下，将不会安装到本地）  
-16. boot repair（只存在于 Live CD 环境下，将不会安装到本地）  
-17. Ghost（只存在于 Live CD 环境下，将不会安装到本地）  
-18. pardus-boot-repair（只存在于 Live CD 环境下，将不会安装到本地）  
-19. Deepin Installer（系统安装程序，只存在于 Live CD 环境下，将不会安装到本地）  
-20. Deepin Community Live CD Mini 应用商店（只存在于 Live CD 环境下，将不会安装到本地）  
-21. gparted（只存在于 Live CD 环境下，将不会安装到本地）  
-22. Deepin 系统修复工具（只存在于 Live CD 环境下，将不会安装到本地）  
-23. Live CD 工具（只存在于 Live CD 环境下，将不会安装到本地）  
-  
-## 更新内容（如无特殊注明则代表是非 Install 版）  
+## 历史版本更新（如无特殊注明则代表是非 Install 版）  
 ### Deepin Community Live CD Install 版 1.7.0—基于20.8的安装镜像，预装星火4.0  
   
 1. 跟进系统版本为 20.8  
