@@ -99,7 +99,7 @@ root: 123456
 </thead>
 <tbody>
 <tr>
-<td align="center">2.0.0（未发布）</td>
+<td align="center">2.0.0</td>
 <td align="center">●</td>
 <td align="center">●</td>
 <td align="center">●</td>
