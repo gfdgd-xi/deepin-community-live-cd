@@ -55,10 +55,12 @@ root: 123456
 <th align="center">full(本地版本)</th>
 <th align="center">install(本地版本)</th>
 <th align="center">15.11</th>
-<th align="center">debian</th>
-<th align="center">debian-core</th>
-<th align="center">debian（本地版本）</th>
-<th align="center">debian-core（本地版本）</th>
+<th align="center">debian_amd64</th>
+<th align="center">debian-core_amd64</th>
+<th align="center">debian_amd64（本地版本）</th>
+<th align="center">debian-core_amd64（本地版本）</th>
+<th align="center">debian_arm64</th>
+<th align="center">debian-core_arm64</th>
 </tr>
 </thead>
 <tbody>
@@ -73,6 +75,8 @@ root: 123456
 <td align="center">●</td>
 <td align="center"></td>
 <td align="center">×</td>
+<td align="center">●</td>
+<td align="center">●</td>
 <td align="center">●</td>
 <td align="center">●</td>
 <td align="center">●</td>
