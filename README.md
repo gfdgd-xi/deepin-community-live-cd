@@ -29,7 +29,10 @@ Deepin Community Live CD 是一个让用户能够在系统出现问题时进行�
 
 ![image.png](https://storage.deepin.org/thread/202209112151255384_image.png)  
 #### Debian-Core（amd64、arm64）
-基于 Debian，没有 GUI
+基于 Debian，没有 GUI  
+
+![Screenshot_qemu_20230728120451.png](https://storage.deepin.org/thread/202307281231432359_Screenshot_qemu_20230728120451.png)
+
 #### Debian（amd64、arm64）
 在 Debian-Core 的基础添加了桌面环境并预装常用维护软件（使用 `xfce4` 桌面环境）
 #### Full-15.11（停止维护）（amd64）
