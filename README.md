@@ -4,21 +4,52 @@ Deepin Community Live CD 是一个让用户能够在系统出现问题时进行�
 
 ## 系列划分
 ### 不支持系统安装功能的系列（Tiny、Mini、Full、Full-15.11、Debian、Debian-Core）
-#### Tiny
-在 Deepin 官方的 Deepin Live CD 2.0 的基础上修改而来，只更新了镜像内核（使用 `dde15` 桌面环境）
-#### Mini
-在 Tiny 的基础上增加了一些维护软件（使用 `dde15` 桌面环境）
-#### Full
-基于 Deepin 20，预装了一些常用的维护软件（使用 `dde20` 桌面环境）
-#### Debian-Core
+#### Tiny（amd64）
+在 Deepin 官方的 Deepin Live CD 2.0 的基础上修改而来，只更新了镜像内核（使用 `dde15` 桌面环境）  
+![](https://storage.deepin.org/thread/202209112201077726_image.png)  
+![](https://storage.deepin.org/thread/202205081542284615_VirtualBox_deepinlivecdTest_08_05_2022_15_42_04.png)  
+![](https://storage.deepin.org/thread/202205081536449227_VirtualBox_deepinlivecdTest_08_05_2022_15_36_25.png)  
+![](https://storage.deepin.org/thread/202209112203025802_image.png)  
+#### Mini（amd64）
+在 Tiny 的基础上增加了一些维护软件（使用 `dde15` 桌面环境）  
+![image.png](https://storage.deepin.org/thread/202209112158229271_image.png)
+
+![VirtualBox_Live CD Test_01_07_2022_20_19_56.png](https://storage.deepin.org/thread/20220701202418495_VirtualBox_LiveCDTest_01_07_2022_20_19_56.png)
+
+![VirtualBox_Live CD Test_01_07_2022_20_24_01.png](https://storage.deepin.org/thread/202207012024198047_VirtualBox_LiveCDTest_01_07_2022_20_24_01.png)
+![image.png](https://storage.deepin.org/thread/202209112200295894_image.png)
+
+![VirtualBox_Live CD Test_01_07_2022_20_22_23.png](https://storage.deepin.org/thread/202207012024191528_VirtualBox_LiveCDTest_01_07_2022_20_22_23.png)
+![VirtualBox_Live CD Test_01_07_2022_20_20_24.png](https://storage.deepin.org/thread/202207012024185466_VirtualBox_LiveCDTest_01_07_2022_20_20_24.png)  
+#### Full（amd64）
+基于 Deepin 20，预装了一些常用的维护软件（使用 `dde20` 桌面环境）  
+![image.png](https://storage.deepin.org/thread/202209112148168591_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112150178582_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112151255384_image.png)  
+#### Debian-Core（amd64、arm64）
 基于 Debian，没有 GUI
-#### Debian
+#### Debian（amd64、arm64）
 在 Debian-Core 的基础添加了桌面环境并预装常用维护软件（使用 `xfce4` 桌面环境）
+#### Full-15.11（停止维护）（amd64）
+基于 Deepin 15.11 制作，预装一些常用维护软件  
+![image.png](https://storage.deepin.org/thread/202209112153411297_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112155289267_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112157046137_image.png)
+
 
 ### 支持系统安装功能的系列（Install、New Kernel）
-#### Install
-基于 Deepin 20，在预装 Live 模式下常用的维护软件的基础上，新增了系统安装程序并预装一些常用软件
-#### New Kernel
+#### Install（amd64）
+基于 Deepin 20，在预装 Live 模式下常用的维护软件的基础上，新增了系统安装程序并预装一些常用软件  
+![VirtualBox_Live CD Test_01_07_2022_20_26_44.png](https://storage.deepin.org/thread/202207012027242790_VirtualBox_LiveCDTest_01_07_2022_20_26_44.png)
+
+![VirtualBox_Live CD Test_01_07_2022_20_15_47.png](https://storage.deepin.org/thread/202207012015595089_VirtualBox_LiveCDTest_01_07_2022_20_15_47.png)
+![VirtualBox_Live CD Test_01_07_2022_20_17_13.png](https://storage.deepin.org/thread/202207012017254728_VirtualBox_LiveCDTest_01_07_2022_20_17_13.png)
+![VirtualBox_Live CD Test_01_07_2022_20_18_48.png](https://storage.deepin.org/thread/202207012018581211_VirtualBox_LiveCDTest_01_07_2022_20_18_48.png)
+#### New Kernel（amd64）
 基于 Deepin 15/20/23，使用更新版本的内核，项目地址：https://github.com/gfdgd-xi/dclc-kernel  
 （基于 Deepin 15/20/23）
 
