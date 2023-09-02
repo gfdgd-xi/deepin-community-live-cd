@@ -1,0 +1,12 @@
+label live-@FLAVOUR@
+	menu label ^Deepin (@FLAVOUR@)
+	menu default
+	linux @LINUX@
+	initrd @INITRD@
+	append @APPEND_LIVE@
+
+label live-@FLAVOUR@-failsafe
+	menu label ^Deepin (@FLAVOUR@ failsafe)
+	linux @LINUX@
+	initrd @INITRD@
+	append @APPEND_LIVE_FAILSAFE@

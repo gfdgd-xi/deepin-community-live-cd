@@ -1,0 +1,124 @@
+name: Building Kernel ISO Package(deepin 20)
+run-name: ${{ github.actor }} Building Kernel ISO Package (deepin 20)🚀
+on:
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building ISO
+        env: 
+          GUSER: ${{ secrets.GUSER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          UPLOADURL: ${{ secrets.UPLOADURL }}
+        run: |
+          # 配置环境
+          sudo apt update
+          sudo apt install aria2 debootstrap neofetch python3 curl -y
+          neofetch
+          sudo aria2c -d /usr/bin -o pardus-chroot https://github.com/gfdgd-xi/deep-wine-runner/raw/main/pardus-chroot
+          sudo chmod 777 /usr/bin/pardus-chroot
+          mkdir ~/squashfs -p
+
+          # 获取镜像
+          wget https://github.com/gfdgd-xi/dclc-kernel/raw/main/kernel.txt
+          kernel=`cat kernel.txt`
+          
+          deepin20=https://cdimage.deepin.com/releases/20.9/deepin-desktop-community-20.9-amd64.iso
+          #deepin23=https://cdimage.deepin.com/releases/23-Beta/deepin-desktop-community-23-Beta-amd64.iso
+
+          
+
+          aria2c -x 16 -s 16 $deepin20 -d ~ -o deepin20.iso
+          mkdir /tmp/deepin20
+          sudo mount ~/deepin20.iso /tmp/deepin20
+          sudo unsquashfs /tmp/deepin20/live/filesystem.squashfs
+          sudo mv squashfs-root ~/deepin20
+          sudo rm -rfv ~/deepin20.iso
+          ## 定制镜像(Deepin20)
+          sudo pardus-chroot ~/deepin20
+          sudo chroot ~/deepin20 bash -c 'apt purge linux-image* linux-hea* -y' 
+          sudo chroot ~/deepin20 bash -c "rm -rfv /lib/modules/*"
+          # 设置 DNS
+          sudo chroot ~/deepin20 bash -c "echo nameserver 8.8.8.8 ./ > /etc/resolv.conf"
+          sudo aria2c -d ~/deepin20/tmp http://kernel.dclc.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin20 bash /tmp/github.sh
+          sudo chroot ~/deepin20 bash -c "echo deb http://github.com/gfdgd-xi/dclc-kernel/raw/main/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin20 apt update
+          sudo chroot ~/deepin20 apt install linux-kernel-dclc-gfdgdxi -y
+          sudo chroot ~/deepin20 bash -c "echo deb http://kernel.dclc.gfdgdxi.top/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin20 apt update
+          sudo chroot ~/deepin20 apt clean
+          sudo mv ~/deepin20/usr/share/wallpapers/deepin/desktop.jpg ~/deepin20/usr/share/wallpapers/deepin/desktop-default.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin20/usr/share/wallpapers/deepin -o dclc-new-kernel-wallpaper.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin20/usr/share/wallpapers/deepin -o desktop.jpg
+          sudo bash -c "echo Deepin Community Live CD Install 版（Deepin20，$kernel 内核版本） > /home/runner/deepin20/etc/dclc-info.txt"
+          sudo bash -c "echo 镜像构建时间：`date`，内核：$kernel >> /home/runner/deepin20/etc/dclc-info.txt"
+          sudo bash -c "echo By gfdgd xi >> /home/runner/deepin20/etc/dclc-info.txt"
+          # 拷贝定制过的 lub
+          sudo aria2c -d ~/deepin20/tmp http://github.com/gfdgd-xi/dclc-kernel/raw/main/lub
+          sudo chmod 777 ~/deepin20/tmp/lub
+          sudo chroot ~/deepin20 mkdir -p /backup
+          sudo chroot ~/deepin20 bash -c "echo -e 'c\n\ny\n/backup\ny\ny\ny\n\ny\n' | /tmp/lub -b"
+          sudo mv ~/deepin20/backup/*.squashfs ~/squashfs/deepin-20-$kernel-amd64.squashfs
+          #curl -F "file=@$HOME/squashfs/deepin-20-$kernel-amd64.squashfs" "$UPLOADURL"
+
+          # 高级定制
+          sudo bash -c "echo  deb https://community-packages.deepin.com/deepin/ apricot main contrib non-free > /home/runner/deepin20/etc/apt/sources.list"
+          sudo rm ~/deepin20/tmp/github.sh
+          sudo rm -rfv ~/deepin20/tmp/gfdgd-xi-sources
+          sudo aria2c -d ~/deepin20/tmp http://apt.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin20 bash /tmp/github.sh
+          sudo rm ~/deepin20/tmp/github.sh
+          sudo rm -rfv ~/deepin20/tmp/gfdgd-xi-sources
+          sudo aria2c -d ~/deepin20/tmp http://deb.wine.wine-runner.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin20 bash /tmp/github.sh
+          sudo rm ~/deepin20/tmp/github.sh
+          sudo rm -rfv ~/deepin20/tmp/gfdgd-xi-sources
+          sudo chroot ~/deepin20 apt update
+          sudo chroot ~/deepin20 apt purge libreoffice* -y
+          sudo chroot ~/deepin20 apt install spark-deepin-wine-runner -y
+          sudo chroot ~/deepin20 apt install com.oray.sunlogin.client -y
+          #sudo chroot ~/deepin20 apt install cn.wps.wps-office -y
+          sudo chroot ~/deepin20 apt install spark-store -y
+          sudo chroot ~/deepin20 aptss ssupdate
+          sudo chroot ~/deepin20 aptss install winfonts -y
+          sudo chroot ~/deepin20 aptss install linuxqq -y
+          sudo chroot ~/deepin20 aptss install com.qq.weixin.spark -y
+          sudo chroot ~/deepin20 aptss install com.github.ccc-app-manager -y
+          sudo chroot ~/deepin20 aptss install dde-dock-monitor-plugin -y
+          #sudo chroot ~/deepin20 apt install com.gitee.uengine.runner.spark -y
+          sudo chroot ~/deepin20 apt clean
+          sudo chroot ~/deepin20 rm -rfv /backup
+          sudo chroot ~/deepin20 mkdir -p /backup
+          sudo chroot ~/deepin20 bash -c "echo -e 'c\n\ny\n/backup\ny\ny\ny\n\ny\n' | /tmp/lub -b"
+          sudo mv ~/deepin20/backup/*.squashfs ~/squashfs/deepin-20-$kernel-amd64-more.squashfs
+          #curl -F "file=@$HOME/squashfs/deepin-20-$kernel-amd64-more.squashfs" "$UPLOADURL"
+          # 提交
+          sudo mv $HOME/squashfs/deepin-20-$kernel-amd64.squashfs ~/deepin20.squashfs
+          sudo mv $HOME/squashfs/deepin-20-$kernel-amd64-more.squashfs ~/deepin20-more.squashfs
+          
+          sudo umount ~/deepin20/dev/pts | true
+          sudo umount ~/deepin20/dev/shm | true
+          sudo umount ~/deepin20/tmp | true
+          sudo umount ~/deepin20/dev | true
+          sudo umount ~/deepin20/run | true
+          sudo umount ~/deepin20/media | true
+          sudo umount ~/deepin20/sys/firmware/efi/efivars | true
+          sudo umount ~/deepin20/sys | true
+          sudo umount ~/deepin20/proc | true
+          sudo rm -rfv ~/deepin20 | true
+          
+      - name: upload result(deepin 20)
+        uses: actions/upload-artifact@v1
+        with:
+          name: deepin20
+          path: /home/runner/deepin20.squashfs
+      - name: upload result(deepin 20 more)
+        uses: actions/upload-artifact@v1
+        with:
+          name: deepin20-more
+          path: /home/runner/deepin20-more.squashfs
+
+          
+    

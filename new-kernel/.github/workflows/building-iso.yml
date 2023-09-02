@@ -1,0 +1,93 @@
+name: Building Kernel ISO Package(deepin 15)
+run-name: ${{ github.actor }} Building Kernel ISO Package(deepin 15) 🚀
+on:
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building ISO
+        env: 
+          GUSER: ${{ secrets.GUSER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          UPLOADURL: ${{ secrets.UPLOADURL }}
+        run: |
+          # 配置环境
+          sudo apt update
+          sudo apt install aria2 debootstrap neofetch python3 curl -y
+          neofetch
+          sudo aria2c -d /usr/bin -o pardus-chroot https://github.com/gfdgd-xi/deep-wine-runner/raw/main/pardus-chroot
+          sudo chmod 777 /usr/bin/pardus-chroot
+          mkdir ~/squashfs -p
+
+          # 获取镜像
+          wget https://github.com/gfdgd-xi/dclc-kernel/raw/main/kernel.txt
+          kernel=`cat kernel.txt`
+          deepin15=https://cdimage.deepin.com/releases-archive/15.11/deepin-15.11-amd64.iso
+          deepin20=https://cdimage.deepin.com/releases/20.9/deepin-desktop-community-20.9-amd64.iso
+          deepin23=https://cdimage.deepin.com/releases/23-Beta/deepin-desktop-community-23-Beta-amd64.iso
+
+          aria2c -x 16 -s 16 $deepin15 -d ~ -o deepin15.iso
+          mkdir /tmp/deepin15
+          sudo mount ~/deepin15.iso /tmp/deepin15
+          sudo unsquashfs /tmp/deepin15/live/filesystem.squashfs
+          sudo mv squashfs-root ~/deepin15
+
+          
+
+          
+
+          ## 定制镜像(Deepin15)
+          sudo pardus-chroot ~/deepin15 
+          sudo chroot ~/deepin15 bash -c 'apt purge linux-image* linux-hea* linux-modu* -y' 
+          sudo chroot ~/deepin15 bash -c "rm -rfv /lib/modules/*"
+          # 设置 DNS
+          sudo chroot ~/deepin15 bash -c "echo nameserver 8.8.8.8 ./ > /etc/resolv.conf"
+          sudo aria2c -d ~/deepin15/tmp http://kernel.dclc.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin15 bash /tmp/github.sh
+          sudo chroot ~/deepin15 bash -c "echo deb http://github.com/gfdgd-xi/dclc-kernel/raw/main/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin15 apt update
+          sudo chroot ~/deepin15 apt install linux-kernel-dclc-gfdgdxi -y
+          sudo chroot ~/deepin15 bash -c "echo deb http://kernel.dclc.gfdgdxi.top/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin15 apt update
+          sudo chroot ~/deepin15 apt clean
+          sudo mv ~/deepin15/usr/share/wallpapers/deepin/desktop.jpg ~/deepin15/usr/share/wallpapers/deepin/desktop-default.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin15/usr/share/wallpapers/deepin -o dclc-new-kernel-wallpaper.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin15/usr/share/wallpapers/deepin -o desktop.jpg
+          sudo bash -c "echo Deepin Community Live CD Install 版（Deepin15，$kernel 内核版本） > /home/runner/deepin15/etc/dclc-info.txt"
+          sudo bash -c "echo 镜像构建时间：`date`，内核：$kernel >> /home/runner/deepin15/etc/dclc-info.txt"
+          sudo bash -c "echo By gfdgd xi >> /home/runner/deepin15/etc/dclc-info.txt"
+          # 拷贝定制过的 lub
+          sudo aria2c -d ~/deepin15/tmp http://github.com/gfdgd-xi/dclc-kernel/raw/main/lub
+          sudo chmod 777 ~/deepin15/tmp/lub
+          sudo chroot ~/deepin15 mkdir -p /backup
+          sudo chroot ~/deepin15 bash -c "echo -e 'c\n\ny\n/backup\ny\ny\ny\n\ny\n' | /tmp/lub -b"
+          sudo mv ~/deepin15/backup/*.squashfs ~/squashfs/deepin-15-$kernel-amd64.squashfs
+          sudo chroot ~/deepin15 bash -c "mv /boot/initrd.img-* /initrd.img-$kernel"
+          sudo chroot ~/deepin15 bash -c "mv /boot/vmlinuz-* /vmlinuz-$kernel"
+          curl -F "file=@$HOME/deepin15/vmlinuz-$kernel" "$UPLOADURL"
+          curl -F "file=@$HOME/deepin15/initrd.img-$kernel" "$UPLOADURL"
+          curl -F "file=@$HOME/squashfs/deepin-15-$kernel-amd64.squashfs" "$UPLOADURL"
+          
+
+          sudo mv $HOME/squashfs/deepin-15-$kernel-amd64.squashfs ~/deepin15.squashfs
+          sudo mv $HOME/deepin15/initrd.img-$kernel ~/initrd.img
+          sudo mv $HOME/deepin15/vmlinuz-$kernel ~/vmlinuz
+          exit
+      - name: upload result(initrd)
+        uses: actions/upload-artifact@v1
+        with:
+          name: initrd
+          path: /home/runner/initrd.img
+      - name: upload result(vmlinuz)
+        uses: actions/upload-artifact@v1
+        with:
+          name: vmlinuz
+          path: /home/runner/vmlinuz
+      - name: upload result(deepin 15)
+        uses: actions/upload-artifact@v1
+        with:
+          name: deepin15
+          path: /home/runner/deepin15.squashfs
+      
+    

@@ -1,0 +1,26 @@
+name: Repack ZSTD
+run-name: ${{ github.actor }} Repack ZSTD (deepin 20)🚀
+on:
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repack
+        env: 
+          GUSER: ${{ secrets.GUSER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          UPLOADURL: ${{ secrets.UPLOADURL }}
+        run: |
+          sudo apt install git dpkg-dev -y
+          git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/dclc-kernel
+          cd dclc-kernel
+          bash ./repack-zstd --scan .
+          git config --global user.email 3025613752@qq.com
+          git config --global user.name gfdgd-xi
+          git add .
+          git commit -m 转换包格式
+          git push
+          
+
+    

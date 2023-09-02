@@ -1,0 +1,122 @@
+name: Building Kernel ISO Package(deepin 23)
+run-name: ${{ github.actor }} Building Kernel ISO Package(deepin 23) 🚀
+on:
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building ISO
+        env: 
+          GUSER: ${{ secrets.GUSER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          UPLOADURL: ${{ secrets.UPLOADURL }}
+        run: |
+          # 配置环境
+          sudo apt update
+          sudo apt install aria2 debootstrap neofetch python3 curl -y
+          neofetch
+          sudo aria2c -d /usr/bin -o pardus-chroot https://github.com/gfdgd-xi/deep-wine-runner/raw/main/pardus-chroot
+          sudo chmod 777 /usr/bin/pardus-chroot
+          mkdir ~/squashfs -p
+
+          # 获取镜像
+          wget https://github.com/gfdgd-xi/dclc-kernel/raw/main/kernel.txt
+          kernel=`cat kernel.txt`
+          deepin23=https://cdimage.deepin.com/releases/23-Beta/deepin-desktop-community-23-Beta-amd64.iso
+
+          
+
+          aria2c -x 16 -s 16 $deepin23 -d ~ -o deepin23.iso
+          mkdir /tmp/deepin23
+          sudo mount ~/deepin23.iso /tmp/deepin23
+          sudo unsquashfs /tmp/deepin23/live/filesystem.squashfs
+          sudo mv squashfs-root ~/deepin23
+          sudo rm -rfv ~/deepin23.iso
+          ## 定制镜像(Deepin23)
+          sudo pardus-chroot ~/deepin23
+          sudo chroot ~/deepin23 bash -c 'apt purge linux-image* linux-hea* -y' 
+          sudo chroot ~/deepin23 bash -c "rm -rfv /lib/modules/*"
+          # 设置 DNS
+          sudo chroot ~/deepin23 bash -c "echo nameserver 8.8.8.8 ./ > /etc/resolv.conf"
+          sudo aria2c -d ~/deepin23/tmp http://kernel.dclc.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin23 bash /tmp/github.sh
+          sudo chroot ~/deepin23 bash -c "echo deb http://github.com/gfdgd-xi/dclc-kernel/raw/main/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin23 apt update
+          sudo chroot ~/deepin23 apt install linux-kernel-dclc-gfdgdxi -y
+          sudo chroot ~/deepin23 bash -c "echo deb http://kernel.dclc.gfdgdxi.top/ ./ > /etc/apt/sources.list.d/gfdgdxi-kernel-list.list"
+          sudo chroot ~/deepin23 apt update
+          sudo chroot ~/deepin23 apt clean
+          sudo mv ~/deepin23/usr/share/wallpapers/deepin/desktop.jpg ~/deepin23/usr/share/wallpapers/deepin/desktop-default.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin23/usr/share/wallpapers/deepin -o dclc-new-kernel-wallpaper.jpg
+          sudo aria2c https://raw.githubusercontent.com/gfdgd-xi/dclc-kernel/main/wallpaper.jpg -x 16 -s 16 -d ~/deepin23/usr/share/wallpapers/deepin -o desktop.jpg
+          sudo bash -c "echo Deepin Community Live CD Install 版（Deepin23，$kernel 内核版本） > /home/runner/deepin23/etc/dclc-info.txt"
+          sudo bash -c "echo 镜像构建时间：`date`，内核：$kernel >> /home/runner/deepin23/etc/dclc-info.txt"
+          sudo bash -c "echo By gfdgd xi >> /home/runner/deepin23/etc/dclc-info.txt"
+          # 拷贝定制过的 lub
+          sudo aria2c -d ~/deepin23/tmp http://github.com/gfdgd-xi/dclc-kernel/raw/main/lub
+          sudo chmod 777 ~/deepin23/tmp/lub
+          sudo chroot ~/deepin23 mkdir -p /backup
+          sudo chroot ~/deepin23 bash -c "echo -e 'c\n\ny\n/backup\ny\ny\ny\n\ny\n' | /tmp/lub -b"
+          sudo mv ~/deepin23/backup/*.squashfs ~/squashfs/deepin-23-$kernel-amd64.squashfs
+
+          # 高级定制
+          sudo bash -c "echo  deb https://community-packages.deepin.com/beige/ beige main commercial community > /home/runner/deepin23/etc/apt/sources.list"
+          sudo rm ~/deepin23/tmp/github.sh
+          sudo aria2c -d ~/deepin23/tmp http://apt.gfdgdxi.top/sources/github.sh
+          sudo chroot ~/deepin23 bash /tmp/github.sh
+          sudo rm ~/deepin23/tmp/github.sh
+          #sudo aria2c -d ~/deepin23/tmp http://deb.wine.wine-runner.gfdgdxi.top/sources/github.sh
+          #sudo chroot ~/deepin23 bash /tmp/github.sh
+          #sudo rm ~/deepin23/tmp/github.sh
+          sudo chroot ~/deepin23 apt update
+          sudo chroot ~/deepin23 apt purge libreoffice* -y
+          #sudo chroot ~/deepin23 apt purge linglong* -y
+          sudo chroot ~/deepin23 apt install spark-deepin-wine-runner -y
+          #sudo chroot ~/deepin23 apt install com.oray.sunlogin.client -y
+          #sudo chroot ~/deepin23 apt install cn.wps.wps-office -y
+          sudo chroot ~/deepin23 apt install spark-store -y
+          sudo chroot ~/deepin23 aptss ssupdate
+          sudo chroot ~/deepin23 aptss install better-deepin23-source -y
+          
+          sudo chroot ~/deepin23 aptss install winfonts -y
+          
+          sudo chroot ~/deepin23 aptss install com.github.ccc-app-manager -y
+          #sudo chroot ~/deepin20 aptss install dde-dock-monitor-plugin -y
+          #sudo chroot ~/deepin20 apt install com.gitee.uengine.runner.spark -y
+          sudo chroot ~/deepin23 apt clean
+          sudo chroot ~/deepin23 rm -rfv /backup
+          sudo chroot ~/deepin23 mkdir -p /backup
+          sudo chroot ~/deepin23 bash -c "echo -e 'c\n\ny\n/backup\ny\ny\ny\n\ny\n' | /tmp/lub -b"
+          sudo mv ~/deepin23/backup/*.squashfs ~/squashfs/deepin-23-$kernel-amd64-more.squashfs
+          #curl -F "file=@$HOME/squashfs/deepin-20-$kernel-amd64-more.squashfs" "$UPLOADURL"
+
+          # 提交
+          #curl -F "file=@$HOME/squashfs/deepin-23-$kernel-amd64.squashfs" "$UPLOADURL"
+          sudo mv $HOME/squashfs/deepin-23-$kernel-amd64.squashfs ~/deepin23.squashfs
+          sudo mv $HOME/squashfs/deepin-23-$kernel-amd64-more.squashfs ~/deepin23-more.squashfs
+          
+          sudo umount ~/deepin23/dev/pts | true
+          sudo umount ~/deepin23/dev/shm | true
+          sudo umount ~/deepin23/tmp | true
+          sudo umount ~/deepin23/dev | true
+          sudo umount ~/deepin23/run | true
+          sudo umount ~/deepin23/media | true
+          sudo umount ~/deepin23/sys/firmware/efi/efivars | true
+          sudo umount ~/deepin23/sys | true
+          sudo umount ~/deepin23/proc | true
+          sudo rm -rfv ~/deepin23 | true
+
+      - name: upload result(deepin 23)
+        uses: actions/upload-artifact@v1
+        with:
+          name: deepin23
+          path: /home/runner/deepin23.squashfs
+
+      - name: upload result(deepin 23 more)
+        uses: actions/upload-artifact@v1
+        with:
+          name: deepin23-more
+          path: /home/runner/deepin23-more.squashfs
+          
+    
