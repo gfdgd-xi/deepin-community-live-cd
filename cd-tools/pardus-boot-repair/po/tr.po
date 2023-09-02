@@ -1,0 +1,209 @@
+#
+# Fatih Altun <fatih.altun@pardus.org.tr>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-07 11:23+0300\n"
+"PO-Revision-Date: 2021-12-21 16:43+0300\n"
+"Last-Translator: Fatih Altun <fatih.altun@pardus.org.tr>\n"
+"Language-Team: Turkish <gelistirici@pardus.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2020-04-09 10:16+0000\n"
+"X-Generator: Gtranslator 3.38.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: ../pardus-boot-repair:10
+#, sh-format
+msgid "You cannot open boot repair during installation"
+msgstr "Yükleme sırasında başlangıç onarmayı açamazsınız "
+
+#: ../pardus-boot-repair:11 ../pardus-boot-repair:37
+#, sh-format
+msgid "OK"
+msgstr "Tamam"
+
+#: ../pardus-boot-repair:26
+#, sh-format
+msgid "Select user"
+msgstr "Kullanıcı Seç"
+
+#: ../pardus-boot-repair:27 ../pardus-boot-repair:50 ../pardus-boot-repair:68
+#: ../pardus-boot-repair:81 ../pardus-boot-repair:93 ../pardus-boot-repair:107
+#, sh-format
+msgid "Exit"
+msgstr "Çıkış"
+
+#: ../pardus-boot-repair:28 ../pardus-boot-repair:51 ../pardus-boot-repair:69
+#: ../pardus-boot-repair:82 ../pardus-boot-repair:94 ../pardus-boot-repair:108
+#, sh-format
+msgid "Select"
+msgstr "Seç"
+
+#: ../pardus-boot-repair:29
+#, sh-format
+msgid "User"
+msgstr "Kullanıcı"
+
+#: ../pardus-boot-repair:49
+#, sh-format
+msgid "Select rootfs partition"
+msgstr "Rootfs bölümünü seçin"
+
+#: ../pardus-boot-repair:52
+#, sh-format
+msgid "Rootfs partition"
+msgstr "Rootfs bölümü"
+
+#: ../pardus-boot-repair:67
+#, sh-format
+msgid "Select grub disk"
+msgstr "Grub diskini seçin"
+
+#: ../pardus-boot-repair:70
+#, sh-format
+msgid "Grub disk"
+msgstr "Grub diski"
+
+#: ../pardus-boot-repair:80
+#, sh-format
+msgid "Select partition"
+msgstr "Bölüm seçin"
+
+#: ../pardus-boot-repair:83
+#, sh-format
+msgid "partition"
+msgstr "bölüm"
+
+#: ../pardus-boot-repair:92
+#, sh-format
+msgid "Select efi partition"
+msgstr "Efi bölümünü seçin"
+
+#: ../pardus-boot-repair:95
+#, sh-format
+msgid "EFI partition"
+msgstr "EFI bölümü"
+
+#: ../pardus-boot-repair:106
+#, sh-format
+msgid "Pardus Boot Repair"
+msgstr "Pardus Başlangıç Onarma"
+
+#: ../pardus-boot-repair:109
+#, sh-format
+msgid "Action"
+msgstr "Eylem"
+
+#: ../pardus-boot-repair:109
+#, sh-format
+msgid "Name"
+msgstr "İsim"
+
+#: ../pardus-boot-repair:111
+#, sh-format
+msgid "Reinstall grub"
+msgstr "Grubu yeniden yükleyin"
+
+#: ../pardus-boot-repair:112 ../pardus-boot-repair:130
+#, sh-format
+msgid "Reset password"
+msgstr "Şifreyi yenile"
+
+#: ../pardus-boot-repair:113
+#, sh-format
+msgid "Open chroot shell"
+msgstr "Chroot kabuğunu aç"
+
+#: ../pardus-boot-repair:114
+#, sh-format
+msgid "Reinstall system"
+msgstr "Sistemi yeniden yükle"
+
+#: ../pardus-boot-repair:115
+#, sh-format
+msgid "Repair partition"
+msgstr "Bölüm onar"
+
+#: ../pardus-boot-repair:116
+msgid "Reset user config"
+msgstr "Kullanıcı ayarlarını sıfırla"
+
+#: ../pardus-boot-repair:117
+#, sh-format
+msgid "Update system"
+msgstr "Sistemi güncelle"
+
+#: ../pardus-boot-repair:118
+#, sh-format
+msgid "Try to fix broken packages"
+msgstr "Bozuk paketleri onarmayı dene"
+
+#: ../pardus-boot-repair:119
+#, sh-format
+msgid "Create system report"
+msgstr "Sistem raporu çıkart"
+
+#: ../pardus-boot-repair:125
+#, sh-format
+msgid "Failed to reinstall grub"
+msgstr "Grubu yeniden yükleme başarısız"
+
+#: ../pardus-boot-repair:130
+#, sh-format
+msgid "Enter new passpord"
+msgstr "Yeni parolayı girin"
+
+#: ../pardus-boot-repair:133
+#, sh-format
+msgid "Failed to reset password"
+msgstr "Parola yenileme başarısız"
+
+#: ../pardus-boot-repair:140
+#, sh-format
+msgid "Failed to open chroot shell"
+msgstr "Chroot kabuğunu açma başarısız"
+
+#: ../pardus-boot-repair:144
+#, sh-format
+msgid "Failed to fix broken packages"
+msgstr "Bozuk paketler onarılamadı"
+
+#: ../pardus-boot-repair:146
+#, sh-format
+msgid "This operation may damage your files! Do you want to continue?"
+msgstr "Bu işlem verilerinize zarar verebilir. Devam etmek istiyor musunuz?"
+
+#: ../pardus-boot-repair:150
+#, sh-format
+msgid "Failed to reinstall system"
+msgstr "Sistem yeniden yüklenemedi"
+
+#: ../pardus-boot-repair:153 ../pardus-boot-repair:158
+#, sh-format
+msgid "Failed to repair partition"
+msgstr "Bölüm onarılamadı"
+
+#: ../pardus-boot-repair:162
+#, sh-format
+msgid "Failed to update system"
+msgstr "Sistem güncellenemedi"
+
+#, sh-format
+#~ msgid "Open desktop (experimental)"
+#~ msgstr "Masaüstü aç (deneysel)"
+
+#~ msgid ""
+#~ "This feature is experimental and may damage your data! Do you want to "
+#~ "continue?"
+#~ msgstr ""
+#~ "Bu özellik deneyseldir ve verilerinize zarar verebilir! Devam etmek "
+#~ "istiyor musunuz?"
+
+#, sh-format
+#~ msgid "Virtual desktop"
+#~ msgstr "Sanal masaustu"

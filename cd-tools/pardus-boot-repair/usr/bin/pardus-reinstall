@@ -1,0 +1,67 @@
+#!/bin/bash
+mkdir -p /source /target
+mount /dev/loop0 /source
+while [[ ! -b /dev/$disk ]] ; do
+    echo $(ls /sys/block/* | grep "[0-9]$")
+    echo -n "Rootfs partition >>> "
+    read disk
+done
+while [[ ! -b /dev/$mbr ]] ; do
+    echo $(ls /sys/block/ | grep -v "loop")
+    echo -n "Grub disk >>> "
+    read mbr
+done
+mount /dev/$disk /target
+if [[ -d $old ]] ; then
+    rm -rf "$old"
+fi
+mkdir -p /target/pardus.old
+old="/target/pardus.old"
+new="/target"
+mv $new/* $old/ || true
+cp -prvf /source/* /target/
+sync
+cp $old/etc/fstab $new/etc/fstab
+for user in $(grep $old/etc/passwd -e ":x:[0-9][0-9][0-9][0-9]:[0-9][0-9][0-9][0-9]" | cut -f 1 -d ':') ; do
+    grep $old/etc/passwd -e "^$user:" >> $new/etc/passwd
+    grep $old/etc/shadow -e "^$user:" >> $new/etc/shadow
+    for group in audio video netdev plugdev bluetooth cdrom floppy sudo ; do
+        chroot $new usermod -a -G "$group" "$user" || true
+    done
+done
+mv $old/home/* $new/home/ || true
+cat $old/etc/default/keyboard > $new/etc/default/keyboard
+cat $old/etc/timezone > $new/etc/timezone
+cat $old/etc/default/locale > $new/etc/default/locale
+cat $old/etc/locale.gen > $new/etc/locale.gen
+cat $old/etc/hostname > $new/etc/hostname
+cat $old/etc/hosts > $new/etc/hosts
+chroot $new locale-gen
+chroot $new apt purge live-* -yq
+bash /usr/lib/live-installer/scripts/fetch-pkg-debian.sh || true
+for i in dev sys proc run ; do
+    mount --bind /$i /target/$i
+done
+if [[ -d /sys/firmware/efi/ ]]
+then
+    while [[ ! -b /dev/$efi ]] ; do
+        echo $(ls /sys/block/* | grep "[0-9]$")
+        echo -n "EFI partition >>> "
+        read efi
+    done
+    umount -lf /dev/$efi 2>/dev/null || true
+    mkdir /target/boot/efi
+    mount /dev/$efi /target/boot/efi
+    mount --bind /sys/firmware/efi/efivars /mnt/sys/firmware/efi/efivars
+fi
+chroot /target grub-install /dev/$mbr
+chroot /target grub-mkconfig -o /boot/grub/grub.cfg
+if [[ -d /sys/firmware/efi/ ]] ; then
+    while umount -lf "/target/sys/firmware/efi/efivars" 2>/dev/null ; do : ;done
+fi
+for dir in dev/pts dev sys proc ; do
+    while umount -lf "/target/$dir" 2>/dev/null; do : ;done
+done
+umount -lf /target  2>/dev/null
+echo -en "\033[32;1mPress any key to continue\033[;0m"
+read -n 1

@@ -1,0 +1,11 @@
+#!/bin/bash
+# 拷贝图片
+mkdir -p /usr/share/wallpapers/deepin-bak
+if [[ -f "/usr/share/wallpapers/deepin-bak/desktop.jpg" ]]; then
+    echo "忽略"
+else
+    mv /usr/share/wallpapers/deepin/* /usr/share/wallpapers/deepin-bak -v
+fi
+
+mkdir -p /usr/share/wallpapers/deepin
+mv /usr/share/wallpapers/deepin-community-live-cd/* /usr/share/wallpapers/deepin -v

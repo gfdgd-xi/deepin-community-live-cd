@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Pardus Boot Repair
+Name[pt]=Reparador de arranque Pardus
+Name[tr]=Pardus Başlangıç Onarma
+GenericName=Boot Repair
+GenericName[pt]=Reparador de arranque
+GenericName[tr]=Başlangıç Onarma
+Comment=Pardus boot repair tool
+Comment[pt]=Ferramenta de reparação de arranque do Pardus
+Comment[tr]=Pardus başlangıç onarma aracı
+Exec=pardus-boot-repair
+Icon=pardus-boot-repair
+Terminal=false
+Type=Application
+Categories=System;

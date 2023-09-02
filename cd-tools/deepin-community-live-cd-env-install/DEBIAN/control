@@ -1,0 +1,7 @@
+Package: deepin-community-live-cd-env-install
+Version: 1.1.0
+Architecture: all
+Conflicts: deepin-community-live-cd-env-mini, deepin-community-live-cd-env, deepin-community-live-cd-env-tiny, deepin-community-live-cd-env-full
+Depends: gparted, uos-livecdtools, com.poweriso.spark, pardus-boot-repair, deepin-repair-tools, gparted, deepin-community-live-cd-appstore, grub-customizer, spark-simple-remote-desktop-accessor, timeshift, uos-remote-assistance, deepin-installer, ghost:i386, boot-repair
+Maintainer: gfdgd xi<3025613752@qq.com>
+Description: Deepin Community Live CD Install 环境（非空包，带部分配置文件）

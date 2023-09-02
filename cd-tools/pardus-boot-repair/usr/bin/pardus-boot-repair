@@ -1,0 +1,177 @@
+#!/bin/bash
+xhost +local:
+source /etc/profile
+
+if [[ $UID -ne 0 ]] ; then
+    exec pkexec pardus-boot-repair
+fi
+. gettext.sh
+
+export TEXTDOMAIN=pardus-boot-repair
+export TEXTDOMAINDIR=/usr/share/locale
+
+if ps aux | grep lib/live-installer | grep -v grep ; then
+    zenity --error --text="$(eval_gettext "You cannot open boot repair during installation")" \
+        --ok-label="$(eval_gettext "OK")"
+    exit 1
+fi
+
+
+list_partition(){
+    for disk in $(ls /sys/block/* | grep "[0-9]$" | grep -v "loop") $(ls /dev/dm-* | cut -f 3 -d "/"); do
+        os=$(search-operating-system | grep $disk | cut -f 1 -d ':' | sed "s/ /-/g")
+        echo "$disk ($os)"
+    done
+}
+
+select_user(){
+    timeout 3 mount -o defaults,ro /dev/$disk /mnt
+    zenity --list \
+           --title="$(eval_gettext "Select user")" \
+           --cancel-label="$(eval_gettext "Exit")" \
+           --ok-label="$(eval_gettext "Select")" \
+           --column="$(eval_gettext "User")" \
+           --height=400 --width=400 \
+           $(grep -e ":x:[0-9][0-9][0-9][0-9]:" /mnt/etc/passwd | cut -f 1 -d ':') \
+           root
+    umount /mnt
+}
+
+fail(){
+    zenity --error --text="$*" --ok-label="$(eval_gettext "OK")" --width=400
+    exit 1
+}
+
+yesno(){
+    zenity --question --width=400 --text="$*"
+    if [[ $? -ne 0 ]] ; then
+        exit 1
+    fi
+}
+select_rootfs(){
+    disk=$(zenity --list \
+        --title="$(eval_gettext "Select rootfs partition")" \
+        --cancel-label="$(eval_gettext "Exit")" \
+        --ok-label="$(eval_gettext "Select")" \
+        --column="$(eval_gettext "Rootfs partition")" \
+        --column="" \
+        --height=400 --width=400 \
+        $(list_partition) | cut -f 1 -d ' ')
+    if [[ "$disk" == "" ]] ; then
+        exit 0
+    fi
+    mount -o ro /dev/$disk /mnt
+    if [[ ! -f /mnt/etc/os-release ]] ; then
+        fail "Invalid rootfs partition: /dev/$disk"
+    fi
+    umount /mnt
+}
+select_mbr(){
+    mbr=$(zenity --list \
+        --title="$(eval_gettext "Select grub disk")" \
+        --cancel-label="$(eval_gettext "Exit")" \
+        --ok-label="$(eval_gettext "Select")" \
+        --column="$(eval_gettext "Grub disk")" \
+        --height=400 --width=400 \
+        $(ls /sys/block/ | grep -v "loop"))
+    if [[ "$mbr" == "" ]] ; then
+        exit
+    fi
+}
+
+select_partition(){
+    disk=$(zenity --list \
+        --title="$(eval_gettext "Select partition")" \
+        --cancel-label="$(eval_gettext "Exit")" \
+        --ok-label="$(eval_gettext "Select")" \
+        --column="$(eval_gettext "partition")" \
+        --column="" \
+        --height=400 --width=400 \
+        $(list_partition) | cut -f 1 -d ' ')
+}
+
+select_efi(){
+    if [[ -d /sys/firmware/efi/ ]] ; then
+           efi=$(zenity --list \
+            --title="$(eval_gettext "Select efi partition")" \
+            --cancel-label="$(eval_gettext "Exit")" \
+            --ok-label="$(eval_gettext "Select")" \
+            --column="$(eval_gettext "EFI partition")" \
+            --column="" \
+            --height=400 --width=400 \
+            $(list_partition))
+        if [[ "$efi" == "" ]] ; then
+            exit
+        fi
+    fi
+}
+while true ; do
+    selection=$(zenity --list \
+        --title="$(eval_gettext "Pardus Boot Repair")" \
+        --cancel-label="$(eval_gettext "Exit")" \
+        --ok-label="$(eval_gettext "Select")" \
+        --column="$(eval_gettext "Action")" --column="$(eval_gettext "Name")" \
+        --height=400 --width=400 \
+        "grub"       "$(eval_gettext "Reinstall grub")" \
+        "password"   "$(eval_gettext "Reset password")" \
+        "chroot"     "$(eval_gettext "Open chroot shell")" \
+        "reinstall"  "$(eval_gettext "Reinstall system")" \
+        "repair"     "$(eval_gettext "Repair partition")" \
+        "reset"      "$(eval_gettext "Reset user config")" \
+        "update"     "$(eval_gettext "Update system")" \
+        "fix-broken" "$(eval_gettext "Try to fix broken packages")" \
+        "report"     "$(eval_gettext "Create system report")"
+    )
+    if [[ "$selection" == "grub" ]] ; then
+        select_rootfs
+        select_mbr
+        select_efi
+        x-terminal-emulator -e "env disk=$disk mbr=$mbr efi=$efi grub-reinstall" || fail $(eval_gettext "Failed to reinstall grub")
+    elif [[ "$selection" == "password" ]] ; then
+        select_rootfs
+        user=$(select_user)
+        if [[ "$user" != "" ]] ; then
+            pass=$(zenity --entry --text="$(eval_gettext "Enter new passpord")" --title "$(eval_gettext "Reset password")")
+            export pass1="$pass"
+            export pass2="$pass"
+            env user="$user" disk="$disk" reset-password || fail $(eval_gettext "Failed to reset password")
+            unset pass1 pass2
+        fi
+    elif [[ "$selection" == "chroot" ]] ; then
+        select_rootfs
+        user=$(select_user)
+        if [[ "$user" != "" ]] ; then
+            x-terminal-emulator -e "pardus-chroot /dev/$disk su $user -" || fail $(eval_gettext "Failed to open chroot shell")
+        fi
+    elif [[ "$selection" == "fix-broken" ]] ; then
+        select_rootfs
+        x-terminal-emulator -e "env disk=$disk fix-broken-packages" || fail $(eval_gettext "Failed to fix broken packages")
+    elif [[ "$selection" == "reinstall" ]] ; then
+        yesno "$(eval_gettext "This operation may damage your files! Do you want to continue?")"
+        select_rootfs
+        select_mbr
+        select_efi 
+        x-terminal-emulator -e "env disk=$disk mbr=$mbr efi=$efi pardus-reinstall" || fail $(eval_gettext "Failed to reinstall system")
+    elif [[ "$selection" == "repair" ]] ; then
+        select_partition
+         x-terminal-emulator -e "env disk=$disk check-filesystem"  || fail $(eval_gettext "Failed to repair partition")
+    elif [[ "$selection" == "reset" ]] ; then
+        yesno "$(eval_gettext "This operation may damage your files! Do you want to continue?")"
+        select_rootfs
+        user=$(select_user)
+        if [[ "$user" != "" ]] ; then
+            x-terminal-emulator -e "pardus-chroot /dev/$disk su $user -c 'cd ; rm -rvf .dbus .cache .local .config ; echo -en Press any key to continue ;read -n 1'"  || fail $(eval_gettext "Failed to repair partition")
+        fi
+    elif [[ "$selection" == "update" ]] ; then
+        select_rootfs
+        x-terminal-emulator -e "env disk=$disk full-upgrade" || fail $(eval_gettext "Failed to update system")
+    elif [[ "$selection" == "report" ]] ; then
+        select_rootfs
+        home=$(grep "x:1000:" /etc/passwd | cut -f 6 -d ":")
+        env disk="$disk" dump-info-log "$home"
+    else
+        exit 0
+    fi
+done
+
+

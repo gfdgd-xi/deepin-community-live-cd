@@ -1,0 +1,29 @@
+#!/bin/bash
+set +e
+while [[ ! -b /dev/$disk ]] ; do
+    echo $(ls /sys/block/* | grep "[0-9]$")
+    echo -n "Rootfs partition >>> "
+    read disk
+done
+mount /dev/$disk /mnt
+mount --bind /dev /mnt/dev
+mount --bind /dev/pts /mnt/dev/pts
+mount --bind /sys /mnt/sys
+mount --bind /proc /mnt/proc
+[[ ! -d /mnt/var/lib/dpkg ]] && exit 1
+cat /etc/apt/sources.list > /mnt/etc/apt/sources.list
+cat /etc/resolv.conf > /mnt/etc/resolv.conf
+rm -rf /mnt/etc/apt/sources.list.d
+mkdir -p /mnt/etc/apt/sources.list.d
+rm -rf /mnt/var/lib/apt/lists/*
+export DEBIAN_FRONTEND=noninteractive
+chroot /mnt apt-get update -y
+chroot /mnt apt-get install -f -o Dpkg::Options::="--force-confnew" -y
+chroot /mnt apt-get full-upgrade -o Dpkg::Options::="--force-confnew" -y
+sync
+for dir in dev/pts dev sys proc ; do
+    while umount -lf "/mnt/$dir" 2>/dev/null; do : ;done
+done
+umount -lf /mnt  2>/dev/null
+echo -en "\033[32;1mPress any key to continue\033[;0m"
+read -n 1 

@@ -1,0 +1,66 @@
+#!/bin/bash
+set +e
+while [[ ! -b /dev/$disk ]] ; do
+    echo $(ls /sys/block/* | grep "[0-9]$")
+    echo -n "Rootfs partition >>> "
+    read disk
+done
+while [[ ! -b /dev/$mbr ]] ; do
+    echo $(ls /sys/block/ | grep -v "loop")
+    echo -n "Grub disk >>> "
+    read mbr
+done
+umount -lf /dev/$disk 2>/dev/null  || true
+mount /dev/$disk /mnt
+mount --bind /dev /mnt/dev
+mount --bind /dev/pts /mnt/dev/pts
+mount --bind /sys /mnt/sys
+mount --bind /proc /mnt/proc
+if [[ -d /sys/firmware/efi/ ]]
+then
+    while [[ ! -b /dev/$efi ]] ; do
+        echo $(ls /sys/block/* | grep "[0-9]$")
+        echo -n "EFI partition >>> "
+        read efi
+    done
+    umount -lf /dev/$efi 2>/dev/null || true
+    mount /dev/$efi /mnt/boot/efi
+    mount --bind /sys/firmware/efi/efivars /mnt/sys/firmware/efi/efivars
+    if [[ "$(cat /sys/firmware/efi/fw_platform_size)" == "64" ]] ; then
+        efi64="1"
+    else
+        efi32="1"
+    fi
+else
+  legacy="1"
+fi
+for kernel in $(ls /mnt/lib/modules) ; do
+    chroot /mnt depmod -a $kernel
+    chroot /mnt update-initramfs -u -k $kernel
+done
+cat /etc/resolv.conf > /mnt/etc/resolv.conf
+chroot /mnt apt update || true
+chroot /mnt apt install --reinstall ${legacy:+grub-pc-bin} ${efi64:+grub-efi-amd64-bin} ${efi32:+grub-efi-ia32-bin} grub-common -yq || true
+chroot /mnt grub-install --force /dev/$mbr
+
+# EFI hack for hardcoded winzort bootloader bioses.
+if [[ -f /mnt/boot/efi/pardus/bootx64.efi ]] ; then # amd64 only
+    mkdir -p /mnt/boot/efi/EFI/Microsoft/Boot/
+    if [[ -f "/mnt/boot/efi/EFI/Microsoft/Boot/bootmgfw.efi" ]] ; then
+        mv /mnt/boot/efi/EFI/Microsoft/Boot/bootmgfw.efi \
+            /mnt/boot/efi/EFI/Microsoft/Boot/bootmgfw-winzort.efi
+    fi
+    cp /mnt/boot/efi/pardus/bootx64.efi \
+        /mnt/boot/efi/EFI/Microsoft/Boot/bootmgfw.efi
+fi
+
+chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+if [[ -d /sys/firmware/efi/ ]] ; then
+    while umount -lf "/mnt/sys/firmware/efi/efivars" 2>/dev/null ; do : ;done
+fi
+for dir in dev/pts dev sys proc ; do
+    while umount -lf "/mnt/$dir" 2>/dev/null; do : ;done
+done
+umount -lf /mnt  2>/dev/null
+echo -en "\033[32;1mPress any key to continue\033[;0m"
+read -n 1 

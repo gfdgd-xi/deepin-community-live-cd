@@ -1,0 +1,6 @@
+Package: deepin-community-live-cd-appstore
+Version: 1.1.0
+Architecture: all
+Depends: spark-store-console | spark-store
+Maintainer: gfdgd xi<3025613752@qq.com>
+Description: App Store For Deepin Community Live CD

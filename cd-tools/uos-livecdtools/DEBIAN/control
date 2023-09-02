@@ -1,0 +1,6 @@
+Package: uos-livecdtools
+Version: 1.3.4
+Architecture: amd64
+Depends: 
+Maintainer: gfdgd xi<3025613752@qq.com>
+Description: UOS Live CD Tools For Deepin Community Live CD

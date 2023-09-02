@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=设置该用户和Root用户密码为123456
+Exec=/usr/bin/change-defult-password
+Type=Application
+Icon=preferences-system

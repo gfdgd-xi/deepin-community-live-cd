@@ -1,0 +1,6 @@
+Package: ghost
+Version: 1.0.1
+Architecture: i386
+Depends: libc6, libstdc++6, libx11-6
+Maintainer: gfdgd xi<3025613752@qq.com>
+Description: Ghost For Deepin Community Live CD

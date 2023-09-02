@@ -1,0 +1,32 @@
+#!/bin/bash
+grep "boot=live" "/proc/cmdline" &>/dev/null || exit 1
+for part in $(ls /sys/block/* | grep "[0-9]$" | grep -v "loop") $(ls /dev/dm-* | cut -f 3 -d "/"); do
+    tmpdir=$(mktemp -d)
+    umount -lf /dev/$part 2>/dev/null
+    type=$(blkid -o value -s TYPE /dev/$part)
+    timeout 3 mount -o defaults,ro /dev/$part $tmpdir 2>/dev/null
+    for device in $(ls /dev/disk/by-label/) ; do
+        if [[ "$(basename $(readlink /dev/disk/by-label/$device))" == "$part" ]] ; then
+            label="$device"
+        fi
+    done
+    if [[ -f "$tmpdir/etc/os-release" ]] ; then
+        distro=$(cat $tmpdir/etc/os-release | grep "^NAME" | sed "s/.*=//g")
+        echo "$distro: /dev/$part"
+    elif [[ -f "$tmpdir/Windows/System32/ntoskrnl.exe" ]] ; then
+        echo "Windows: /dev/$part"
+    elif [[ -f $tmpdir/EFI/Microsoft/Boot/bootmgfw.efi ]] ; then
+        echo "Windows-EFI: /dev/$part"
+    elif [[ -f $tmpdir/EFI/pardus/grubx64.efi ]] ; then
+        echo "Pardus-EFI: /dev/$part"
+    elif [[ -f $tmpdir/EFI/ ]] ; then
+        echo "EFI: /dev/$part"
+    elif [[ "$label" != "" ]] ; then
+        echo "$label: /dev/$part"
+    elif [[ "$type" != "" ]] ; then
+        echo "$type: /dev/$part"
+    else
+        echo "unknown: /dev/$part"
+    fi
+    umount -lf -R $tmpdir 2>/dev/null
+done

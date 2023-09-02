@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Live CD 工具
+Exec=sudo uos-livecdtools
+Icon=/opt/uos-livecdtools.png
+Type=Application 
+Categories=System;

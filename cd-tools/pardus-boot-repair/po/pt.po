@@ -1,0 +1,173 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-18 07:50+0000\n"
+"PO-Revision-Date: 2022-11-23 14:23+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2\n"
+
+#: ../pardus-boot-repair:11
+#, sh-format
+msgid "You cannot open boot repair during installation"
+msgstr "Não é possível abrir o reparador de arranque durante a instalação"
+
+#: ../pardus-boot-repair:12 ../pardus-boot-repair:38
+#, sh-format
+msgid "OK"
+msgstr "Aceitar"
+
+#: ../pardus-boot-repair:27
+#, sh-format
+msgid "Select user"
+msgstr "Selecionar utilizador"
+
+#: ../pardus-boot-repair:28 ../pardus-boot-repair:51 ../pardus-boot-repair:68
+#: ../pardus-boot-repair:83 ../pardus-boot-repair:94 ../pardus-boot-repair:125
+#: ../pardus-boot-repair:136
+#, sh-format
+msgid "Exit"
+msgstr "Sair"
+
+#: ../pardus-boot-repair:29 ../pardus-boot-repair:52 ../pardus-boot-repair:69
+#: ../pardus-boot-repair:84 ../pardus-boot-repair:95 ../pardus-boot-repair:126
+#: ../pardus-boot-repair:137
+#, sh-format
+msgid "Select"
+msgstr "Selecionar"
+
+#: ../pardus-boot-repair:30
+#, sh-format
+msgid "User"
+msgstr "Utilizador"
+
+#: ../pardus-boot-repair:50
+#, sh-format
+msgid "Select rootfs partition"
+msgstr "Selecionar a partição rootfs"
+
+#: ../pardus-boot-repair:53
+#, sh-format
+msgid "Rootfs partition"
+msgstr "Partição rootfs"
+
+#: ../pardus-boot-repair:67
+#, sh-format
+msgid "Pardus Boot Repair"
+msgstr "Reparador de arranque Pardus"
+
+#: ../pardus-boot-repair:70
+#, sh-format
+msgid "Action"
+msgstr "Ação"
+
+#: ../pardus-boot-repair:70
+#, sh-format
+msgid "Name"
+msgstr "Nome"
+
+#: ../pardus-boot-repair:72
+#, sh-format
+msgid "Reinstall grub"
+msgstr "Reinstalar o grub"
+
+#: ../pardus-boot-repair:73 ../pardus-boot-repair:108
+#, sh-format
+msgid "Reset password"
+msgstr "Repor a palavra-passe"
+
+#: ../pardus-boot-repair:74
+#, sh-format
+msgid "Open chroot shell"
+msgstr "Abrir o shell do chroot"
+
+#: ../pardus-boot-repair:75
+#, sh-format
+msgid "Reinstall system"
+msgstr "Reinstalar o sistema"
+
+#: ../pardus-boot-repair:76
+#, sh-format
+msgid "Update system"
+msgstr "Atualizar o sistema"
+
+#: ../pardus-boot-repair:77
+#, sh-format
+msgid "Try to fix broken packages"
+msgstr "Tentar corrigir pacotes corrompidos"
+
+#: ../pardus-boot-repair:78
+#, sh-format
+msgid "Create system report"
+msgstr "Criar relatório do sistema"
+
+#: ../pardus-boot-repair:82 ../pardus-boot-repair:124
+#, sh-format
+msgid "Select grub disk"
+msgstr "Selecionar o disco do grub"
+
+#: ../pardus-boot-repair:85 ../pardus-boot-repair:127
+#, sh-format
+msgid "Grub disk"
+msgstr "Disco do grub"
+
+#: ../pardus-boot-repair:93 ../pardus-boot-repair:135
+#, sh-format
+msgid "Select efi partition"
+msgstr "Selecionar a partição efi"
+
+#: ../pardus-boot-repair:96 ../pardus-boot-repair:138
+#, sh-format
+msgid "EFI partition"
+msgstr "Partição EFI"
+
+#: ../pardus-boot-repair:104
+#, sh-format
+msgid "Failed to reinstall grub"
+msgstr "Falha ao reinstalar o grub"
+
+#: ../pardus-boot-repair:108
+#, sh-format
+msgid "Enter new passpord"
+msgstr "Introduza a nova palavra-passe"
+
+#: ../pardus-boot-repair:111
+#, sh-format
+msgid "Failed to reset password"
+msgstr "Falha ao repor a palavra-passe"
+
+#: ../pardus-boot-repair:117
+#, sh-format
+msgid "Failed to open chroot shell"
+msgstr "Falha ao abrir o shell do chroot"
+
+#: ../pardus-boot-repair:120
+#, sh-format
+msgid "Failed to fix broken packages"
+msgstr "Falha ao corrigir pacotes corrompidos"
+
+#: ../pardus-boot-repair:122
+#, sh-format
+msgid "This operation may damage your files! Do you want to continue?"
+msgstr "Esta operação pode danificar os seus ficheiros! Quer continuar?"
+
+#: ../pardus-boot-repair:146
+#, sh-format
+msgid "Failed to reinstall system"
+msgstr "Falha ao reinstalar o sistema"
+
+#: ../pardus-boot-repair:148
+#, sh-format
+msgid "Failed to update system"
+msgstr "Falha ao atualizar o sistema"

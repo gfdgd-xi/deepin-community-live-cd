@@ -1,0 +1,195 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-07 11:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../pardus-boot-repair:10
+#, sh-format
+msgid "You cannot open boot repair during installation"
+msgstr ""
+
+#: ../pardus-boot-repair:11 ../pardus-boot-repair:37
+#, sh-format
+msgid "OK"
+msgstr ""
+
+#: ../pardus-boot-repair:26
+#, sh-format
+msgid "Select user"
+msgstr ""
+
+#: ../pardus-boot-repair:27 ../pardus-boot-repair:50 ../pardus-boot-repair:68
+#: ../pardus-boot-repair:81 ../pardus-boot-repair:93 ../pardus-boot-repair:107
+#, sh-format
+msgid "Exit"
+msgstr ""
+
+#: ../pardus-boot-repair:28 ../pardus-boot-repair:51 ../pardus-boot-repair:69
+#: ../pardus-boot-repair:82 ../pardus-boot-repair:94 ../pardus-boot-repair:108
+#, sh-format
+msgid "Select"
+msgstr ""
+
+#: ../pardus-boot-repair:29
+#, sh-format
+msgid "User"
+msgstr ""
+
+#: ../pardus-boot-repair:49
+#, sh-format
+msgid "Select rootfs partition"
+msgstr ""
+
+#: ../pardus-boot-repair:52
+#, sh-format
+msgid "Rootfs partition"
+msgstr ""
+
+#: ../pardus-boot-repair:67
+#, sh-format
+msgid "Select grub disk"
+msgstr ""
+
+#: ../pardus-boot-repair:70
+#, sh-format
+msgid "Grub disk"
+msgstr ""
+
+#: ../pardus-boot-repair:80
+#, sh-format
+msgid "Select partition"
+msgstr ""
+
+#: ../pardus-boot-repair:83
+#, sh-format
+msgid "partition"
+msgstr ""
+
+#: ../pardus-boot-repair:92
+#, sh-format
+msgid "Select efi partition"
+msgstr ""
+
+#: ../pardus-boot-repair:95
+#, sh-format
+msgid "EFI partition"
+msgstr ""
+
+#: ../pardus-boot-repair:106
+#, sh-format
+msgid "Pardus Boot Repair"
+msgstr ""
+
+#: ../pardus-boot-repair:109
+#, sh-format
+msgid "Action"
+msgstr ""
+
+#: ../pardus-boot-repair:109
+#, sh-format
+msgid "Name"
+msgstr ""
+
+#: ../pardus-boot-repair:111
+#, sh-format
+msgid "Reinstall grub"
+msgstr ""
+
+#: ../pardus-boot-repair:112 ../pardus-boot-repair:130
+#, sh-format
+msgid "Reset password"
+msgstr ""
+
+#: ../pardus-boot-repair:113
+#, sh-format
+msgid "Open chroot shell"
+msgstr ""
+
+#: ../pardus-boot-repair:114
+#, sh-format
+msgid "Reinstall system"
+msgstr ""
+
+#: ../pardus-boot-repair:115
+#, sh-format
+msgid "Repair partition"
+msgstr ""
+
+#: ../pardus-boot-repair:116
+#, sh-format
+msgid "Reset user config"
+msgstr ""
+
+#: ../pardus-boot-repair:117
+#, sh-format
+msgid "Update system"
+msgstr ""
+
+#: ../pardus-boot-repair:118
+#, sh-format
+msgid "Try to fix broken packages"
+msgstr ""
+
+#: ../pardus-boot-repair:119
+#, sh-format
+msgid "Create system report"
+msgstr ""
+
+#: ../pardus-boot-repair:125
+#, sh-format
+msgid "Failed to reinstall grub"
+msgstr ""
+
+#: ../pardus-boot-repair:130
+#, sh-format
+msgid "Enter new passpord"
+msgstr ""
+
+#: ../pardus-boot-repair:133
+#, sh-format
+msgid "Failed to reset password"
+msgstr ""
+
+#: ../pardus-boot-repair:140
+#, sh-format
+msgid "Failed to open chroot shell"
+msgstr ""
+
+#: ../pardus-boot-repair:144
+#, sh-format
+msgid "Failed to fix broken packages"
+msgstr ""
+
+#: ../pardus-boot-repair:146
+#, sh-format
+msgid "This operation may damage your files! Do you want to continue?"
+msgstr ""
+
+#: ../pardus-boot-repair:150
+#, sh-format
+msgid "Failed to reinstall system"
+msgstr ""
+
+#: ../pardus-boot-repair:153 ../pardus-boot-repair:158
+#, sh-format
+msgid "Failed to repair partition"
+msgstr ""
+
+#: ../pardus-boot-repair:162
+#, sh-format
+msgid "Failed to update system"
+msgstr ""

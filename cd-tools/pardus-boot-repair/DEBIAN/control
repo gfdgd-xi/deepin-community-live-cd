@@ -1,0 +1,11 @@
+Package: pardus-boot-repair
+Version: 0.4.0
+Architecture: all
+Maintainer: Ali Riza KESKIN <ali.riza.keskin@pardus.org.tr>
+Installed-Size: 76
+Depends: libc6, live-boot, zenity
+Section: utils
+Priority: optional
+Homepage: https://pardus.org.tr
+Description: Pardus boot repair
+ Pardus boot repair tool

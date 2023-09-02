@@ -1,0 +1,4 @@
+#!/bin/bash
+# 移除
+mv /usr/share/wallpapers/deepin-bak/* /usr/share/wallpapers/deepin -v
+rm -rfv /usr/share/wallpapers/deepin-bak/

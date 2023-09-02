@@ -1,0 +1,15 @@
+#!/bin/bash
+while [[ ! -b /dev/$disk ]] ; do
+    echo $(ls /sys/block/* | grep "[0-9]$")
+    echo -n "partition >>> "
+    read part
+done
+type=$(blkid | grep /dev/$disk | sed "s/.*TYPE=\"//g;s/\".*//g")
+if [[ "$type" == "ext4" ]] ; then
+    yes "" | fsck.ext4 -f -y /dev/$disk
+
+else
+    yes "" | fsck.$type /dev/$disk
+fi
+echo -en "\033[32;1mPress any key to continue\033[;0m"
+read -n 1
