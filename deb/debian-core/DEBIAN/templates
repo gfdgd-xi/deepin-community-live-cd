@@ -1,0 +1,20 @@
+Template: live/root_password
+Type: password
+Description: Please enter a password for LIVE system:
+ To secure your system, it is recommended to set a password for the LIVE system
+ if the password is empty, no password is required to enter the LIVE system.
+Description-zh_CN.UTF-8: 请输入LIVE系统的密码：
+ 为了保障您的系统安全，建议为LIVE系统设置密码, 如果密码为空，则进入LIVE系统时不需要密码。
+
+Template: live/root_password_again
+Type: password
+Description: Repeat password for LIVE system:
+Description-zh_CN.UTF-8: 请再次输入密码：
+
+Template: live/password_mismatch
+Type: error
+Description: Password input error
+ The two passwords you entered were not the same. Please try again.
+Description-zh_CN.UTF-8: 输入密码错误
+ 两次输入密码不同，请重新输入。
+

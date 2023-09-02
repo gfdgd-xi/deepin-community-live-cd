@@ -1,0 +1,132 @@
+#! /bin/sh
+set -e
+
+# grub-mkconfig helper script.
+# Copyright (C) 2006,2007,2008,2009,2010  Free Software Foundation, Inc.
+#
+# GRUB is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# GRUB is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+
+prefix="/usr"
+exec_prefix="/usr"
+datarootdir="/usr/share"
+quiet_boot="0"
+
+. "$pkgdatadir/grub-mkconfig_lib"
+
+export TEXTDOMAIN=grub
+export TEXTDOMAINDIR="${datarootdir}/locale"
+
+CLASS="--class gnu-linux --class gnu --class os"
+
+if [ "x${GRUB_DISTRIBUTOR}" = "x" ] ; then
+  OS=GNU/Linux
+else
+  CLASS="--class $(echo ${GRUB_DISTRIBUTOR} | tr 'A-Z' 'a-z' | cut -d' ' -f1|LC_ALL=C sed 's,[^[:alnum:]_],_,g') ${CLASS}"
+fi
+
+if [ -f /etc/default/locale ];then
+  LOCALE=$(cat /etc/default/locale | grep ^LANG=.*$ | head -n 1 | sed 's/"//g')
+  LOCALE=${LOCALE#LANG=}
+fi
+
+LOCALE=${LOCALE:-en_US.UTF-8}
+
+title_correction_code=
+
+linux_entry ()
+{
+  os="$1"
+  version="$2"
+  type="$3"
+  args="boot=live \$load_config components quiet toram locales=${LOCALE} acpi_backlight=vendor"
+
+  if [ -z "$boot_device_id" ]; then
+      boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
+  fi
+  args="$args live-media-path=recovery_live"
+  echo "menuentry 'uos Recovery' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+
+  echo "	insmod gzio" | sed "s/^/$submenu_indentation/"
+
+  if [ x$dirname = x/ ]; then
+    if [ -z "${prepare_root_cache}" ]; then
+      prepare_root_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE} | grub_add_tab)"
+    fi
+    printf '%s\n' "${prepare_root_cache}" | sed "s/^/$submenu_indentation/"
+  else
+    if [ -z "${prepare_boot_cache}" ]; then
+      prepare_boot_cache="$(prepare_grub_to_access_device ${GRUB_DEVICE_BOOT} | grub_add_tab)"
+    fi
+    printf '%s\n' "${prepare_boot_cache}" | sed "s/^/$submenu_indentation/"
+  fi
+  if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
+    message="$(gettext_printf "Loading Linux %s ..." ${version})"
+    sed "s/^/$submenu_indentation/" << EOF
+EOF
+  fi
+  if test -d /sys/firmware/efi && test -e "${linux}.efi.signed"; then
+    sed "s/^/$submenu_indentation/" << EOF
+	linux	${rel_dirname}/${basename}.efi.signed ro ${args} 
+EOF
+  else
+    sed "s/^/$submenu_indentation/" << EOF
+	linux	${rel_dirname}/${basename} ro ${args}
+EOF
+  fi
+  if test -n "${initrd}" ; then
+    # TRANSLATORS: ramdisk isn't identifier. Should be translated.
+    if [ x"$quiet_boot" = x0 ] || [ x"$type" != xsimple ]; then
+      message="$(gettext_printf "Loading initial ramdisk ...")"
+      sed "s/^/$submenu_indentation/" << EOF
+EOF
+    fi
+    sed "s/^/$submenu_indentation/" << EOF
+	initrd	${rel_dirname}/${initrd}
+EOF
+  fi
+  sed "s/^/$submenu_indentation/" << EOF
+}
+EOF
+}
+
+submenu_indentation=""
+is_top_level=true
+for i in /boot/deepin/vmlinuz-*; do
+	if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
+done
+
+linux=`version_find_latest $list`
+
+gettext_printf "Found deepin image: %s\n" "$linux" >&2
+basename=`basename $linux`
+dirname=`dirname $linux`
+rel_dirname=`make_system_path_relative_to_its_root $dirname`
+version=`echo $basename | sed -e "s,^[^0-9]*-,,g"`
+alt_version=`echo $version | sed -e "s,\.old$,,g"`
+
+initrd=
+for i in "initrd.img-${version}"; do
+  if test -e "${dirname}/${i}" ; then
+    initrd="$i"
+    break
+  fi
+done
+
+if test -n "${initrd}" ; then
+  gettext_printf "Found initrd image: %s\n" "${dirname}/${initrd}" >&2
+fi
+
+linux_entry "${OS}" "${version}" simple 
+
+echo "$title_correction_code"

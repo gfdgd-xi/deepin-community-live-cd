@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copy needed firmware
+
+. /usr/share/debconf/confmodule
+db_get live/root_password && rootpw="$RET"
+db_stop
+sha256=`echo -n $rootpw | sha256sum | cut -d ' ' -f1`
+if [ ! -f "/recovery/cryptauth" ]; then
+	mkdir -p /recovery
+	echo $sha256 > /recovery/cryptauth
+	chmod 0600 /recovery/cryptauth
+fi
+
+
+if [ -f /proc/modules ];then
+	# Need installer to override this file.
+	install -Dm644 /proc/modules /recovery/modules
+fi
+
+# set grub default value
+if [ ! -f /etc/default/grub ];then	
+    echo "No grub default configuration.Exit..." >&2
+else
+	if grep -q '^GRUB_DEFAULT=' /etc/default/grub;then
+		sed -i "s|^GRUB_DEFAULT=.*|GRUB_DEFAULT=saved|g" /etc/default/grub
+	else
+		cat >> /etc/default/grub << EOF
+# Important change by live-filesystem.
+GRUB_DEFAULT=saved 
+EOF
+	fi
+	update-grub || true
+fi
+
+exit 0

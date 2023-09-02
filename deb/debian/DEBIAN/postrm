@@ -1,0 +1,16 @@
+#!/bin/bash
+case "${1}" in
+	remove)
+		. /usr/share/debconf/confmodule
+		# Remove my changes to the db.
+		db_purge
+		rm -f /recovery/cryptauth
+		rm -f /recovery/modules
+		# Update grub
+		if [ -e /boot/grub/grub.cfg ] && [ -x "$(which update-grub)" ]; then
+			update-grub
+		fi
+		;;
+esac
+
+exit 0

@@ -1,0 +1,8 @@
+Package: live-filesystem-community-tiny
+Version: 2.0.0
+Architecture: amd64
+Maintainer: LinuxDeepin Project <linuxdeepin@linuxdeepin.com>, gfdgd xi<3025613752@qq.com>
+Section: devel
+Priority: extra
+Conflicts: live-filesystem, live-filesystem-community-mini, live-filesystem-community-full, live-filesystem-community-full-15.11, live-filesystem-community-debian, live-filesystem-community-debian-core
+Description: Deepin Community Live CD Tiny
