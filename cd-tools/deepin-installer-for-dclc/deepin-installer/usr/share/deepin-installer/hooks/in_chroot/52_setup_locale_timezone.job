@@ -1,0 +1,172 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Update configuration for systemd to enable locale time
+# 禁止UTC时间
+enable_local_rtc() {
+    local timezone_use_local_time_regardless timezone_force_local_time
+    local DI_IS_LOCAL_TIME
+    timezone_use_local_time_regardless=$(installer_get "timezone_use_local_time_regardless")
+    timezone_force_local_time=$(installer_get "timezone_force_local_time")
+    DI_IS_LOCAL_TIME=$(installer_get "DI_IS_LOCAL_TIME")
+
+    ## timezone_use_local_time_regardless = true 时
+    ## 1. 当 timezone_force_local_time = true 强制禁止UTC时间
+    ## 2. 当使用windwos系统时间时（timezone_use_windows_time = true），如果检测到windows分区，则
+    ##   DI_IS_LOCAL_TIME = true  禁止UTC时间
+    if [[ x"${timezone_use_local_time_regardless}" = xtrue &&
+        (x"${timezone_force_local_time}" = xtrue ||
+         x"${DI_IS_LOCAL_TIME}" = xtrue) ]]; then
+        timedatectl set-local-rtc 1
+    else
+        timedatectl set-local-rtc 0
+    fi
+}
+
+# set timedate
+set_timedate() {
+    local IS_ENABLE_NTP
+    local TIMEDATE
+    IS_ENABLE_NTP=$(installer_get "DI_IS_ENABLE_NTP")
+    if [[ x"${IS_ENABLE_NTP}" != xtrue ]]; then
+
+        TIMEDATE=$(installer_get "DI_TIMEDATE")
+    else
+        # 1031之后由于系统关机时系统时间会被同步到rtc中，所以在设置时间的时候需要在没有时区干扰的情况下同步rtc时间为系统时间，防止每次安装系统后系统时间+8
+        TIMEDATE=$rtc_date
+        echo "rtc_date="$rtc_date
+    fi
+
+    timedatectl set-ntp false  # 先禁止时间同步服务， 防止时间设置不生效
+    timedatectl set-time "${TIMEDATE}"
+}
+
+enable_ntp() {
+    local DI_IS_ENABLE_NTP
+    DI_IS_ENABLE_NTP=$(installer_get "DI_IS_ENABLE_NTP")
+    if [[ x"${DI_IS_ENABLE_NTP}" = xtrue ]]; then      
+        # 启动ntp服务，设置开启时间同步属性
+        rm -fr /usr/lib/systemd/system/systemd-timesyncd.service.d/disable-timesyncd-with-installer.conf
+        timedatectl set-ntp true
+        msg "timedatectl set-ntp true"
+    else
+        # 手动设置时间时，关闭ntp服务
+        timedatectl set-ntp false
+        msg "timedatectl set-ntp false"
+    fi
+}
+
+# 同步系统时间对rtc中
+datetime_hctosys() {
+    local timedate_is_sysnc
+    timezone_is_sysnc=$(installer_get "timezone_is_sysnc")
+    if [[ x"${timezone_is_sysnc}" = xtrue ]]; then
+        hwclock --systohc
+    fi
+}
+
+# Setup locale and timezone.
+# This function used in hook_manager.sh and first_boot_setup.sh
+setup_locale_timezone() {
+  local DI_LOCALE DI_TIMEZONE LOCALE
+  DI_LOCALE=$(installer_get "DI_LOCALE")
+  DI_TIMEZONE=$(installer_get "DI_TIMEZONE")
+
+  DI_LOCALE=${DI_LOCALE:-en_US}
+  DI_TIMEZONE=${DI_TIMEZONE:-Etc/UTC}
+  LOCALE=${DI_LOCALE%.*}
+
+  # Disable all locales first.
+  sed -i 's/^\([^#].*\)$/# \1/g' /etc/locale.gen
+
+  # Always generate en_US locale.
+  msg "Generating locale: en_US ${LOCALE}"
+  sed -i "s/# \(en_US\.UTF-8.*$\)/\1/g" /etc/locale.gen
+
+  # generate user selected locale.
+  sed -i "s/# \(${LOCALE}[\. ]UTF-8.*$\)/\1/g" /etc/locale.gen
+
+  # 获取/etc/locale.gen locale值
+  LANG=${LOCALE}.UTF-8
+  if [ $(grep -c "${LOCALE}\.UTF-8" /etc/locale.gen) -eq 0 ]; then
+    LANG=${LOCALE}
+  fi
+
+  cat > /etc/default/locale << EOF
+LANG=${LANG}
+LANGUAGE=${LOCALE}
+EOF
+
+  # Re-generate localisation files.
+  /usr/sbin/locale-gen
+
+  # Enable extral zh_CN charsets.
+  if test x${LOCALE} = xzh_CN; then
+    local LOCALE_DIR=/usr/lib/locale
+    sed -i "s/# \(${LOCALE}\.GBK.*$\)/\1/g" /etc/locale.gen
+    sed -i "s/# \(${LOCALE}\.GB18030.*$\)/\1/g" /etc/locale.gen
+    sed -i "s/# \(${LOCALE}\ GB2312.*$\)/\1/g" /etc/locale.gen
+    # Use pre-compiled locale archives
+    for P_LOCALE in ${LOCALE_DIR}/{zh_CN,zh_CN.gb18030,zh_CN.gbk}; do
+      localedef --add-to-archive ${P_LOCALE}
+    done
+  else
+    rm -rf ${LOCALE_DIR}/{zh_CN,zh_CN.gb18030,zh_CN.gbk}
+  fi
+
+  echo "Check timezone ${DI_TIMEZONE}"
+  if cat /usr/share/zoneinfo/zone.tab | grep -v '^#' | awk '{print $3}' | \
+      grep -q "^${DI_TIMEZONE}$"; then
+    msg "${DI_TIMEZONE} is available"
+  else
+    msg "Timezone is not available, Fall back to Asia/Beijing"
+    DI_TIMEZONE="Asia/Beijing"
+  fi
+
+  # 在没有设置时区之前记录rtc时间，此时系统处于+0时区，系统时间=rtc时间
+  rtc_date=$(date "+%Y-%m-%d %H:%M:%S")
+
+  msg "Set timezone to ${DI_TIMEZONE}"
+  echo "${DI_TIMEZONE}" > /etc/timezone
+  # Create /etc/localtime symbol links
+  ln -nsf /usr/share/zoneinfo/${DI_TIMEZONE} /etc/localtime
+  dpkg-reconfigure --frontend noninteractive tzdata
+
+  # Set using local time or not
+  enable_local_rtc
+  set_timedate
+  enable_ntp
+  datetime_hctosys
+
+  touch -c /usr/share/applications/*
+
+  # Check locale
+  if ls /usr/share/i18n/locales | grep -q "\<${LOCALE}\>"; then
+    msg "${LOCALE} is available"
+  else
+    msg "${LOCALE} is not available, Fallback to en_US"
+    unset LOCALE
+  fi
+
+  # Update grub based on current locale
+  update_grub_local
+}
+
+if [ x$(installer_get "system_info_setup_after_reboot") != "xtrue" ]; then
+  setup_locale_timezone
+fi

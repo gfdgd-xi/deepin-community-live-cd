@@ -1,0 +1,47 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+write_auto_mount() {
+	skip_auto_mount=$(installer_get "skip_auto_mount")
+	# skip_auto_mount=false
+	if [ x$skip_auto_mount = "xtrue" ];then
+		return 0;
+	fi
+	local value="$1"
+	cat > /etc/deepin/deepin-auto-mount << EOF
+AutoMount=$value
+EOF
+}
+
+main() {
+	DI_USER_EXPERIENCE=$(installer_get "DI_USER_EXPERIENCE")
+	# DI_USER_EXPERIENCE=true
+	if [ "x$DI_USER_EXPERIENCE" != "xtrue" ];then
+		return 0;
+	fi 
+
+	DI_AUTO_MOUNT=$(installer_get "DI_AUTO_MOUNT")
+	# DI_AUTO_MOUNT=true
+	if [  "x$DI_AUTO_MOUNT" = "xtrue" ];then
+		write_auto_mount "1"
+	else
+		write_auto_mount "2"
+	fi
+}
+
+main

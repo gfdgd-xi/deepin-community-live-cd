@@ -1,0 +1,26 @@
+#!/bin/bash
+chrootEnvPath=/opt/new-system-env
+#if [[ `whoami` != "root" ]]; then
+#    echo 请使用 root 权限运行
+#    exit 1
+#fi
+if [[ ! -f ~/.config/gx-env/chroot ]]; then
+    if [[ `whoami` != root ]]; then
+        if [[ ! -f $chrootEnvPath/user/$USER ]]; then
+            gx-env-init
+        fi
+    fi
+    bwrap --dev-bind / / --dev-bind $chrootEnvPath/etc /etc --dev-bind $chrootEnvPath/opt /opt --dev-bind $chrootEnvPath/usr /usr --dev-bind $chrootEnvPath/var /var --dev-bind $chrootEnvPath/bin /bin --dev-bind $chrootEnvPath/boot /boot --dev-bind $chrootEnvPath/lib /lib --dev-bind $chrootEnvPath/lib32 /lib32 --dev-bind $chrootEnvPath/lib64 /lib64 --dev-bind $chrootEnvPath/libx32 /libx32 --dev-bind $chrootEnvPath/gx-env /gx-env --dev-bind /etc/resolv.conf /etc/resolv.conf "$@"
+    #pkexec env `` gx-env-load-desktop 
+    exit
+fi
+echo aa > /tmp/env-$USER.txt
+if [[ ! -f $chrootEnvPath/tmp/env-$USER.txt ]]; then
+    echo 未挂载目录，立即挂载
+    gx-env-init
+fi
+command="$@"
+#echo $command
+pkexec env `printenv` chroot $chrootEnvPath sudo -u $USER bash -c "$command"
+#echo $@
+#pkexec gx-env-load-desktop 

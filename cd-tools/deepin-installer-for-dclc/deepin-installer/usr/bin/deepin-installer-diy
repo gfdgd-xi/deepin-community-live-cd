@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+# 使用系统默认的 python3 运行
+#################################################################################################################
+# 作者：gfdgd xi、为什么您不喜欢熊出没和阿布呢
+# 更新时间：2022年10月29日
+# 感谢：感谢 deepin 的 deepin installer
+# 根据 GPLV3 协议开源
+# 基于 Python3 的 PyQt5 构建
+#################################################################################################################
+import os
+import sys
+import traceback
+import PyQt5.QtGui as QtGui
+import PyQt5.QtWidgets as QtWidgets
+apps = QtWidgets.QApplication(sys.argv)
+defultBash = """#!/bin/bash
+##########################################################
+# Power By Deepin Installer
+# Installer DIY By gfdgd xi、为什么您不喜欢熊出没和阿布呢
+# WebSize: https://gfdgd-xi.github.io
+# 介绍：你可以在这里输入需要在安装过程中需要添加运行的脚本以便执行
+########################################################## """
+
+if os.getuid() != 0:
+    QtWidgets.QMessageBox.critical(None, "错误", "请用 root 权限运行")
+    sys.exit(1)
+
+def SaveButton():
+    try:
+        if not os.path.exists(f"/usr/share/deepin-installer"):
+            os.makedirs("/usr/share/deepin-installer")
+        with open("/usr/share/deepin-installer/diy-shell", "w") as file:
+            file.write(text.toPlainText())
+        QtWidgets.QMessageBox.information(window, "提示", "保存成功！")
+    except:
+        traceback.print_exc()
+        QtWidgets.QMessageBox.critical(window, "错误", traceback.format_exc())
+
+window = QtWidgets.QMainWindow()
+widget = QtWidgets.QWidget()
+layout = QtWidgets.QGridLayout()
+text = QtWidgets.QTextEdit()
+saveButton = QtWidgets.QPushButton("保存")
+saveButton.clicked.connect(SaveButton)
+if os.path.exists("/usr/share/deepin-installer/diy-shell"):
+    try:
+        with open("/usr/share/deepin-installer/diy-shell", "r") as file:
+            text.setText(file.read())
+    except:
+        traceback.print_exc()
+        QtWidgets.QMessageBox.critical(window, "错误", traceback.format_exc())
+        text.setText(defultBash)
+else:
+    if os.path.exists("/usr/share/deepin-installer/diy-shell"):
+        text.setText(defultBash)
+layout.addWidget(text, 0, 0)
+layout.addWidget(saveButton, 1, 0)
+widget.setLayout(layout)
+window.setCentralWidget(widget)
+window.setWindowTitle("Deepin Installer 添加自定义脚本")
+window.setWindowIcon(QtGui.QIcon("/usr/share/icons/hicolor/scalable/apps/deepin-installer-oem.svg"))
+window.resize(int(window.frameSize().width() * 1.2), int(window.frameSize().height() * 1.1))
+window.show()
+apps.exec_()

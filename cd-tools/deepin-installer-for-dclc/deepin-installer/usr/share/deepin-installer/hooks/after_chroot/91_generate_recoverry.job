@@ -1,0 +1,85 @@
+#!/bin/bash
+DI_RECOVERY_PATH=$(installer_get "DI_RECOVERY_PATH")
+DI_BOOT_PARTITION=$(installer_get "DI_BOOT_PARTITION")
+DI_ROOT_PARTITION=$(installer_get "DI_ROOT_PARTITION")
+DI_SYSTEM_CHECK_MODE=$(installer_get "system_check_mode")
+DATA_MOUNT_POINT=$(installer_get "DI_DATA_MOUNT_POINT")
+
+if [ -z ${DI_RECOVERY_PATH} ];then
+    return 0;
+fi
+
+DI_FULLDISK_MODE=$(installer_get "DI_FULLDISK_MODE")
+if [ x${DI_FULLDISK_MODE} != "xtrue" ]; then
+    return 0;
+fi
+
+DI_IS_INIT_RECOVERY=$(installer_get "DI_IS_INIT_RECOVERY")
+if [ x${DI_IS_INIT_RECOVERY} != "xtrue" ]; then
+    return 0;
+fi
+
+variable_done_data_var_opt_copy=0
+
+# mount all point
+/tmp/installer/hook_manager.sh /tmp/installer/before_chroot/11_mount_target.job
+/tmp/installer/hook_manager.sh /tmp/installer/before_chroot/41_setup_mount_points.job
+
+if [ -d /target/${DATA_MOUNT_POINT} ];then
+    mount ${DI_ROOT_PARTITION} /mnt
+    rm -rf /mnt/var
+    rm -rf /mnt/opt
+    
+    # copy /data/var => /var
+    cp -a /target/${DATA_MOUNT_POINT}/var /mnt/
+    
+    # copy /data/opt => /opt
+    cp -a /target/${DATA_MOUNT_POINT}/opt /mnt/
+    
+    umount /mnt
+
+    variable_done_data_var_opt_copy=1
+fi
+
+# umount all point
+/tmp/installer/hook_manager.sh /tmp/installer/after_chroot/90_unmount.job
+
+# force umount /target point
+umount -l /target
+
+mkdir -p /target/recovery
+mount ${DI_RECOVERY_PATH} /target/recovery || error "Faild to mount recovery"
+
+# 备份boot分区
+if [ ! -z ${DI_BOOT_PARTITION} ];then
+    deepin-clone --tui ${DI_BOOT_PARTITION} /target/recovery/backup/boot.dim
+
+    if [ ! -f "/target/recovery/backup/boot.dim" ];then
+        return -1
+    fi
+
+    cd /target/recovery/backup
+    md5sum boot.dim > boot.md5
+fi
+
+deepin-clone --tui ${DI_ROOT_PARTITION} /target/recovery/backup/system.dim
+
+if [ ${variable_done_data_var_opt_copy} == 1 ];then
+    mount ${DI_ROOT_PARTITION} /mnt
+    rm -rf /mnt/var/*
+    rm -rf /mnt/opt/*
+    umount /mnt
+fi
+
+if [ ! -f "/target/recovery/backup/system.dim" ];then
+    return -1
+fi
+
+cd /target/recovery/backup
+md5sum system.dim > system.md5
+
+cd /
+umount -R /target/recovery
+
+sync
+return 0

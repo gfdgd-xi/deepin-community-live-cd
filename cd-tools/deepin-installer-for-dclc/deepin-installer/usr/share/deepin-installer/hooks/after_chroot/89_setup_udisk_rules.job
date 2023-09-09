@@ -1,0 +1,71 @@
+#!/bin/bash
+
+setup_udisks_rules() {
+    local UDISK_FILE="/target/etc/udev/rules.d/80-udisks-installer.rules"
+
+    # 隐藏efi分区
+    local EFI_ID=$(lsblk -o UUID,MOUNTPOINT -f | grep -i /target/boot/efi$ | awk '{print $1}')
+    if [ -n "$EFI_ID" ]; then
+        echo "# hide efi" >> ${UDISK_FILE}
+        echo "ENV{ID_FS_UUID}==\"${EFI_ID}\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+    fi
+
+    # 隐藏boot分区
+    local BOOT_ID=$(lsblk -o UUID,MOUNTPOINT -f | grep -i /target/boot$ | awk '{print $1}')
+    if [ -n "$BOOT_ID" ]; then
+        echo "# hide boot" >> ${UDISK_FILE}
+        echo "ENV{ID_FS_UUID}==\"${BOOT_ID}\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+    fi
+
+    # 隐藏recovery分区
+    local RECOVERY_ID=$(lsblk -o UUID,MOUNTPOINT -f | grep -i /target/recovery$ | awk '{print $1}')
+    if [ -n "$RECOVERY_ID" ]; then
+        echo "# hide recovery" >> ${UDISK_FILE}
+        echo "ENV{ID_FS_UUID}==\"${RECOVERY_ID}\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+    fi
+
+    # 处理roota 根分区规则
+    # ## 设置根分区为linux filesystem,防止sw平台上根分区为引导出现问题
+    # ## udev中存在一条默认规则：当磁盘格式是gpt，分区类型为EFI的磁盘会被隐藏，
+    # ## 所以当系统是uefi引导时，sw平台手动创建根分区为第一个分区，默认该分区的类型是EFI类型，故会被隐藏
+    local ROOT_DEVICE=$(installer_get DI_ROOT_DISK)
+    local ROOT_NUM="${ROOT_DEVICE##/dev/}"
+    local MULTIPLE_PART=$(lsblk -lfo NAME $ROOT_DEVICE | grep -i "${ROOT_NUM}[p]2" | awk '{print $1}')
+    if [ ! -n "$EFI_ID" ] && [ ! -n "$BOOT_ID" ]; then
+        echo "# Roota rule debug"
+        echo "# fdisk ${ROOT_DEVICE} t 20 $/dev/{MULTIPLE_PART}"
+        [ -n "$MULTIPLE_PART" ] && fdisk ${ROOT_DEVICE} << EOF
+t
+1
+20
+w
+EOF
+        [ -n "$MULTIPLE_PART" ] || fdisk ${ROOT_DEVICE} << EOF
+t
+20
+w
+EOF
+    fi
+
+    # 隐藏rootb分区
+    local ROOTB_ID=$(blkid -o value -s UUID /target/dev/disk/by-label/Rootb)
+    if [ -n "$ROOTB_ID" ]; then
+        echo "# hide rootb" >> ${UDISK_FILE}
+        echo "ENV{ID_FS_UUID}==\"${ROOTB_ID}\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+    fi
+
+    # 隐藏swap分区
+    echo "# hide swap" >> ${UDISK_FILE}
+    echo "ENV{ID_FS_TYPE}==\"swap\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+
+    # 隐藏加密磁盘分区
+    local DISKS=$(installer_get "DI_FULLDISK_MULTIDISK_DEVICE" | tr -s ";" " ")   # 获取安装器中操作的磁盘
+    local LUKS_IDS=$(lsblk -o UUID,NAME,FSTYPE -lf $DISKS | grep -i crypto_luks | awk '{print $1}')
+    echo "DISKS=$DISKS, LUKS_IDS=$LUKS_IDS"
+    if [ -n "$LUKS_IDS" ]; then
+        echo "# hide crypto_luks" >> ${UDISK_FILE}
+        echo "$LUKS_IDS" | xargs -I {} echo "ENV{ID_FS_UUID}==\"{}\", ENV{UDISKS_IGNORE}=\"1\"" >> ${UDISK_FILE}
+    fi
+}
+
+setup_udisks_rules

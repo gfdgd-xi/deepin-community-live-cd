@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+
+#chrootEnvPath="/opt/new-system-env"
+chrootEnvPath="/"
+if not os.path.exists("/gx-env/desktop"):
+    os.makedirs("/gx-env/desktop")
+if not os.path.exists("/gx-env/shell"):
+    os.makedirs("/gx-env/shell")
+if not os.path.exists("/gx-env/icons"):
+    os.makedirs("/gx-env/icons")
+for i in os.listdir("{}/usr/share/applications".format(chrootEnvPath)):
+    if i == "gdebi.desktop" or i == "spark-store.desktop":
+        continue
+    #if os.path.exists("/usr/share/applications/gx-env-{}".format(i)):
+    #    continue
+    info = ""
+    try:
+        with open("{}/usr/share/applications/{}".format(chrootEnvPath, i), "r") as file:
+            info = file.read()
+    except:
+        try:
+            with open("{}/opt/apps/{}/entries/applications/{}".format(chrootEnvPath, os.path.splitext(os.path.basename(i))[0], i), "r") as file:
+                info = file.read()
+        except:
+            continue
+    newInfo = ""
+    for r in info.splitlines():
+        if "exec=" in r.lower():
+            #newInfo += "Exec=gx-env-run " + r[5:].strip() + "\n"
+            with open("/gx-env/shell/gx-env-{}.sh".format(os.path.splitext(os.path.basename(i))[0]), "w") as file:
+                command = ""
+                program = r[5:].strip()
+                #try:
+                #    if sys.argv[1] == "1":
+                #        command += " --no-sandbox "
+                #except:
+                #    pass
+                
+                if "%F" in program:
+                    program = program.replace("%F", "$1")
+                    command += " %F "
+                if "%f" in program:
+                    program = program.replace("%f", "$2")
+                    command += " %f "
+                if "%u" in program:
+                    program = program.replace("%u", "$3")
+                    command += " %u "
+                if "%U" in program:
+                    program = program.replace("%U", "$4")
+                    command += " %U "
+                try:
+                    if sys.argv[1] == "1":
+                        file.write("#!/bin/bash\n" + program + " --no-sandbox")
+                    else:
+                        file.write("#!/bin/bash\n" + program)
+                except:
+                    file.write("#!/bin/bash\n" + program)
+            newInfo += "Exec=gx-env-run bash \"/gx-env/shell/gx-env-{}.sh\" {} \n".format(os.path.splitext(os.path.basename(i))[0], command)
+        elif "name=" in r.lower() or "name[" in r.lower():
+            newInfo += r + "(兼容模式)\n"
+        elif "icon=" in r.lower():
+            if os.path.exists(r[5:]):
+                newInfo += "Icon=/opt/new-system-env/" + r[5:] + "\n"
+            else:
+                path = subprocess.getoutput("find /usr/share/icons -name '{}.???' | head -n1".format(r[5:]))
+                if os.path.islink(path):
+                    os.system("cp '{}' '/gx-env/icons/{}'".format(path, os.path.basename(path)))
+                    newInfo += "Icon=/opt/new-system-env/gx-env/icons/" + os.path.basename(path) + "\n"
+                else:
+                    newInfo += "Icon=/opt/new-system-env/" + path + "\n"
+        else:
+            newInfo += r + "\n"
+    print(newInfo)
+    print(i)
+    with open("/gx-env/desktop/gx-env-{}".format(i), "w") as file:
+        file.write(newInfo)

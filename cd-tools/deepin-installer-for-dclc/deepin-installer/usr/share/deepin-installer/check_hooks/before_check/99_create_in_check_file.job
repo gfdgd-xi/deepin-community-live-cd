@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. "/deepin-installer/basic_utils.sh"
+
+# 如果存在桌面
+if ! is_desktopexist; then
+    echo "is_desktopexist = false"
+    /deepin-installer/check_start.sh
+else
+    echo "is_desktopexist = true"
+    mkdir -p /home/${SI_USERNAME}/.config/autostart/
+    cat > /home/${SI_USERNAME}/.config/autostart/check_test.desktop << EOF
+[Desktop Entry]
+Exec=/deepin-installer/check_start.sh
+Name=check mode
+StartupNotify=false
+Terminal=false
+Type=Application
+EOF
+fi

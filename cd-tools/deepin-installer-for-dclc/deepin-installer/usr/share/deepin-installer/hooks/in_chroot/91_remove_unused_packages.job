@@ -1,0 +1,120 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Remove unused packages
+# If `deepin-installer` is uninstalled, deepin-installer-settings
+# will be removed too. Both "installer_get" and "installer_set" will not
+# work any more in chroot environment.
+# So, always put this script to last step of in_chroot stage.
+
+# Check whether btrfs filesystem is used in machine.
+detect_btrfs() {
+  for i in $(lsblk -o FSTYPE | sed '/^$/d' | uniq); do
+    [ "${i}" = "btrfs" ] && return 0
+  done
+  return 1
+}
+
+# Check whether current machine is virtualbox.
+detect_vbox() {
+  if dmidecode | grep -q "Product Name: VirtualBox"; then
+    return 0
+  fi
+  return 1
+}
+
+# Check whether current machine is vmware.
+detect_vmware() {
+  if dmidecode | grep -q "Product Name: VMware"; then
+    return 0
+  fi
+  return 1
+}
+declare -a UNUSED_PKGS
+# Uninstall "deepin-installer" only if reboot_setup is false.
+if [ x$(installer_get "system_info_setup_after_reboot") != xtrue ]; then
+  UNUSED_PKGS+=("deepin-installer")
+  UNUSED_PKGS+=("tshark")
+  UNUSED_PKGS+=("wireshark-common")
+  UNUSED_PKGS+=("libwireshark*")
+  UNUSED_PKGS+=("libwiretap*")
+fi
+
+if grep -q boot=casper /proc/cmdline; then
+  UNUSED_PKGS+=("casper")
+fi
+if grep -q boot=live /proc/cmdline; then
+  # UNUSED_PKGS+=("live-boot*" "live-config*")
+  UNUSED_PKGS+=("live-config*") ## fix but#45379
+fi
+
+# installer depends on btrfs, so remove btrfs-tools only if reboot-setup mode
+# is off.
+if [ x$(installer_get "system_info_setup_after_reboot") != xtrue ]; then
+  detect_btrfs || UNUSED_PKGS+=("btrfs-tools")
+fi
+
+DI_LUPIN=$(installer_get "DI_LUPIN")
+if [ x${DI_LUPIN} = "xtrue" ]; then
+  UNUSED_PKGS+=("live-filesystem")
+else
+  UNUSED_PKGS+=("lupin-support")
+  DI_FULLDISK_MODE=$(installer_get "DI_FULLDISK_MODE")
+  if [ x${DI_FULLDISK_MODE} != "xtrue" ]; then
+#    UNUSED_PKGS+=("live-system")
+    apt-get -y purge "live-system"
+  fi
+fi
+
+if [[ $(installer_get "DI_COMPONENT_PACKAGES") =~ virtualbox-guest-* ]];then
+    msg "Don't uninstall virtualbox-guest"
+else
+    detect_vbox || UNUSED_PKGS+=("virtualbox-guest-*")
+fi
+
+if [[ $(installer_get "DI_COMPONENT_PACKAGES") =~ open-vm-tools* ]];then
+    msg "Don't uninstall open-vm-tools"
+else
+    detect_vmware || UNUSED_PKGS+=("open-vm-tools*")
+fi
+
+if ! is_loongson_integrated_graphics; then
+    msg "Don't uninstall org.deepin.contacts"
+else
+    UNUSED_PKGS+=("org.deepin.contacts")
+fi
+
+# Check package existence.
+declare -a EXISTING_UNUSED_PKGS
+for pkg in ${UNUSED_PKGS[@]}; do
+  dpkg -l | grep -q $pkg && EXISTING_UNUSED_PKGS+=($pkg)
+done
+
+append_package_to_uninstall() {
+    local list=$(installer_get "DI_UNINSTALL_PACKAGES")
+    list="${list} ${EXISTING_UNUSED_PKGS[@]}"
+    installer_set "DI_UNINSTALL_PACKAGES" "${list}"
+}
+
+if [ x$(installer_get "system_info_setup_after_reboot") == "xtrue" ]; then
+    append_package_to_uninstall
+fi
+
+# Returns 0 explicitly, because apt-get --purge might returns error if package
+# dependency does not fit.
+return 0

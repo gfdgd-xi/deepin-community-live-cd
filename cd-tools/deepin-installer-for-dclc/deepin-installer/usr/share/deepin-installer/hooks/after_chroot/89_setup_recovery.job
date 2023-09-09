@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# Copyright (C) 2011 ~ 2019 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# set recovery partition
+
+installer_set "DI_INSTALL_STATUS" 4
+
+DI_UEFI=$(installer_get "DI_UEFI")
+DATA_MOUNT_POINT=$(installer_get "DI_DATA_MOUNT_POINT")
+
+if [ ! -d "/target/recovery" ];then
+    return 0
+fi
+
+DI_IF_DO_RECOVERY=$(installer_get "DI_IF_DO_RECOVERY")
+
+if [ "x${DI_IF_DO_RECOVERY}" != "xtrue" ]; then
+    return 0
+fi
+
+mkdir /target/recovery/backup
+
+echo "UUID=$(lsblk -o UUID,MOUNTPOINT -f | grep -i /target/recovery$ | awk '{print $1}')" > /target/etc/deepin/system-recovery.conf
+
+installer_set DI_BOOT_PARTITION $(df -h | grep /boot$ | awk '{print $1}')
+installer_set DI_RECOVERY_PATH $(df -h | grep /recovery$ | awk '{print $1}')
+
+
+# 备份boot的UUID
+echo $(lsblk -o UUID,MOUNTPOINT -f | grep -i /boot$ | awk '{print $1}') > /target/recovery/backup/boot.info
+
+# 备份efi的UUID
+if [ x${DI_UEFI} = xtrue ]; then
+    echo $(lsblk -o UUID,MOUNTPOINT -f | grep -i /boot/efi$ | awk '{print $1}') > /target/recovery/backup/efi.info
+fi
+
+# 备份系统的UUID
+echo $(lsblk -o UUID,MOUNTPOINT -f | grep /target$ | awk '{print $1}') > /target/recovery/backup/system.info
+
+# 备份data的UUID
+echo $(lsblk -o UUID,MOUNTPOINT -f | grep "${DATA_MOUNT_POINT}$" | awk '{print $1}') > /target/recovery/backup/_dde_data.info
+
+return $?

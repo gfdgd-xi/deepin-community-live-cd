@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if ! is_loongson; then
+	return 0
+fi
+
+if [ ! -f /var/cache/KernelSelect/*.deb ]; then
+	return 0
+fi
+
+if [ ! -f /proc/cpuinfo ]; then
+	msg "file cpuinfo is not exists,can not know cpu type,the kernel will not change"
+	return 1
+fi
+
+function legacy()
+{
+	rm -rf /var/cache/KernelSelect
+}
+
+function performance()
+{
+    dpkg --purge linux-headers-4.19.0-loongson-3-desktop linux-image-4.19.0-loongson-3-desktop
+    if [[ $? -eq 0 ]]
+    then
+        dpkg -i /var/cache/KernelSelect/*.deb
+	    rm -rf /var/cache/KernelSelect  
+        update-grub
+    fi	
+}
+
+CPU_MODELNAME=`cat /proc/cpuinfo | grep "model name" | head -n 1 | awk '{print $5}'`
+CPU_CPUMODEL=`cat /proc/cpuinfo | grep "cpu model" | head -n 1 | awk '{print $6}'`
+
+CPU_CPUMODEL=${CPU_CPUMODEL#*V}
+
+
+if [ x${CPU_MODELNAME} = "xR3" ]; then
+	legacy
+elif [ x${CPU_MODELNAME} = "xR4" ] && [ `echo "${CPU_CPUMODEL} < 0.4"|bc` -eq 1 ]; then
+	legacy
+elif [ x${CPU_MODELNAME} = "xR4" ] && [ `echo "${CPU_CPUMODEL} >= 0.4"|bc` -eq 1 ]; then
+	performance
+else
+	isR=${CPU_MODELNAME:0-2:1}
+	is5=${CPU_MODELNAME#R}
+	if [ x${isR} = "xR" ]; then
+		if [ ${is5} -ge 5 ]; then
+			performance
+		fi
+	fi
+fi
+

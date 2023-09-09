@@ -1,0 +1,140 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Add user to group which is found in /etc/group
+add_user_to_existed_group() {
+  local USER=$1
+  local GROUP=$2
+  if grep -q "^${GROUP}:" /etc/group 2>/dev/null; then
+    gpasswd -a "${USER}" "${GROUP}"
+  else
+    warn "No group found ${GROUP}"
+  fi
+}
+
+# Setup username, password and hostname.
+setup_username_password_hostname() {
+  local DI_HOSTNAME DI_PASSWORD DI_ROOTPASSWORD DI_USERNAME REAL_PASSWORD REAL_ROOTPASSWORD PASSWORD_MIN_LEN
+  DI_HOSTNAME=$(installer_get "DI_HOSTNAME")
+  DI_PASSWORD=$(installer_get "DI_PASSWORD")
+  DI_ROOTPASSWORD=$(installer_get "DI_ROOTPASSWORD")
+  DI_USERNAME=$(installer_get "DI_USERNAME")
+  PASSWORD_MIN_LEN=$(installer_get "system_info_password_min_len")
+
+  REAL_ROOTPASSWORD=$(echo "$(installer_get "system_info_default_root_password")" | base64 -d)
+  msg "--- system_info_default_root_password = <$(installer_get "system_info_default_root_password")>--- "
+
+  [ -z "${DI_USERNAME}" ] && error "Variable DI_USERNAME not set. Abort!"
+   if [ x"${PASSWORD_MIN_LEN}" != x0 -a -z "${DI_PASSWORD}" ]; then
+    error "Variable DI_PASSWORD not set. Abort!"
+  fi
+  DI_HOSTNAME="${DI_HOSTNAME:-deepin}"
+
+  # Reset password in settings file
+  installer_set "system_info_default_password" ""
+  installer_set "DI_PASSWORD" ""
+  installer_set "system_info_default_root_password" ""
+  installer_set "DI_ROOTPASSWORD" ""
+
+  msg "====== User info ======"
+  msg "create user: ${DI_USERNAME}"
+
+  local cmd_argc="-U -m --skel /etc/skel --shell /bin/bash"
+  if [[ -d /home/${DI_USERNAME} ]]; then
+      cmd_argc="-U --shell /bin/bash"
+  fi
+
+  useradd $cmd_argc ${DI_USERNAME}
+  # 补全原用户目录框架和权限等属性
+  rsync -a --ignore-existing /etc/skel/* /home/${DI_USERNAME}
+  chown -hR ${DI_USERNAME}:${DI_USERNAME} /home/${DI_USERNAME}
+
+  # Update password.
+  if [ -z "${DI_PASSWORD}" ]; then
+      msg "set password to empty"
+      passwd -d "${DI_USERNAME}"
+  elif [ "x$(installer_get "all_password_encryption")" = "xtrue" ]; then
+      REAL_PASSWORD=$(echo "${DI_PASSWORD}" | base64 -d)
+      command-execute-agent ${REAL_PASSWORD} "echo \"$DI_USERNAME:%1\" | chpasswd"
+  else
+    REAL_PASSWORD=$(echo "${DI_PASSWORD}" | base64 -d)
+    echo "${DI_USERNAME}:${REAL_PASSWORD}" | chpasswd
+  fi
+  
+  # Update root password. 
+  if [ -n "${DI_ROOTPASSWORD}" ]; then
+    REAL_ROOTPASSWORD=$(echo "${DI_ROOTPASSWORD}" | base64 -d)
+    msg "--- DI_ROOTPASSWORD = <${DI_ROOTPASSWORD}>--- "
+  fi
+
+  if [ -n "${REAL_ROOTPASSWORD}" ]; then
+    echo "root:${REAL_ROOTPASSWORD}" | chpasswd
+  fi
+
+  # Add user to groups.
+  set +e
+  add_user_to_existed_group "${DI_USERNAME}" lp
+  add_user_to_existed_group "${DI_USERNAME}" lpadmin
+  add_user_to_existed_group "${DI_USERNAME}" netdev
+  add_user_to_existed_group "${DI_USERNAME}" network
+  add_user_to_existed_group "${DI_USERNAME}" sambashare
+  add_user_to_existed_group "${DI_USERNAME}" scanner
+  add_user_to_existed_group "${DI_USERNAME}" storage
+  add_user_to_existed_group "${DI_USERNAME}" sudo
+  add_user_to_existed_group "${DI_USERNAME}" users
+  add_user_to_existed_group "${DI_USERNAME}" wheel
+  set -e
+
+  # Setup hostname.
+  msg "Set Hostname to ${DI_HOSTNAME}"
+  echo "${DI_HOSTNAME}" | tee /etc/hostname
+
+  cat > /etc/hosts << EOF
+127.0.0.1	localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+EOF
+
+  hostnamectl set-hostname ${DI_HOSTNAME}
+
+}
+
+# Setup in in_chroot, used in first boot setup phrase,
+# because X & X Clients crash without hostname set.
+#
+# I'll just leave it without cleaning since it'll be override
+# in real user setup(see code above).
+setup_first_boot_hostname() {
+  msg "Setup first boot temporary hostname"
+  echo "username" | tee /etc/hostname
+  cat > /etc/hosts << EOF
+127.0.0.1	localhost
+127.0.1.1 username
+EOF
+}
+
+if [ x$(installer_get "system_info_setup_after_reboot") != "xtrue" ]; then
+  setup_username_password_hostname
+else
+  setup_first_boot_hostname
+fi

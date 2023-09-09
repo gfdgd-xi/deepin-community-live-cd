@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# generate fstab
+
+DI_LUPIN=$(installer_get "DI_LUPIN")
+DI_LOOP_ROOT_FILE=$(installer_get "DI_LOOP_ROOT_FILE")
+DI_LOOP_SWAP_FILE=$(installer_get "DI_LOOP_SWAP_FILE")
+DATA_MOUNT_POINT=$(installer_get "DI_DATA_MOUNT_POINT")
+
+#fstab for lupin
+if [ x${DI_LUPIN} = xtrue ]; then
+  echo "# <file system> <mount point>   <type>  <options>       <dump>  <pass>" > /target/etc/fstab
+  echo "${DI_LOOP_ROOT_FILE} /               ext4    loop,errors=remount-ro 0       1" >> /target/etc/fstab
+  echo "${DI_LOOP_SWAP_FILE} none            swap    loop,sw         0       0" >> /target/etc/fstab
+  return 0
+fi
+
+readonly GENFSTAB="${HOOKS_DIR}/after_chroot/genfstab"
+[ -f "${GENFSTAB}" ] || \
+  error "require genfstab but it's not found. Abort!"
+umount -l /target/media/cdrom/oem
+umount -v /target/media/cdrom
+"${GENFSTAB}" -p -U /target > /target/etc/fstab
+
+lsblk -f -o FSTYPE,UUID |
+while read -r type uuid; do
+    if [ "x$type" = "xswap" ] && [ $(grep -c swap /target/etc/fstab) -eq 0 ]; then
+        printf '%s\t%-10s\t%-10s\t%-10s\t0 0\n\n' "UUID=${uuid}" 'none' 'swap' 'defaults,pri=-2' >> /target/etc/fstab
+    fi
+done
+
+if [ -d /target/${DATA_MOUNT_POINT} ];then
+  sed -i '$!N;/\n.*home/!P;D' /target/etc/fstab
+  sed -i '/home/d' /target/etc/fstab
+
+  sed -i '$!N;/\n.*opt/!P;D' /target/etc/fstab
+  sed -i '/opt/d' /target/etc/fstab
+
+  sed -i '$!N;/\n.*root/!P;D' /target/etc/fstab
+  sed -i '/root/d' /target/etc/fstab
+
+  sed -i '$!N;/\n.*var/!P;D' /target/etc/fstab
+  sed -i '/var/d' /target/etc/fstab
+
+  echo "${DATA_MOUNT_POINT}/home /home none defaults,bind 0 0" >> /target/etc/fstab
+  echo "${DATA_MOUNT_POINT}/opt /opt none defaults,bind 0 0" >> /target/etc/fstab
+  echo "${DATA_MOUNT_POINT}/root /root none defaults,bind 0 0" >> /target/etc/fstab
+  echo "${DATA_MOUNT_POINT}/var /var none defaults,bind 0 0" >> /target/etc/fstab
+fi
+
+msg "Content of /etc/fstab"
+cat /target/etc/fstab
+
+# Add swap file option if it is set.
+SWAP_FILE_REQUIRED=$(installer_get "DI_SWAP_FILE_REQUIRED")
+SWAP_FILE_PATH=$(installer_get "partition_swap_file_path")
+if [ x"${SWAP_FILE_REQUIRED}" = "xtrue" ]; then
+  echo "${SWAP_FILE_PATH} none swap defaults 0 0" >> /target/etc/fstab
+fi
+
+chroot /target /usr/sbin/update-initramfs -u

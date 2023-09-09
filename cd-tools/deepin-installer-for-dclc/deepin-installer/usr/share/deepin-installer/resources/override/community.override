@@ -1,0 +1,11 @@
+[General]
+skip_select_component_page = true
+enable_install_nvidia_driver = true
+timezone_force_local_time = true
+timezone_use_local_time_regardless = true
+install_failed_qr_display_switch = true
+system_info_disable_experience = true
+system_startup_option="deepin"
+system_separate_esp_partition=false
+enable_change_root_size=true
+system_monitor_enable = false

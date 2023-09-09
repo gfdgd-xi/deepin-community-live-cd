@@ -1,0 +1,2 @@
+#!/bin/bash
+pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY python3 /usr/bin/deepin-installer-diy

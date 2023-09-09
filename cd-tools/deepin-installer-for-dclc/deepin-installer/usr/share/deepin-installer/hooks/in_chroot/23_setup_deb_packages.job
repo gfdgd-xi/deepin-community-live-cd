@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Install packages in oem/deb/ folder.
+# Uninstall packages defined in settings file.
+
+OEM_DEB="${OEM_DIR}/deb"
+if [[ $(ls "${OEM_DEB}"/*.deb 2>/dev/null) ]]; then
+  ls "${OEM_DEB}"
+  DEBIAN_FRONTEND="noninteractive"
+  apt-get -y --allow-downgrades install -o Dpkg::Options::="--force-confnew" "${OEM_DEB}/"*.deb || warn "Failed to install oem deb packages"
+fi
+
+UNINSTALLED_PKGS=$(installer_get "package_uninstalled_packages" | sed "s/;/ /g")
+if [ -n "${UNINSTALLED_PKGS}" ]; then
+  apt-get -y purge ${UNINSTALLED_PKGS} || \
+    warn_exit "Failed to install packages: ${UNINSTALLED_PKGS}"
+fi

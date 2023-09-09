@@ -1,0 +1,14 @@
+Package: deepin-installer
+Source: deepin-installer-reborn
+Version: 5.7.47-1-gfdgdxi-6
+Architecture: amd64
+Maintainer: Deepin Packages Builder <packages@deepin.com>, gfdgd xi<3025613752@qq.com>, 为什么您不喜欢熊出没和阿布呢
+Installed-Size: 146963
+Depends: libc6 (>= 2.14), libdeepin-pw-check, libdtkcore5 (>= 5.5), libdtkgui5 (>= 5.5), libdtkwidget5 (>= 5.5), libgcc1 (>= 1:3.0), libkf5networkmanagerqt6 (>= 5.6.0), libncursesw6 (>= 6), libparted2 (>= 3.1), libqt5core5a (>= 5.15.1), libqt5dbus5 (>= 5.0.2), libqt5gui5 (>= 5.8.0) | libqt5gui5-gles (>= 5.8.0), libqt5network5 (>= 5.11.0~rc1), libqt5svg5 (>= 5.6.0~beta), libqt5widgets5 (>= 5.15.1), libqt5x11extras5 (>= 5.6.0), libqt5xml5 (>= 5.0.2), libqtermwidget5-0 (>= 0.6.0), libstdc++6 (>= 5.2), libtinfo6 (>= 6), libudisks2-qt5, libutf8proc2 (>= 1.3), libx11-6 (>= 2:1.2.99.901), libxext6, libxi6 (>= 2:1.2.99.4), libxrandr2 (>= 2:1.2.99.3), libxtst6, zlib1g (>= 1:1.1.4), btrfs-progs, deepin-installer-timezones, dosfstools, imagemagick, imageworsener, jfsutils, mtools, ntfs-3g, os-prober, parted, pciutils, reiserfsprogs, squashfs-tools, tshark, udev, x11-xserver-utils, xfsprogs, xinit, xkb-data, deepin-clone, cryptsetup, lvm2, kbd, fbterm, dde-account-faces, dde-qt5integration, deepin-pw-check, python3, python3-pyqt5
+Conflicts: deepin-installer
+Replaces: deepin-installer
+Section: utils
+Priority: optional
+Homepage: http://www.deepin.org
+Description: Release version of deepin installer
+ New version of deepin-installer, rewritten with Qt5.

@@ -1,0 +1,3 @@
+#!/bin/bash
+gx-env-run-root apt update
+gx-env-run-root apt install "$1"

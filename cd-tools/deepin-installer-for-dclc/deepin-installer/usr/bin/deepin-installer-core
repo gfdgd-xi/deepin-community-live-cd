@@ -1,0 +1,63 @@
+#!/bin/bash
+
+installer_get() {
+  local key="$1"
+  local CONF_FILE=/etc/deepin-installer.conf
+  [ -z "${CONF_FILE}" ] && exit "CONF_FILE is not defined"
+  which deepin-installer-settings 1>/dev/null || \
+    exit "deepin-installer-settings not found!"
+  deepin-installer-settings get "${CONF_FILE}" "${key}"
+}
+
+monitors_cnt() {
+    local out=`xrandr --listactivemonitors | grep ^Monitors:`
+    out=${out##Monitors:}
+    echo ${out:-0}
+}
+
+setup_install_env() {
+    local l_dpi=$(installer_get "DI_LOGICAL_DPI")
+    local p_dpi=$(installer_get "DI_PHYSICAL_DPI")
+
+    local offset=$(( p_dpi - l_dpi))
+    echo "l_dpi=$l_dpi  p_dpi=$p_dpi  offset=$offset"
+
+    ## 通过逻辑dpi和物理dpi探测qt自动获取的缩放是否错误来开启自定义缩放处理
+    local auto_scale=1
+    local scale=1
+    if [ $offset -gt 20 ] && [ $offset -lt 96 ];then
+        auto_scale=0
+        scale=1.25
+    elif [ $offset -ge 96 ] && [ $offset -lt 172 ];then
+        auto_scale=0
+        scale=1.75
+    elif [ $offset -ge 172 ]; then
+        auto_scale=0
+        scale=2
+    fi
+
+    export QT_AUTO_SCREEN_SCALE_FACTOR=$auto_scale
+    export QT_SCALE_FACTOR=$scale
+    echo "QT_AUTO_SCREEN_SCALE_FACTOR=$QT_AUTO_SCREEN_SCALE_FACTOR    QT_SCALE_FACTOR=$scale"
+}
+
+## 主函数
+main() {
+    ## 设置环境变量
+    local system_dpi_enable=$(installer_get "system_dpi_enable")
+    local system_monitor_enable=$(installer_get system_monitor_enable)
+    local mon_cnt=$(monitors_cnt)
+    echo "system_dpi_enable=$system_dpi_enable  system_monitor_enable=$system_monitor_enable  mon_cnt=$mon_cnt"
+    if [ "x$system_dpi_enable" = "xtrue" ];then
+        ## 多屏场景下禁止自定义缩放处理
+        if [ "x$system_monitor_enable" = "xfalse" ] || [ $mon_cnt -lt 2 ];then
+            setup_install_env
+        fi
+    fi
+
+    ## 执行命令
+    local install_command=$1
+    $install_command
+}
+
+main $1 >> /var/log/deepin-installer-init.log 2>&1

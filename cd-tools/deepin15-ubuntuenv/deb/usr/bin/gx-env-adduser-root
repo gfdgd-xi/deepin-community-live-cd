@@ -1,0 +1,13 @@
+#!/bin/bash
+
+chrootEnvPath=/opt/new-system-env
+zenity --info --text=请输入需要设置的密码 --no-wrap
+firstPWD=`zenity --password`
+zenity --info --text=请再输入一次相同的密码 --no-wrap
+secondPWD=`zenity --password`
+if [[ $firstPWD != $secondPWD ]]; then
+    zenity --error --text=密码不相同，无法继续 --no-wrap
+    exit 1
+fi
+echo -e "$firstPWD\n$firstPWD\n\n\n\n\n\nY\n" | gx-env-run-root adduser $USER
+

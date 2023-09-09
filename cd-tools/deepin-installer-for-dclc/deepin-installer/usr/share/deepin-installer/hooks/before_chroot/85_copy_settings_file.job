@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Copy /etc/deepin-installer.conf to /target
+
+if [ -f "${CONF_FILE}" ]; then
+  install -v -m644 "${CONF_FILE}"  "/target/${CONF_FILE}" || \
+    warn_exit "Failed to copy ${CONF_FILE}"
+fi
+if [ -f "/usr/share/deepin-installer/diy-shell" ]; then
+  # 优先考虑定制文件
+  cp -rv /usr/share/deepin-installer/diy-shell /target/usr/share/deepin-installer/diy-shell
+else
+  # 考虑镜像内的内置脚本
+  if [ -f $CDROM/DIY/shell.sh ]; then
+    cp -rv $CDROM/DIY/shell.sh /target/usr/share/deepin-installer/diy-shell
+  fi
+fi
+# 拷贝需要定制安装的 deb
+if [ -d /usr/share/deepin-installer/deb ]; then
+  mkdir -p /target/usr/share/deepin-installer/deb
+  cp -rv /usr/share/deepin-installer/deb/* /target/usr/share/deepin-installer/deb
+fi
+if [ -d $CDROM/DIY/DEB ]; then
+  mkdir -p /target/usr/share/deepin-installer/deb
+  cp -rv $CDROM/DIY/DEB/* /target/usr/share/deepin-installer/deb
+fi
+return 0

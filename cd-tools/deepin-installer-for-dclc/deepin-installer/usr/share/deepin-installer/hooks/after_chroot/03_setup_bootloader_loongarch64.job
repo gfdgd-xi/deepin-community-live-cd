@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Install grub to disk. Only used in x86 based platforms
+
+if ! is_loongarch; then
+  return 0
+fi
+
+# 处理grub.cfg
+TAGER_BOOT_GRUB=/target/boot/efi/boot/EFI/
+USB_EFI_FILE=/usr/lib/live/mount/medium/EFI/BOOT/BOOTLOONGARCH.EFI
+CDROM_EFI_FILE=/run/live/medium/EFI/BOOT/BOOTLOONGARCH.EFI
+SYS_EFI_FILE=/EFI/BOOT/BOOTLOONGARCH.EFI
+mkdir ${TAGER_BOOT_GRUB} -p 
+cp -f /target/boot/grub.cfg ${TAGER_BOOT_GRUB}
+if [ -f $SYS_EFI_FILE ];then
+	echo "[START]====[SYS]======COPY BOOTLOONGARCH FILE ======"
+	cp -fvr $SYS_EFI_FILE	/target/boot/efi/EFI/BOOT/
+	if [ $? -ne 0 ];then
+		echo [ERROR]:COPY FAILD
+		exit 1
+	fi
+	echo "[END]=====[SYS]=====COPY BOOTLOONGARCH FILE ======"
+fi
+if [ -f $USB_EFI_FILE ];then
+	echo "[START]====[USB]======COPY BOOTLOONGARCH FILE ======"
+	cp -fvr $USB_EFI_FILE /target/boot/efi/EFI/BOOT/
+	if [ $? -ne 0 ];then
+		echo [ERROR]:COPY FAILD
+		exit 1
+	fi
+	echo "[END]=====[USB]=====COPY BOOTLOONGARCH FILE ======"
+fi
+if [ -f $CDROM_EFI_FILE ];then
+	echo "[START]====[CDROM]======COPY BOOTLOONGARCH FILE ======"
+	cp -fvr $CDROM_EFI_FILE /target/boot/efi/EFI/BOOT/
+	if [ $? -ne 0 ];then
+		echo [ERROR]:COPY FAILD
+		exit 1
+	fi
+	echo "[END]=====[CDROM]=====COPY BOOTLOONGARCH FILE ======"
+fi
+
+if [ !  -f "/target/boot/efi/EFI/BOOT/BOOTLOONGARCH.EFI" ];then
+		echo [ERROR]:COPY BOOTLOONGARCH  FAILD!
+		exit 1
+fi
+
+# setup pmon bootloader
+ROOT_UUID=$(lsblk -o UUID,MOUNTPOINT | grep -E "/target$" | awk '{print $1}')
+cat >> /target/boot/boot.cfg << EOF
+default 0
+timeout 3
+showmenu 0
+
+title $(system_name)
+    kernel /dev/fs/ext2@wd0a/vmlinuz-$(uname -r)
+    initrd /dev/fs/ext2@wd0a/initrd.img-$(uname -r)
+    args console=tty loglevel=0 quiet splash root=UUID=${ROOT_UUID} locales=zh_CN.UTF-8
+EOF
+
+echo "update loongarch bootloader!"

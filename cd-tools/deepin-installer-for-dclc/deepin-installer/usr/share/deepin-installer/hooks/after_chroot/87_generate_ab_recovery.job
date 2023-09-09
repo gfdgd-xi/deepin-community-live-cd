@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2019 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# generate a file: ab_recovery.json
+# 步骤：
+# 1.从配置文件取得当前根分区的label。
+# 2.假定备用根分区的label为"Rootb"(见full_disk_policy.json)。
+# 3.取得两个根分区的uuid。
+# 4.将两个uuid写入ab_recovery.json文件中。
+
+declare ab_condition="false"
+declare ab_recovery_file="/target/etc/deepin/ab-recovery.json"
+declare current_label="", backup_label=""
+
+check_install_mode()
+{
+  local fulldisk_mode=$(installer_get "DI_FULLDISK_MODE")
+  if [ "x${fulldisk_mode}" == "xtrue" ]; then
+    ab_condition="true"
+  fi
+  DI_ROOT_PARTITION=$(installer_get "DI_ROOT_PARTITION")
+  current_label=${DI_ROOT_PARTITION}
+  backup_label="/dev/disk/by-label/Rootb"
+  if [ "x${current_label}" == "x" ]; then
+     ab_condition="false"
+  fi
+
+  echo "current:{${current_label}}"
+  echo "backup:{${backup_label}}"
+  echo "ab_condition:{${ab_condition}}"
+}
+
+do_generate()
+{
+  local current_uuid="$(blkid -o value -s UUID ${current_label})"
+  local backup_uuid="$(blkid -o value -s UUID ${backup_label})"
+  echo "current:{${current_label}} {${current_uuid}}"
+  echo "backup:{${backup_label}} {${backup_uuid}}"
+
+  local current_uuid_count="$(blkid -o value -s UUID ${current_label}|wc -l)"
+  local backup_uuid_count="$(blkid -o value -s UUID ${backup_label}|wc -l)"
+
+  if [[ -z ${current_uuid} || "x${current_uuid_count}" != "x1" ]]; then
+    echo "Failed to get current uuid of {${current_label}}"
+    return
+  fi
+
+  if [[ -z ${backup_uuid} || "x${backup_uuid_count}" != "x1" ]]; then
+    echo "Failed to get backup uuid of {${backup_label}}"
+    return
+  fi
+
+  mkdir -p $(dirname ${ab_recovery_file})
+  cat > ${ab_recovery_file} <<EOF
+{
+       "Current": "${current_uuid}",
+       "Backup" : "${backup_uuid}"
+}
+EOF
+}
+
+do_output_error()
+{
+    echo "Maybe not in FULLDISK installation mode!"
+}
+
+echo "Generating ${ab_recovery_file} ..."
+
+check_install_mode
+
+if [ x${ab_condition} == xtrue ]; then
+    do_generate
+else
+    do_output_error
+fi
+
+echo "done."
+
+return 0

@@ -1,0 +1,453 @@
+UnionTech Software OS Privacy Policy
+
+
+Last Update Date: [November 11th, 2021]
+
+The UnionTech Software OS Privacy Policy ("this Privacy Policy") describes the personal information that UnionTech Software Technology Co., Ltd. and its affiliates ("UnionTech Software" or "we") process and how and for what purposes we process it. This Privacy Policy is applicable to the UnionTech Software OS (including, but not limited to, UnionTech Desktop OS and UnionTech Server OS, hereinafter referred to as "UOS") and related applications (hereinafter referred to as “UOS Products and Services") that UnionTech provide to you, which are listed in this Privacy Policy.
+
+This Privacy Policy only applies to user above 14. If you are under 14, you and your guardian shall carefully read the UnionTech Software Guidelines for Protection of Children's Privacy and you shall not use UOS Products and Services or provide personal information to us unless with the consent of or under the supervision of your guardian.
+
+This Privacy Policy is merely applicable to non-EU people who make use of UOS products and enjoy services associated with UnionTech. If you are a user in the EU region, you shall be obliged to furnish us with additional instructions before making use of products and enjoying services, and we shall be entitled to refuse your application for making use of relevant products and enjoying services.
+
+This Privacy Policy may be published in multi-language version. No matter which language version you read, the Simplified Chinese version shall prevail.
+
+If you have any questions, opinions or suggestions regarding this Privacy Policy, you can contact us in the following ways:
+
+UnionTech Software Technology Co., Ltd.
+
+[Address] 18/F, Building 12, No.10 Yard, Kegu 1st Street, Beijing Economic-Technological Development Area, Beijing
+
+[E-mail] privacy@uniontech.com
+
+[Tel] 400-8588-488
+
+UnionTech Software understand the importance of personal information to you, and we will protect your personal information and privacy in accordance with laws and regulations, and ensure that you are the ultimate controller of the personal information you provide to us. We are committed to maintaining your trust in us and will protect your personal information with full abidance to the principles of “keeping consistency between power and responsibility, having clear objectives, offering options for acceptance, collecting the least information required, and ensuring security, subject participation, openness and transparency”. Meanwhile, UnionTech Software undertake that we will take corresponding security measures to protect your personal information in line with the mature security standards in the industry.
+
+We endeavor to present this Privacy Policy in a concise, clear and understandable manner. With a view to facilitate your reading and understanding, we have defined special terms associated with the protection of personal information. Please go to "Appendix 1: Definitions" of this Privacy Policy to know the specific contents of these terms, so that you can grasp the information we wish to express to you in an accurate manner.
+
+This Privacy Policy will familiarize you with the following:
+
+I. How We Collect and Use Your Personal Information
+
+II. How We Use Cookie and Other Technologies
+
+III. How We Publicize, Transfer and Disclose to the Public Your Personal Information
+
+IV. How We Protect Your Personal information
+
+V. How We Store Your Personal Information
+
+VI. Your Rights
+
+VII. How this Privacy Policy is Updated
+
+VIII. Our Department for Personal Information Protection/Responsible Person for Personal Information Protection
+
+IX. Your Right to Complain or File a Lawsuit with the Regulatory Authorities
+
+Please read and comprehend this Privacy Policy carefully before making use of our products or services, particularly the black and bold parts, so that you can get a better understanding of the products and services furnished by us and make corresponding authorization and consent based on full understanding of the contents hereof.
+
+I. How We Collect and Use Your Personal Information
+
+If you use UOS Products and Services, we will follow the principles of legality, legitimacy, necessity and good faith, collect only the information that is necessary to achieve a specific, particular, explicit and lawful purpose, and ensure that such information is not further processed in any manner inconsistent with such purpose.
+
+·Address book Information
+
+Your friend list, friend relationships, friends’ accounts and notes, friend grouping, friend group, meeting attendance records and meeting management;
+
+·Property Information
+
+Bank account information, identification information (password), transaction and consumption records in UOS Products and Services;
+
+·Browsing Information
+
+Your browser version, bookmark, browsing history, settings and auto-fill data in the browser and your IP address in browser;
+
+·Basic Personal Information
+
+Your birthday, gender, personal phone number, e-mail address;
+
+·Network ID Information
+
+Your MAC address;
+
+·Device Information
+
+Information of your device ID, motherboard, BIOS, CPU, memory, hard disk, partition, network card, chip architecture type & graphics card and peripheral information;
+
+·Operating System Information
+
+Software type, version, architecture, activation status, developer mode status, system installation information (including: installation method, time, duration & result and the language, region, and cryptographic strength you select during installation), last update time, update results, language, sound, power supply, mouse, theme, wallpaper, initiator, task-bar, hot zone configuration and source of each download of your operating system;
+
+·Application Software Information
+
+Name, version, installation location, disk space occupied, starting time, exiting time, preference (including: system theme, icon theme, cursor theme and font setting), usage frequency of the function modules and performance at run time of the application software you have installed in the system;
+
+·Usage Behavior Information
+
+Daily logins to the system, startup and shutdown time of the system, time of keystrokes, identification of keystrokes, time of focus movement and time of mouse operation when using the application.
+
+1.Personal Information That You Have Voluntarily Provided to Us
+
+1.1. Activating UOS
+
+In order to bind your device to the genuine UOS you have purchased, so that all UOS Products and Services can be used on your device, and that the intellectual property rights of UOS can be protected from malicious infringement, we will collect and use the information about your network identification, device, operating system and application software. After the activation of UOS, we have the right to terminate the use of the activated UOS in the case of any change to your device and operating system due to which we believe your device may have changed or if our intellectual property rights may have been maliciously infringed.
+
+1.2. User Experience Program
+
+If you enable the “User Experience Program”, we are authorized to read the information recorded and stored on your local device to improve the quality of our services and enhance the user experience. We will stop collecting such information when you disable the “User Experience Program”. The information in question shall include:
+
+1.2.1. Usage Behavior Information.
+
+1.2.2. Abnormal information, i.e., operating information of the operating system and/or application when an exception occurs during its operation.
+
+1.3. UnionTech Account Service
+
+You can register for a UnionTech account (also known as "Union ID") through the website of UOS User Center (account.uniontech.com) and log in to use UOS Products and Services. By logging in to your Union ID, you will be able to synchronize the system configuration and applications of UOS on different devices, and we will also collect the information stored in your account (which we will treat as personal information) when you use your Union account. If you close the service of Union ID, the system configuration and application software of UOS cannot be synchronized among different devices. For specific rules regarding your use of your account, please follow the UnionTech Account Use Agreement and other special rules issued by UnionTech Software for this purpose.
+
+1.3.1. Registration and Login of Union ID
+
+In order to enable the account services of UnionTech and comply with the relevant regulatory requirements of the People's Republic of China (excluding Hong Kong, Macao and Taiwan), you shall provide your personal mobile number to complete the registration of Union ID. Restricted by the regulatory requirements of the People’s Republic of China (excluding Hong Kong, Macao and Taiwan), if you refuse to offer your personal mobile number, we will not be able to furnish you with Union ID services. You can also use a third-party account to log in and use Union ID, provided that your personal mobile number is bound to complete the registration of Union ID.
+
+1.3.2. Synchronization of System Configuration
+
+You can use the Cloud Sync module in the UOS Control Center to log in to your Union ID and switch on "Cloud Sync" to achieve the synchronization of UOS configuration among different devices on which you use the same Union ID. For this purpose, the Cloud Sync service will read your device information and OS information. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS services.
+
+1.3.3. Synchronization of Application Software
+
+You can use the Cloud Sync module in the UOS Control Center to log in to your Union ID, so as to achieve the synchronization of UOS application software among different devices on which you use the same Union ID. For this purpose, the application software synchronization service will read your application software information, purchase information (including the information for real name authentication and bank account information which is required for payment), review records, and reward records. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS services.
+
+1.3.4. Synchronization of Address Book
+
+You can login to your Union ID to synchronize your address books in different devices on which you use the same Union ID. For this purpose, the address book synchronization service will read your address book. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS Products and Services.
+
+1.3.5. Synchronization of Application Store
+
+When you enable the application store pre-installed on UOS and log in to your Union ID, we will collect the bank account information that you must provide for payment if you wish to purchase any application from the store. If you wish to use the reward function, we will collect your purchase records and other information related to your application purchase in order to meet your needs and to facilitate your access to your reward records and to protect your transaction security. If you comment on and/or grade an application in the application store, we will collect the comments and/or grades you have posted and display your nickname, avatar, comments and/or grades. The aforementioned information will be stored in association with your Union ID. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS Products and Services.
+
+1.3.6. Services and Support
+
+Once you have logged in to your Union ID, you may take the initiative to upload your device information and operating system information if you leave a message or use the on-line customer service function through UOS services and support functions. Your refusal to upload the aforementioned information will not affect the normal provision and use of other UOS services.
+
+2.Personal Information We Collect When You Use UOS and UOS Services
+
+2.1. System Use
+
+When you use UOS, we will collect and use information about network identification, device, operating system and application to ensure your normal use, maintain system security and prevent the intrusion of malicious programs. Such information is the basic information we have to collect for service provision to you.
+
+2.2. System Update
+
+When you upgrade UOS Products and Services, we will collect information about your device and operating system, so that we can clarify your operating system information to help you update accurately.
+
+2.3. Application Store Services
+
+In order to provide you with better application store services and ensure that the applications you download are compatible with your current device and OS version, we will collect information about your device, OS, app store version and application when you enable the application store pre-installed on UOS.
+
+2.4. Browser Services
+
+When you use the browser pre-installed on UOS and access and browse the websites or platforms provided by us or third parties, we will collect information about your device, operating system and browsing activities. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS services.
+
+2.5. Desktop Intelligent Assistant
+
+The desktop intelligent assistant is integrated into UOS and is provided by our authorized partners. When you input text by voice or use the voice notepad through the desktop intelligent assistant, our partners will collect such voice content directly for technical analysis and convert it into text. The details of how such information is provided to our partners are described in [Section III] of this Privacy Policy, i.e., "How We Provide, Transfer, and Publicly Disclose Your Personal Information".
+
+3.Information of Third Parties
+
+We may obtain your personal information from third parties if permitted by law. For example:
+
+3.1. With your consent (e.g., when you log in and use Union ID through a third-party account), we may collect and use certain information obtained from third-party social networking services, such as nicknames, avatars, regions, and gender;
+
+3.2. We may collect and use the aforementioned information if the information shared by other users contains your information;
+
+3.3. We may collect and use your personal information that you have disclosed or that has otherwise been lawfully disclosed to a reasonable extent, unless you have expressly denied. If we collect and use your personal information that you have disclosed and that has a significant impact on your personal rights and interests, we will ask for your consent again.
+
+4.Other Uses
+
+We will strictly abide by the provisions of laws and regulations and the agreement with you, and shall use the collected information of you for other purposes as below:
+
+4.1. Internal Audit, Big Data Analysis and Research
+
+4.1.1. We will use the personal information collected to conduct requisite internal audits within UnionTech Software when necessary.
+
+4.1.2. We will use the personal information collected for big data analysis. For example, we will use the information collected for analysis, to form statistical products that do not contain any personal information, to show the overall picture of the services of UnionTech Software, to analyze the behavior patterns of different groups and so on. For big data analysis information without identification after statistical processing, we may disclose and share with our affiliates and partners.
+
+4.2. Security Protection 
+
+We will also safeguard your personal equipment security, account security, our operation security, and fulfill our legal obligations with your personal information (such as retaining information that may relate to illegal and criminal activities).
+
+5.In the event that we need to collect personal information of you under your custody beyond the above-mentioned purpose of use, we will explain to you and seek your consent again.
+
+However, according to relevant laws, regulations and national standards, in any of the following circumstances, we may collect and use your personal information without seeking your consent:
+
+5.1. Where it is necessary for performance of our statutory duties or legal obligations;
+
+5.2. When it involves national security, national defense security and other national interests directly and when it involves public security, public health, public right to know and other major public interests;
+
+5.3. When it directly relates to criminal investigation, prosecution, trial and execution of judgments;
+
+5.4. When it is collected to protect the life, property, reputation or other major legal rights of you or other individuals in the situation where it is difficult to obtain your own authorization or consent;
+
+5.5. When it is required for execution and performance of contracts at your request;
+
+5.6. When it is necessary for maintaining the safe and stable operation of the UOS Products and Services, such as identifying and resolving failures of products or services;
+
+5.7. Where it is necessary for news reporting, media supervision and performing other acts in the public interest to the extent reasonable;
+
+5.8. When it is necessary for academic research institutions to collect statistics or conduct academic research in the public interest, provided that any personal information contained in the results of such academic research or descriptions thereof has been de-identified; or
+
+5.9. Other circumstances as stipulated by laws and regulations.
+
+II. How We Use Cookie and Other Technologies
+
+1.Cookie
+
+1.1. We may place a text file known as Cookie on your computer or mobile device. The text in a cookie often consists of identifiers, site names, and some numbers and characters. We undertake that we will not use such Cookies for any purposes other than those described herein. We use Cookie primarily for providing the following functions or services:
+
+·Ensure the safety of products or services
+
+We may set Cookie or anonymous identifiers for authentication and security purposes, with a view to confirm whether you have securely logged in to your Union ID or other service account and to detect hacker theft, fraud and other unlawful acts.
+
+·Provide better products or services
+
+With Cookie, you are not required to repeat such steps and processes as filling in your personal information and entering search content, thus increasing your efficiency.
+
+1.2. Cookie Management
+
+Most browsers have the function of Cookie management, such as cache data clearing, and you can perform the appropriate data clearing operations in “settings” of the browser. Please note that if you perform data clearing, you may not be able to use the services or corresponding functions provided by us that depend on Cookie.
+
+2.Do Not Track
+
+Many web browsers have the Do Not Track feature, which can distribute Do Not Track requests to websites. At present, major Internet standards organizations have not set up relevant policies to stipulate how websites should respond to such requests. But if your browser has enabled Do Not Track, then all our websites will respect your choice.
+
+3.Software Development Kit
+
+In order to ensure the realization of the related functions of the UOS Products and Services and the safe and stable operation thereof, we may access the software development kit (“SDK”) provided by a third party and provide the third party with the information need to know to implement and improve the relevant functions. We will carry out strict auditing and safety monitoring on the access and use of SDKs provided by third parties, in order to secure your personal information. Please understand, we will try our best to update the list of third-party SDKs, but in some cases, it may lag behind. In the meantime, in order to keep confidential our business information and technological means, some SDKs used for platform risk control or special cooperation may not be included in this list, but if your important privacies or device permissions are required by such SDKs, we will get your authorization in a reasonable manner.
+
+The following is a list of Third Party SDKs We Use:
+
+Please note, third-party SDKs may change the type of personal information due to such reasons as version upgrade and policy adjustment. Please refer to the corresponding publicized official instructions.
+
+SDK name: UMeng 
+
+SDK Third party name: Youmeng Tongxin (Beijing) Technology Limited 
+
+Service type: statistical analysis 
+
+Type of personal information collected: device information (e.g., IMEI/MAC/Android ID/IDFA/OpenUDID/GUID/SIM card IMSI/geographic location) 
+
+Privacy Policy Link: https://www.umeng.com/page/policy
+
+SDK name: IFLYTEK voice conversion 
+
+SDK Third party name: IFLYREC CO., LTD 
+
+Service type: voice conversion 
+
+Type of personal information collected: voice content (including voice queries, text translation, and voice dictation) 
+
+Privacy Policy Link: https://static.iflyrec.com/v1/iflyrectjpt/publicread01/privacyPolicy/xftj/productPrivacyPolicy.html
+
+III. How We Publicize, Transfer and Disclose to the Public Your Personal Information
+
+1.Publicization
+
+1.1. We will not provide your personal information to any third party except as permitted by laws, regulations, normative documents and regulatory provisions or with your prior consent, except in the following cases:
+
+1.1.1. We may publicize your personal information as required by laws and regulations, or according to the compulsory requirements of the competent government authorities.
+
+1.1.2. Entrusted processing: In order to achieve our service functions, we will entrust external suppliers to assist us in providing relevant services to you. In the case of entrusted processing, the third party receiving personal information is only entitled to provide services to you on our behalf as we instruct, and we are liable to you for their acts to the extent we have entrusted.
+
+1.2. In order to fulfill the agreement with you or for other reasonable purposes, we may provide some of your personal information to a third-party personal information processor, and such processor has the right to process the personal information received only when such information as the purpose of processing, manner of processing and type of personal information has been notified to you. If the recipient changes the original purpose or manner of processing, the recipient shall ask for your consent again. Within UOS, for the purpose of providing you with the service of desktop intelligent assistant, we will provide IFLYREC CO., LTD with your voice content (including voice queries, text translation and voice dictation). Please refer to the List of Third Party SDKs We Use for details. Your refusal to provide the aforementioned information will not affect the normal provision and use of other UOS Products and Services.
+
+1.3. What needs to be drawn to your attention is that, when the relevant service providers render services to you by means of third-party access such as page jumping to the service provider’s page, the corresponding service providers shall directly reach the corresponding usage license of personal information authorization with you, and such personal information collected directly by the service providers is not within the scope of personal information we make public for them. In such cases where services are directly furnished by third parties, we will clearly identify the third-party information in the specific service page. To avoid ambiguity, you ought to know and understand that the links of websites, applications, products and services operated by an independent third party mentioned above are only furnished for users to browse relevant pages. When you visit such third-party websites, applications, products and service links, you shall separately assent to this Privacy Policy or the terms on the protection of personal information furnished by them. We and such third-party websites, applications, product and service providers shall assume independent responsibilities for the protection of personal information to you within the scope specified by law and agreed by the Parties.
+
+2.Transfer
+
+We will not transfer your personal information to any companies, organizations or individuals, except under the following circumstances:
+
+2.1. Transfer with prior separate consent: With your prior separate consent, we will, in accordance with the provisions of laws and regulations, transfer your personal information to other parties;
+
+2.2. When it involves mergers, acquisitions or bankruptcy or liquidation, and involves transfer of personal information, we will require the new company or organization which holds your personal information to continue being bound by this privacy policy, or we will require such company or organization to get your authorization and consent anew.
+
+3.Public Disclosure
+
+We will only make public disclosure of your personal information under the following circumstances with safety protection measures in line with industrial practice:
+
+3.1. To disclose the specified personal information as required by you via the disclosure means separately agreed upon by you;
+
+3.2. To disclose your personal information according to the required information type and disclosure means when such disclosure is made under laws and regulations, compulsory administrative law enforcement or judicial requirements. Under the premise of compliance with laws and regulations, when we receive the aforesaid request for information disclosure, we will require that it is a prerequisite to provide corresponding legal documents, such as summons or investigation letter. We firmly believe that the information we are required to provide should be as transparent as possible to the extent permitted by law. We have reviewed all requests with due diligence to ensure that they have legitimacy basis and are restricted to data that law enforcement authorities have the legitimate right to obtain for specific investigative purposes. Without prejudice to laws and regulations, the documents we disclose are protected by encryption keys.
+
+IV. How We Protect Your Personal information
+
+1.UnionTech Software have adopted all types of security technologies and protective measures in line with industry standards in order to protect users’ personal information from unauthorized access, use or leakage. We strictly observe domestic and foreign security standards to set up a security system, and implement such standards in combination with cutting-edge and mainstream security technologies to prevent users’ personal information from unauthorized access, use or leakage. A perfect security defense system has been set up by us, so that when we are attacked by external network and infected by viruses, the attack behaviors can be intercepted actively in a prompt manner. The UOS Products and Services shall be subject to HTTPS encryption protocol transmission in the course of network communication, which can effectively avoid the information being stolen by a third party in the course of communication. The privacy and sensitive personal information involving users shall be stored by encryption in the UOS Products and Services and backed up in real time.
+
+2.UnionTech Software have set up a sound data security management system, including hierarchical classification, encryption and storage of user information, and division of data access rights. The internal data management system and operation procedures are worked out, which raise stringent process requirements from data acquisition, use and destruction, in a bid to avoid illegal use of user privacy data. Determine the security management responsibilities of all departments as well as their persons in charge who contact the personal information of users; set up the workflow and security management system for the collection, use as well as other relevant activities of users’ personal information; carry out authority management for staff and agents, review information exported, copied and destroyed in batches, and take measures to prevent leakage; properly keep paper media, optical media, electromagnetic media and other carriers that record users’ personal information, and take corresponding safe storage measures; conduct access review for information systems that store users’ personal information, and take anti-invasion and anti-virus measures; record the personnel, time, place, events and other information that operate users’ personal information; formulate and organize the implementation of emergency plans for personal information security incidents; hold regular training on security and privacy protection to raise employees’ awareness of the protection of personal information.
+
+3.In accordance with laws and regulations and the requirements of competent authorities, we will, establish a special department for personal information protection and designate persons responsible for the protection of personal information to supervise the processing of personal information and the protection measures taken, and, on a regular basis, update and publicize the relevant contents of reports such as security risks and security impact assessment of personal information. For more information about the department and the person in charge of personal information protection, please refer to [Section VIII] of this Privacy Policy.
+
+4.Currently, we have passed the evaluation on and completed the filling for classified protection of national cybersecurity (Level 3). In terms of information security, we have met the international certification standards in ISO27001. Also, we have obtained the corresponding certification. But we need to remind you that the Internet environment is not 100% secure. We will use our best efforts to ensure or guarantee the security of any information you send to us. We will be liable for any damage to your legal rights and benefits resulting from unauthorized access, public disclosure, alteration or destruction of information due to any damage to our physical, technological or administrative protection facilities.
+
+5.If unfortunately, a personal information safety event occurs, we will, according to the requirements of laws and regulations, inform you of the basic situation of the safety event and possible impact in a timely way, the emergency response we have already taken or are about to take and other relevant disposals, remedies for you via messages/your reserved contact information. If it is difficult to notify the subjects of personal information one by one, we will make a public announcement in a reasonable and effective manner, and take the initiative to report the handling of security incidents of personal information to the regulatory authorities concerned.
+
+6.If you raise any questions concerning our protection of personal information, you can contact us via the contact ways in [Section VIII] of this Privacy Policy. If you learn that your personal information is leaked, please contact us forthwith through the contact ways specified in this Privacy Policy so as to facilitate up to take corresponding measures in a prompt manner.
+
+V. How We Store Your Personal Information
+
+We will, in pursuance of the provisions of laws and regulations, merely store your personal information collected within the territory of the People’s Republic of China in the territory of the People's Republic of China. We will take all reasonable and feasible measures to guarantee that personal information unconcerned is not collected. We will only retain your personal information for the shortest period required for achieving the purposes described herein. We will delete or anonymize your personal information if it is stored for a period that exceeds what is permitted by law. If it is technically difficult to delete the relevant personal information, we will stop processing it except for the purpose of storage and taking necessary security measures. However, in the following circumstances, we may change the storage time of personal information for the need of complying with legal requirements:
+
+Comply with the provisions in court judgments, adjudications or other legal procedures;
+Comply with the requirements of relevant government authorities or legally authorized organizations;
+We have reasons to believe that we need to comply with laws, regulations and other relevant provisions.
+
+In the event that UOS Products and Services are discontinued, we will stop collecting your personal information in a timely manner, notify you of the discontinuation by delivering an individual notice or by announcement, and delete or anonymize your personal information within a reasonable period.
+
+Please note that you consent that after you cancel your Union ID account, for the sake of transaction security, we shall be entitled to reserve the purchase, comments and scoring records arising from the app store during your use of Union ID until the expiration of three years in accordance with relevant Chinese laws, regulations and standards; the rest of personal information of Union ID account will be deleted in a prompt manner after you cancel your account.
+
+VI. Your Rights
+
+In accordance with relevant Chinese laws, regulations and standards, as well as the common practices of other countries and regions, we will do our best to use appropriate technologies to ensure your exercise of the following rights on your personal information:
+
+1.View and Duplicate Your Personal Information
+
+Except as otherwise provided by laws and regulations, you have the right to view and duplicate your personal information. You can view and duplicate your information by yourself in the following ways:
+
+1.1. Account information/basic information of users: if you wish to view and duplicate the basic personal information in your Union ID, such as mobile phone number, e-mail address, gender, birthday and industry information or other personal data information, you can log in to the registration website of Union ID (account.uniontech.com), log in to your Union ID account and carry out such operations in "[User Center]".
+
+1.2. Transaction information: If you wish to access and copy your reward records, you can check your purchase records and other purchase information in the "Personal Center" of the application store.
+
+1.3. If you fail to view and duplicate your personal information by means of the aforesaid methods, you can contact us at any time via the contact ways in [Section VIII] of this Privacy Policy. We will reply to your access request within fifteen working days.
+
+1.4. For other personal information arising from your application of our products or services, we will furnish such information for you based on relevant arrangements in Item (7) of this Section: "Responding to Your Aforesaid Requests".
+
+2.Correct and Supplement Inaccurate or Incomplete Personal Information
+
+2.1. Log in to the registration website of Union ID (account.uniontech.com), log in to your Union ID account and you can correct or supplement some of your personal information on your own via your [User Center]. In particular, please pay attention to check the authenticity, timeliness, integrity and accuracy of the personal information you submit, otherwise we will be unable to effectively contact you and render some services to you as a result. If we suspect that the information submitted by you is wrong, incomplete and untrue based on reasonable reasons, we shall be entitled to ask you or inform you to correct it, or even suspend or stop rendering some services to you.
+
+2.2. Some special information may not be corrected on your own, and you can contact us via the contact ways released in [Section VIII] of this Policy. We will reply to your access request within fifteen working days. In a bid to protect your personal information security, we may request you to authenticate.
+
+3.Withdraw Consent or Eliminate Processing Restrictions
+
+3.1. You are allowed to alter the range of your personal information collected and used by us under your authorization by deleting information, shutting down the functions of related devices/tools or making other feasible privacy settings (in consideration of the system version).
+
+3.2. Where you fail to revoke your authorization consent in the above-mentioned manner, you can contact us at any time via the contact ways in [Section VIII] and state which consent you intend to revoke to carry out such operations. We will reply to your access request within fifteen working days.
+
+3.3. When you withdraw your consent, we will not continue to process your personal information anymore. However, your decision to withdraw consent will not affect the legality of personal information processing already launched based on your authorization.
+
+4.Deletion of Personal Information
+
+4.1. You may apply to us for deleting your personal information under any of the following circumstances:
+
+4.1.1. If our behavior of processing personal information violates laws and regulations;
+
+4.1.2. If you withdraw your consent;
+
+4.1.3. If our behavior of processing personal information violates our agreement with you;
+
+4.1.4. If you no longer use our products or services, or if you cancel your account;
+
+4.1.5. If we no longer provide products or services to you, or the retention period has expired;
+
+4.1.6. If the purpose of processing has been or cannot be achieved or if it is no longer necessary to achieve the purpose of processing.
+
+4.2. We will respond to your request for deletion of personal information within fifteen business days of receipt. In the case that we decide to respond to your deletion request, we will also inform the third parties (including the affiliated companies of UnionTech Software) that share your personal information from us with the best efforts, and request such third parties to delete your personal information in a prompt manner, unless otherwise specified by laws and regulations, or such third parties have gained your independent authorization.
+
+4.3. In the event that you are unable to delete the personal information via the above path, you may contact us at any time via [Section VIII] of this Privacy Policy. In a bid to protect your personal information security, we may request you to authenticate.
+
+4.4. If the retention period stipulated by laws and administrative regulations has not expired, or if it is technically difficult to delete the personal information, we will stop processing it except for the purpose of storage and taking necessary security measures.
+
+5.Account Cancellation
+
+5.1. Union ID can be canceled. You can log in your Union ID through the website (account.uniontech.com), go to "[User Center]" - "[Cancel Account]", and cancel your Union ID. We will respond to your request for cancellation within fifteen business days, and we may require for verification of your identity to secure your personal information.
+
+5.2. Except as otherwise stipulated by laws and regulations or otherwise agreed between you and us, we will stop providing corresponding services for you after canceling the account, and will delete your personal information at your request.
+
+6.Obtaining a Copy of Personal Information
+
+6.1. You shall be entitled to send us a written request via the contact ways released in this Privacy Policy to acquire a copy of your personal information.
+
+6.2. To the extent that technology is feasible, such as data interface matching and conforming to the conditions prescribed by the national cyberspace administration, we may also transmit the copy of your personal information to the third party specified by you directly in line with your requirements and on the strength of existing general-purpose technology. In the event that the transmission fails as a result of the third party’s refusal to receive the copy of your personal information, you shall coordinate with such third party to address the issue, and we shall not assume any responsibility in this regard.
+
+7.Respond to Your Above Request
+
+7.1. To ensure the security of your account, we may need you to submit a written request or verify your identity in other ways. We would probability require you to verify your identity first before processing your request.
+
+7.2. We will make a reply within fifteen working days. If you are not satisfied on this point, you are also suggested to complain via the channels specified in [Section VIII] of this Privacy Policy.
+
+7.3. For your reasonable requests, we do not collect any charges in principle, but for repeated requests or unreasonable requests, we will collect a certain amount of cost fees as the case may be. We may reject requests that are unprovoked and repeated, which require too many technical means (e.g., to develop new systems or fundamentally change existing practices), pose a risk to the legitimate interests of others or are highly impractical (e.g., information stored on backup tape).
+
+7.4. According to requirements of laws and regulations, we are unable to respond to your request in the following circumstances:
+
+7.4.1. When it involves the performance of our obligations under laws and regulations;
+
+7.4.2. When it involves national security and national defense security directly; when it involves public security, public health and other major public interests;
+
+7.4.3. Information directly related to criminal investigation, prosecution, trial and execution of judgments;
+
+7.4.4. When there is sufficient evidence to prove that you are subjectively in bad faith or abuse your power;
+
+7.4.5. When responding to your request will cause serious harms to the legal rights and interests of other individuals or organizations；
+
+7.4.6. When any trade secret is involved;
+
+7.4.7. When it is collected to protect the life, property or other major legal rights of you or other individuals in the situation where it is difficult to obtain your consent;
+
+7.4.8. Other circumstances prescribed by applicable law.
+
+VII. How this Privacy Policy is Updated
+
+1.Our privacy policy may be subject to change. Without your express consent, we will not reduce the rights that you enjoy according to this Privacy Policy. We will post any updates to the privacy policy.
+
+2.With respect to major changes, we will give a more prominent notice (for example, for some services, we will give a notice by email, specifying the detailed changes made to the privacy policy) and obtain your express consent again.
+
+3.Significant changes referred to in this privacy policy include, but are not limited to:
+
+3.1. Our products and service mode may change greatly. For example, we may change the purpose of personal information processing, the type of personal information processed, and the way of using personal information.
+
+3.2. Our ownership structure or organizational structure may change greatly. For example, the change of actual controller caused by business adjustment, bankruptcy, M&A and so on;
+
+3.3. The main objects of personal information publicization, transfer or public disclosure may change;
+
+3.4. Your right to participate in personal information processing and the way to exercise such right may significantly change;
+
+3.5. The department responsible for processing the security of personal information, its contact information and the complaining channel may change;
+
+3.6. The influence and evaluation report of personal information security shows that there is a high risk.
+
+4.We will also keep the old versions of this Privacy Policy in the archives for your reference.
+
+VIII. Our Department for Personal Information Protection/Responsible Person for Personal Information Protection
+
+1.We have appointed a department for the protection of personal information so as to assume responsibility for coordinating and monitoring the compliance and enforcement of laws, regulations as well as internal policies and systems associated with the protection of personal information.
+
+2.If you raise any questions or come up with opinions or suggestions in relation to this Privacy Policy, you may contact the personal information protection agency in the following ways. In general cases, we will make a reply within fifteen working days or longer time permitted by applicable laws and regulations.
+
+Company Name: [UnionTech Software Technology Co., Ltd.]
+
+Department for Personal Information Protection/Responsible Person for Personal Information Protection: [Legal Department]
+
+Address: [18/F, Building 12, No.10 Yard, Kegu 1st Street, Beijing Economic-Technological Development Area, Beijing]
+
+Tel: [010-62669253]
+
+E-mail: [privacy@uniontech.com]
+
+IX. Your Right to Complain or File a Lawsuit with the Regulatory Authorities and Governing Law
+
+1.In the event of any dissatisfaction with our reply, particularly if you consider that our behavior for the processing of personal information has prejudiced your legitimate rights and interests, and no consensus can be reached through amicable consultation, you are entitled to file a complaint with the relevant supervision department for the protection of personal information, or either Party may file a lawsuit with the People’s Court of [Daxing District, Beijing].
+
+2.The conclusion, implementation, interpretation and dispute resolution of this Privacy Policy shall be governed by the laws of the People’s Republic (excluding Hong Kong, Macao and Taiwan), without regard to the application of conflict rules.
+
+Appendix 1: Definitions
+
+·Personal Information
+
+Personal information refers to all kinds of information recorded electronically or otherwise relating to identified or identifiable natural persons, including but not limited to the natural person's name, date of birth, ID card number, personal biometric information, address and tel, while the information that has been anonymized is not included.
+
+·Sensitive Personal Information
+
+Sensitive personal information is such information that, if leaked or used illegally, could easily lead to the infringement of a natural person's human dignity or cause personal or property damages to a natural person, including without limitation biometric identification, religious belief, specific identity, health care, financial accounts and whereabouts, as well as the personal information of minors under the age of 14.
+
+
+
+
+

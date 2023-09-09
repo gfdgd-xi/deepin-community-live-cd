@@ -1,0 +1,95 @@
+UnionTech OS User Experience Program License Agreement
+
+Updated date: [August 30, 2022]
+
+Effective Date: [September 30, 2022]
+
+Welcome to the User Experience Program. The User Experience Program (hereinafter referred to as the “Program”) is a network service developed and operated by UnionTech Software Technology Co., Ltd. and its affiliates (hereinafter referred to as “UnionTech Software” or “We”) to facilitate the improvement of user experiences of the UnionTech Operation System (including but not limited to the UnionTech desktop operating system and UnionTech server operating system, hereinafter referred to as “UOS”). When you engage in the program, we will collect some user information (including the information about device, OS and usage behaviors) and analyze the collected information, with a view to upgrade our service quality and user experience.
+
+Please read all rights and limitations stated in this User Experience Program License Agreement (hereinafter referred to as the “Agreement”) carefully before participating in the Program. This is a legal agreement between you (natural person, legal person or other organizations) and UnionTech Software Technology Co., Ltd. By participating in the Program, you signify your assent to and acceptance of the Agreement, and acknowledge that you have read and understood all the terms of the Agreement. If you represent an entity, by participating in the Program, you are deemed to accept these terms on behalf of the entity. If you DO NOT agree any term of the Agreement, please do not activate the Program.
+
+Unless being replaced by a new version, the Agreement applies to any version of the User Experience Program and its related updates regardless the way how the software is delivered.
+
+1．Privacy Protection.
+
+UnionTech Software has formulated strict privacy policies for protecting the user’s personal data and attaches great importance on the protection of the user’s personal information. Only when you agree with both the License Agreement and Privacy Policy, can you participate in the Program. In participating in the Program, we will collect the data on your device in accordance with the Agreement and Privacy Policy. Please refer to the details of Privacy Policy on [https://www.uniontech.com/agreement/privacy-cn]
+
+2．Participating in the Program.
+
+You can manually enable “User Experience Program” in the process of installing the UnionTech UOS or in “Control Center-General Settings-User Experience Program” in the UnionTech UOS. After enabling the Program, UnionTech Software will collect the data defined in the Agreement and Privacy Policy. You can close the “User Experience Program” at any time unconditionally, UnionTech Software will no longer collect your information after closing the Program. 
+
+3．Information Collection.
+
+The information we need to collect under the program includes the following (some of which are necessary for the use of applications and have been clearly informed in the Privacy Policy):
+
+(1) Device information;
+
+(2) Operation system information;
+
+(3) Usage behavior information, including Daily logins to the system, startup and shutdown time of the system, time of keystrokes, identification of keystrokes, time of focus movement and time of mouse operation when using the application, application startup time and application exit time.
+
+4．Information Use.
+
+Upon collection of your relevant information, we will conduct statistical analysis on the relevant information by ourselves or entrust a third-party company, and make use of the results of statistical analysis in one or more of the following forms:
+
+(1) Enhance the functional experience of UOS and discriminate the quality of channels by analyzing the results;
+
+(2) Send you our service information or other products or services that we consider may be of interest to you by analyzing your behavioral preferences, including, without limitation, product services, showing you customized advertisements;
+
+(3) Apply the results for the purpose of marketing and publicity of UOS, such as the number of people who declare to be the users of UOS;
+
+(4) Count the usage of products, including interaction with third-party data service sites as well as other third-party websites and services;
+
+(5) Other application behaviors based on statistical results.
+
+Please refer to the UnionTech Software OS Privacy Policy for concrete matters of personal information protection not listed in the Agreement (including, without limitation, information protection, application of laws).
+
+5．Intellectual Property Rights.
+
+5.1 All copyrights, trademarks, patents, trade secrets and other intellectual property rights as well as all information and contents (including but not limited to words, pictures, audios, videos, charts, interface designs, layout framework, relevant data or electronic documents, especially “统信”, “统信UOS” and “UOS” trademarks and logos) related to the Program, shall be owned by UnionTech Software, and protected by the laws of the People’s Republic of China, except for the rights that the relevant right holders shall enjoy in accordance with the provisions of the law.
+
+5.2 Without the written consent of UnionTech Software or the actual right holder, you may not implement, utilize or transfer the above intellectual property rights for any commercial or non-commercial purpose, or allow any third party to do so. You shall not remove any intellectual property mark involved in the Program, and shall mark on all copies thereof that its intellectual property belongs to UnionTech Software and/or other licensors according to its existing expression.
+
+6．Specification for Use.
+
+You are not entitled to perform, including but not limited to, the following activities: You have no right to perform acts including but not limited to the following:
+
+(1) To publish, transmit, disseminate and store content that violates the laws of your country, endangers social security, public order and good customs, or any improper, insulting, slanderous, obscene, violent content or otherwise that violates the laws, regulations and policies of the country where the user is located;
+
+(2) To publish, deliver, transmit or store content that infringes others intellectual property rights or trade secrets;
+
+(3) To issue, deliver or transmit bulk advertisements or spam;
+
+(4) To publish, transmit or distribute images, pictures, software or other materials (including but not limited to copyright, trademarks, patents, trade secrets, privacy and related personality rights) that infringe on third parties, unless you have obtained the necessary and effective authorization from the right holder in advance; 
+
+(5) Any act endangering network security, including but not limited to: using unauthorized data or entering unauthorized servers/accounts; entering the public network or other people's operating systems without permission and deleting, modifying or adding stored information; unauthorized attempts to detect, scan and test the weaknesses of the Software system or network or other acts that undermine network security; attempts to interfere with or destroy the normal operation of the Software system, deliberately spread malicious programs or viruses and other acts that destroy and interfere with normal network information services; forging TCP/IP packet names or partial names;
+
+(6) To participate in the Program in any illegal way, for any illegal purpose, or in any inconsistent way with the Agreement.
+
+If you fail to comply with the above provisions, UnionTech Software has the right, in its sole discretion, to terminate, completely or partially suspend, or limit your participation in the Program, and reserves all rights to pursue your actions.
+
+7．Disclaimer.
+
+No any other form of after-sales warranty is applied to the Program. To the maximum extent permitted under the applicable law, UnionTech Software does not provide any express, implied or statutory warranties, guarantees or conditions including, but not limited to, any implied warranties of merchantability, non-infringement or fitness for a particular purpose. You shall always back up your files. And solely be responsible for the risks of using the software. UnionTech Software does not take any liability for the damages and risks resulting from participating in the Program, including, but not limited to direct or indirect personal injuries, trade interruptions, commercial profit loss, data loss, or any other economic loss. UnionTech Software does not take any liability for damages caused by telecommunication systems or Internet network failures, or any other force majeure reasons (including hacking attack). For losses caused by telecommunication system or Internet network failure, supporting system failure or any other force majeure reasons (including hacker attacks), UnionTech Software do not assume any responsibility.
+
+8．Termination of License.
+
+8.1 If you fail to comply with the terms and conditions of the Agreement, UnionTech Software may terminate the Agreement.
+
+8.2 UnionTech Software may terminate this Program by providing you with a replacement agreement for any alternative or modified or upgraded version of the Software and stipulating that your use of such alternative or modified or upgraded version is conditional on your acceptance of such replacement agreement.
+
+9．Jurisdiction and Application of Law.
+
+The conclusion, execution and interpretation of the Agreement and the resolution of disputes shall be governed by the laws of the People's Republic of China (excluding Hong Kong, Macao and Taiwan). In the case of any dispute between you and UnionTech Software over the content of the Agreement or its implementation, both parties shall conduct friendly negotiation; If the negotiation fails, either party may bring a lawsuit to the people's court with jurisdiction in the place where [Daxing District, Beijing] is located.
+
+10．Interpretation and Modification.
+
+10.1 UnionTech Software has the right to interpret and modify this Agreement to the maximum extent without any violation of all the applicable laws and regulations. UnionTech Software have the right to modify this Agreement at any time according to changes in relevant laws and regulations as well as adjustments in the company's operating conditions and operating strategies. The modified Agreement will be shown in the new version of the software for acceptance before you use it. In the event of a dispute, the latest Agreement shall prevail. In case of any dispute, this Agreement shall be terminated, and the latest version shall prevail. If you do not agree with the changes in the Agreement, you may not activate the Program. If you continue to participate in the Program, you are deemed to have accepted the modifications in the Agreement.
+
+10.2 This Agreement may be written in different language versions. No matter which language you receive, the Simplified Chinese version shall prevail.
+
+10.3 The headings to all the terms of this Agreement are for ease of reference only without actual meaning and shall be ignored in interpreting this Agreement.
+
+11．Contact us.
+
+If you have any questions regarding this Agreement, or need any information, please contact UnionTech Software at: support@uniontech.com.

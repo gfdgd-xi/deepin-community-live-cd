@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+import os
+import sys
+import shutil
+import traceback
+import threading
+import PyQt5.QtWidgets as QtWidgets
+
+homePath = os.getenv("HOME")
+if not os.path.exists("{}/.config/gx-env/".format(homePath)):
+    os.makedirs("{}/.config/gx-env/".format(homePath))
+
+def Save():
+    try:
+        if allCommandAddNoSandbox.isChecked() and not os.path.exists("{}/.config/gx-env/nosandbox".format(homePath)):
+            os.mknod("{}/.config/gx-env/nosandbox".format(homePath))
+        if not allCommandAddNoSandbox.isChecked() and os.path.exists("{}/.config/gx-env/nosandbox".format(homePath)):
+            os.remove("{}/.config/gx-env/nosandbox".format(homePath))
+        os.system("pkexec env `gx-env-show-env-list` gx-env-run")
+        QtWidgets.QMessageBox.information(window, "提示", "设置完成！")
+        
+    except:
+        traceback.print_exc()
+        QtWidgets.QMessageBox.critical(window, "错误", traceback.format_exc())
+
+app = QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QMainWindow()
+widget = QtWidgets.QWidget()
+layout = QtWidgets.QGridLayout()
+sparkStoreRun = QtWidgets.QPushButton("打开星火应用商店")
+gdebiRun = QtWidgets.QPushButton("安装 deb 包")
+xfce4TerminalRun = QtWidgets.QPushButton("终端")
+xfce4TerminalRootRun = QtWidgets.QPushButton("终端（root）")
+sparkStoreRun.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-run-root spark-store --no-sandbox ; gx-env-load-desktop"]).start())
+gdebiRun.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-run-root gdebi-gtk ; gx-env-load-desktop"]).start())
+xfce4TerminalRun.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-run xfce4-terminal"]).start())
+xfce4TerminalRootRun.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-run-root xfce4-terminal ; gx-env-load-desktop"]).start())
+allCommandAddNoSandbox = QtWidgets.QCheckBox("程序默认添加 --no-sandbox 参数")
+allCommandAddNoSandbox.setChecked(os.path.exists("{}/.config/gx-env/nosandbox".format(homePath)))
+runMoreProgram = QtWidgets.QPushButton("运行更多")
+runMoreProgram.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-run-gui"]).start())
+refreshDesktop = QtWidgets.QPushButton("刷新启动器图标")
+refreshDesktop.clicked.connect(lambda: threading.Thread(target=os.system, args=["gx-env-load-desktop"]).start())
+saveButton = QtWidgets.QPushButton("保存")
+saveButton.clicked.connect(Save)
+layout.addWidget(sparkStoreRun, 0, 0)
+layout.addWidget(gdebiRun, 0, 1)
+layout.addWidget(xfce4TerminalRun, 0, 2)
+layout.addWidget(xfce4TerminalRootRun, 0, 3)
+layout.addWidget(xfce4TerminalRootRun, 0, 3)
+layout.addWidget(runMoreProgram, 0, 4)
+layout.addWidget(refreshDesktop, 0, 5)
+layout.addWidget(allCommandAddNoSandbox, 1, 0, 1, 5)
+layout.addWidget(saveButton, 1, 5)
+widget.setLayout(layout)
+window.setCentralWidget(widget)
+window.show()
+sys.exit(app.exec_())

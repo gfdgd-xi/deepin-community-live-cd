@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Install deepin-license-activator in Professional version
+
+install_activator() {
+  msg "Install deepin-license-activator"
+  apt-get install --no-install-recommends -y --force-yes \
+    --allow-unauthenticated  deepin-license-activator
+}
+
+install_activation_key() {
+  readonly SRC_KEY=${OEM_DIR}/license.key
+  readonly DST_KEY=/var/deepin/license.key
+  mkdir -pv /var/deepin
+  if [ -f "${SRC_KEY}" ]; then
+    msg "Install activation key to ${DST_KEY}"
+    install -v -m644 "${SRC_KEY}" "${DST_KEY}"
+  fi
+}
+
+main() {
+  if grep -qr "Professional" /etc/deepin-version 2>/dev/null; then
+    install_activator
+    install_activation_key
+  fi
+}
+
+main
+
+return 0

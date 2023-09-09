@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Copy /etc/deepin-installer.conf to /target
+
+parse_cmdline() {
+  for x in $(cat /proc/cmdline); do
+    case $x in
+      install-mode-cli=true)
+        echo $x
+        cli_mode=true
+        ;;
+      esac
+  done
+}
+
+parse_cmdline
+if [ -f "${CONF_FILE}" ]; then
+
+    if [ x"$cli_mode" = xtrue ]; then
+        installer_set "skip_select_language_page" "true"
+        installer_set "skip_select_language_page_on_first_boot" "true"
+        installer_set "skip_network_page" "true"
+        installer_set "skip_auto_sync_time_page" "false"
+        installer_set "skip_timezone_page" "true"
+        installer_set "skip_control_platform_page" "true"
+        installer_set "skip_system_keyboard_page" "true"
+#    else
+#        DI_SKIP_SELECT_LANGUAGE=$(installer_get "skip_select_language_page")
+#        if [ x${DI_SKIP_SELECT_LANGUAGE=} = "xtrue" ];then
+#	    installer_set "skip_select_language_page" "false"
+#            installer_set "skip_select_language_page_on_first_boot" "false"
+#        else
+#            installer_set "skip_select_language_page" "true"
+#            installer_set "skip_select_language_page_on_first_boot" "true"
+#        fi
+    fi
+
+    DI_NECURESCLIINSTALL_MODE=$(installer_get "DI_NECURESCLIINSTALL_MODE")
+    if [ x${DI_NECURESCLIINSTALL_MODE} == "xtrue" ]; then
+      installer_set "skip_select_language_page" "true"
+      installer_set "skip_select_language_page_on_first_boot" "true"
+      installer_set "skip_network_page" "true"
+      installer_set "skip_auto_sync_time_page" "false"
+      installer_set "skip_timezone_page" "true"
+      installer_set "skip_control_platform_page" "true"
+      installer_set "skip_system_keyboard_page" "true"
+
+      DI_HOSTNAME=$(installer_get "DI_HOSTNAME")
+      DI_PASSWORD=$(installer_get "DI_PASSWORD")
+      DI_USERNAME=$(installer_get "DI_USERNAME")
+      DI_ROOTPASSWORD=$(installer_get "DI_ROOTPASSWORD")
+
+      REAL_PASSWORD=$(echo "${DI_PASSWORD}" | base64 -d)
+
+      installer_set "system_info_default_username" "${DI_USERNAME}"
+      installer_set "system_info_default_hostname" "${DI_HOSTNAME}"
+      installer_set "system_info_default_password" "${REAL_PASSWORD}"
+      installer_set "system_info_default_root_password" "${DI_ROOTPASSWORD}"
+
+      DI_TIMEZONE=$(installer_get "DI_TIMEZONE")
+      installer_set "timezone_default" "${DI_TIMEZONE}"
+    fi
+
+    DI_USER_EXPERIENCE=$(installer_get "DI_USER_EXPERIENCE")
+    installer_set "system_default_user_experience" "${DI_USER_EXPERIENCE}"
+fi
+
+return 0

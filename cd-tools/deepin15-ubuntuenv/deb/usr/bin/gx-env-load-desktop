@@ -1,0 +1,11 @@
+#!/bin/bash
+chrootEnvPath=/opt/new-system-env
+if [[ ! -f $HOME/.config/gx-env/nosandbox ]]; then
+    gx-env-run-root python3 /gx-env/gx-env-load-desktop-in-chroot
+else
+    gx-env-run-root python3 /gx-env/gx-env-load-desktop-in-chroot 1
+fi
+#if [[ ! -d /usr/share/applications/gx-env ]]; then
+#    pkexec mkdir /usr/share/applications/gx-env -p
+#fi
+pkexec cp $chrootEnvPath/gx-env/desktop/* /usr/share/applications/ -v

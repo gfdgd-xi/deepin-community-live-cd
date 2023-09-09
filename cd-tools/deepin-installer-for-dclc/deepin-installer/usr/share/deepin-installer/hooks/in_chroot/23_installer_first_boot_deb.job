@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# 需要在备份还原之前备份该包，保证系统还原之后也能执行
+installer_first_boot_deb() {
+    [ -d "$OEM_DIR/first_boot_deb" ] && cp -vfr "$OEM_DIR/first_boot_deb" /usr/share/deepin-installer/
+    [ -d "$OEM_DIR/hooks/first_boot" ] && cp -vfr "$OEM_DIR/hooks/first_boot" /usr/share/deepin-installer/hooks
+}
+
+installer_first_boot_deb

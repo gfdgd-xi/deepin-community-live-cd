@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# 在解压文件系统之前，先处理磁盘中保留的数据分区中的数据信息
+clean_data() {
+    local in=$1
+    local ignore=$2
+
+    ls -a $in | grep -Ev $ignore | xargs -I {} chattr -iR ${in}/{} || true
+    ls -a $in | grep -Ev $ignore | xargs -I {} rm -vfr "${in}/{}" || true
+}
+
+setup_data_info() {
+    local DATA_MOUNT_POINT=$(installer_get "DI_DATA_MOUNT_POINT")
+    if [ -d /target/${DATA_MOUNT_POINT}/ ];then
+        [ -d /target/home ] && chown -hR root:root /target/home
+        [ -d /target/${DATA_MOUNT_POINT} ] && clean_data /target/${DATA_MOUNT_POINT} '^\.\.$|^\.$|^var$|^home$|^root$|^opt$|^lost\+found$'
+        [ -d /target/root ] && clean_data /target/root '^\.\.$|^\.$|^lost\+found$'
+        [ -d /target/var ] && clean_data /target/var '^\.\.$|^\.$|^lost\+found$'
+        [ -d /target/opt ] && clean_data /target/opt '^\.\.$|^\.$|^lost\+found$'
+        # 删除原来用户的密钥环，防止弹出密钥环验证提示
+        ls /target/home | xargs -I {} rm -vrf "/target/home/{}/.local/share/keyrings/login.keyring"
+        # 创建dpkg-db的链接
+        mkdir -p /target/usr/lib/dpkg-db
+        mkdir -p /target/var/lib
+        ln -sf ../../usr/lib/dpkg-db /target/var/lib/dpkg
+    fi
+}
+
+setup_data_info

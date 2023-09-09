@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# 本地仓库的路径
+LOC_REPO_PATH="/media/cdrom/dists"
+
+# add cdrom to sources.list
+[ ! -d $LOC_REPO_PATH ] && warn_exit "/media/cdrom is not a debian repository. Skipped."
+
+# commented source.list to let apt-get just using cdrom repo.
+sed -i 's/^/#/g' /etc/apt/sources.list
+
+dir=$(find  $LOC_REPO_PATH -name "Release" | xargs awk -F '[ :]+' '/Codename/{print $2}')
+for name in $dir
+do
+    # ident the cdrom first.
+    echo "deb [trusted=yes] file:/media/cdrom ${name} main" >> /etc/apt/sources.list
+done
+
+apt-get update
+
+return 0

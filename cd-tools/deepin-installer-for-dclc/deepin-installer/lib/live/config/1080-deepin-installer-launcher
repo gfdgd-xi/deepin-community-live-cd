@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#set -e
+
+# Parse live username from cmdline.
+Cmdline () {
+  # Reading kernel command line
+  for _PARAMETER in ${LIVE_CONFIG_CMDLINE}; do
+    case "${_PARAMETER}" in
+      live-config.username=*|username=*)
+        LIVE_USERNAME="${_PARAMETER#*username=}"
+        ;;
+    esac
+  done
+}
+
+# Copy installer launcher file to Desktop.
+Config () {
+  local file=/usr/share/applications/deepin-installer.desktop
+  if [ -f "$file" ]; then
+    install -d -o $LIVE_USERNAME -g $LIVE_USERNAME /home/$LIVE_USERNAME/Desktop
+    install -D -o $LIVE_USERNAME -g $LIVE_USERNAME $file /home/$LIVE_USERNAME/Desktop/$(basename "$file")
+  fi
+
+  install -d -o $LIVE_USERNAME -g $LIVE_USERNAME /home/$LIVE_USERNAME/.config
+  cat > /home/$LIVE_USERNAME/.config/not_first_run_dde << EOF
+Generate by deepin-installer.
+Timestamp: `LC_ALL=C date`
+EOF
+  chown $LIVE_USERNAME:$LIVE_USERNAME /home/$LIVE_USERNAME/.config/not_first_run_dde
+}
+
+Cmdline
+Config

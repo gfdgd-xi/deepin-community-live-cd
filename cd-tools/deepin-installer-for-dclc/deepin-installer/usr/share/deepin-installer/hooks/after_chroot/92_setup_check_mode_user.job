@@ -1,0 +1,60 @@
+#!/bin/bash
+
+installer_set "DI_INSTALL_STATUS" 5
+
+setup_check_mode_user() {
+    local USERNAME=$(installer_get "system_info_si_user")
+    local PASSWORD=$(installer_get "system_info_si_password")
+    local GROUP=$(installer_get "system_info_si_group")
+
+    # 在保留用户数据的场景下，如果原始的用户中存在test用户，则审核模式会重新生成一个唯一的用户名
+    if [ -d /target/home/${USERNAME} ]; then
+        USERNAME="${USERNAME}-$(date "+%s")"
+        installer_set system_info_si_user "$USERNAME" /target
+    fi
+    chroot /target useradd -m -G sudo ${USERNAME}
+
+    # 解决定制群组时，原来的命令报错的情况
+    if [ -n "${GROUP}" ]; then
+        usermod -a -G ${GROUP} ${USERNAME}
+    fi
+    chroot /target passwd "${USERNAME}" << EOF
+${PASSWORD}
+${PASSWORD}
+EOF
+
+
+# 进入审核模式
+LIGHTDM_CONF_FILE=/target/etc/lightdm/lightdm.conf
+cat > "${LIGHTDM_CONF_FILE}" <<EOF
+
+[Seat:*]
+autologin-user=${USERNAME}
+user-session=deepin
+display-setup-script=/deepin-installer/lightdm-start.sh
+display-stopped-script=/deepin-installer/lightdm-stop.sh
+
+EOF
+}
+
+setup_workspace() {
+    # 审核模式的工作目录不可以在备份脚本之前就创建，否则会导致系统还原后会多出/deepin-installer目录
+    local workspace="/target/deepin-installer/"
+    if [ ! -d $workspace ]; then
+        mkdir -p $workspace
+        cp -r /usr/share/deepin-installer/check_hooks/* $workspace
+        cp -r $OEM_DIR/check_hooks/* $workspace
+    fi
+}
+
+# User will delete when run check_hooks/lightdm_stop.sh
+if [ x$(installer_get "system_check_mode") == "xtrue" ]; then
+    # mount all point
+    /tmp/installer/hook_manager.sh /tmp/installer/before_chroot/11_mount_target.job
+    /tmp/installer/hook_manager.sh /tmp/installer/before_chroot/41_setup_mount_points.job
+    setup_workspace
+    setup_check_mode_user
+    skip_disk_crypt /target
+    # umount all point
+    /tmp/installer/hook_manager.sh /tmp/installer/after_chroot/90_unmount.job
+fi

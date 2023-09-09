@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Backup log to disk.
+
+/tmp/installer/hook_manager.sh /tmp/installer/before_chroot/11_mount_target.job
+
+# 记录安装结束时间
+timer_end=`date "+%Y-%m-%d %H:%M:%S"`
+chroot /target deepin-installer-settings set "/etc/deepin-installer.conf" "DI_INSTALL_ENDTIME" "$timer_end"
+
+if [ -f /var/log/deepin-installer.log ]; then
+  install -v -Dm600 /var/log/deepin-installer.log \
+    /target/var/log/deepin-installer.log
+fi
+/tmp/installer/hook_manager.sh /tmp/installer/after_chroot/90_unmount.job

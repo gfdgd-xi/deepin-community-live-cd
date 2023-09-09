@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+X-Categories=System;
+Exec=gx-env-setting-gui
+Icon=settings
+Name=兼容环境设置
+Terminal=false
+StartupNotify=true

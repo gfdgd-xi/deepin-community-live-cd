@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# If in live mode, replace default lightdm.conf, launch installer instead of
+# default lightdm greeter.
+
+generate_lightdm_conf() {
+  local CONF_FILE="$1"
+  cat > "${CONF_FILE}" <<EOF
+[Seat:*]
+display-setup-script=/usr/bin/deepin-installer-bases
+greeter-session=lightdm-installer-greeter
+greeter-setup-script=bash /usr/bin/deepin-installer-core /usr/bin/deepin-installer
+EOF
+}
+
+# Parse live config cmdline to check whether in live mode.
+parse_cmdline () {
+  # Reading kernel command line
+  for _PARAMETER in $(cat /proc/cmdline); do
+    case "${_PARAMETER}" in
+      live-config.livecd-installer|livecd-installer)
+        LIVE_MODE=true
+        ;;
+    esac
+  done
+}
+
+# Setup lightdm if in live mode.
+config_live_mode() {
+  if [ x"$LIVE_MODE" = "xtrue" ]; then
+    generate_lightdm_conf /etc/lightdm/lightdm.conf
+  fi
+}
+
+if [ x"$1" == "xtrue" ];then
+    parse_cmdline
+    config_live_mode
+fi

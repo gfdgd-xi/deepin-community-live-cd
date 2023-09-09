@@ -1,0 +1,3 @@
+#!/bin/bash
+cp /usr/bin/gx-env-load-desktop-in-chroot /opt/new-system-env/gx-env/
+#gx-env-load-desktop

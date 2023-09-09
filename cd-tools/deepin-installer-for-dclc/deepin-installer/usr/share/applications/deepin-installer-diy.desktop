@@ -1,0 +1,8 @@
+[Desktop Entry]
+Comment=Installer for Linux Deepin
+Exec=/usr/bin/deepin-installer-diy-pkexec
+Icon=deepin-installer-oem
+Name=Deepin Installer 添加自定义脚本
+Type=Application
+StartupNotify=true
+Terminal=false

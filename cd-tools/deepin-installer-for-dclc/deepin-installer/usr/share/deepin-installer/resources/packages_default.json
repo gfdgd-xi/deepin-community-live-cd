@@ -1,0 +1,136 @@
+{
+	"Basic-Server-Environment": {
+		"default": [
+			"core",
+			"base"
+		],
+		"uninstall": [
+			"uninstall-lightdm"
+		],
+		"choice-uninstall": [
+		],
+		"choice": [
+			"debugging-tools",
+			"development-tools",
+			"directory-client",
+			"dns-server",
+			"file-server",
+			"graphics",
+			"load-balancer",
+			"mariadb-server",
+			"mail-server",
+			"network-file-system-client",
+			"performance-tools",
+			"security-tools",
+			"web-server"
+		]
+	},
+	"Cloud-and-Virtualzalition": {
+		"default": [
+			"core",
+			"base"
+		],
+		"uninstall": [
+			"uninstall-lightdm"
+		],
+		"choice-uninstall": [
+		],
+		"choice": [
+			"guest-agents",
+			"virtualization-client",
+			"virtualization-hypervisor",
+			"virtualization-tools",
+			"virtualization-platform",
+			"debugging-tools",
+			"network-file-system-client",
+			"development-tools",
+			"security-tools",
+			"performance-tools"
+		]
+	},
+	"Big-Data": {
+		"default": [
+			"core",
+			"base"
+		],
+		"uninstall": [
+			"uninstall-lightdm"
+		],
+		"choice-uninstall": [
+		],
+		"choice": [
+			"debugging-tools",
+			"development-tools",
+			"file-server",
+			"guest-agents",
+			"ha",
+			"infiniband",
+			"large-systems",
+			"load-balancer",
+			"network-file-system-client",
+			"performance-tools",
+			"platform-devel",
+			"security-tools"
+		]
+	},
+	"Server-Environment-with-GUI": {
+		"default": [
+			"core",
+			"base",
+			"dde"
+		],
+		"uninstall": [
+		],
+		"choice-uninstall": [
+		],
+		"choice": [
+			"debugging-tools",
+			"deepin",
+			"development-tools",
+			"directory-client",
+			"dns-server",
+			"file-server",
+			"graphics",
+			"guest-agents",
+			"internet-applications",
+			"load-balancer",
+			"mariadb-server",
+			"mail-server",
+			"network-file-system-client",
+			"performance-tools",
+			"platform-devel",
+			"virtualization-tool-set",
+			"web-server"
+		]
+	},
+	"Custom-Installation": {
+		"default": [
+			"core",
+			"base"
+		],
+		"uninstall": [
+			"uninstall-lightdm"
+		],
+		"choice-uninstall": [
+		],
+		"choice": [
+			"debugging-tools",
+			"development-tools",
+			"directory-client",
+			"dns-server",
+			"file-server",
+			"guest-agents",
+			"ha",
+			"infiniband",
+			"large-systems",
+			"load-balancer",
+			"mail-server",
+			"network-file-system-client",
+			"performance-tools",
+			"platform-devel",
+			"security-tools",
+			"virtualization-tool-set",
+			"web-server"
+		]
+	}
+}

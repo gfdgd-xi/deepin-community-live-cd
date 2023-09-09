@@ -1,0 +1,231 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Read kernel parameter and set global variables.
+
+# 获取活动屏幕输出个数
+monitors_cnt() {
+    local out=`xrandr --listactivemonitors | grep ^Monitors:`
+    out=${out##Monitors:}
+    echo ${out:-0}
+}
+
+# 获取主屏幕
+monitors_primary() {
+    ## 通过前后空格精准匹配
+    local out=`xrandr | grep ' connected primary ' | awk '{print $1}'`
+    echo -n $out
+}
+
+# 获取其他屏幕数据列表
+monitors_othe_list() {
+    local out1=`xrandr | grep ' connected ' | grep -v 'connected primary' | awk '{print $1}' | grep -v "DisplayPort-"`
+    local out2=`xrandr | grep ' connected ' | awk '{print $1}' | grep "DisplayPort-" | awk 'END {print}' | grep -v $(monitors_primary)`
+    [ -n "$out1" ] || out2=`xrandr | grep ' connected ' | awk '{print $1}' | grep "DisplayPort-" | grep -v $(monitors_primary)`
+    echo -n $out1 $out2
+}
+
+
+# 获取屏幕数据列表
+monitors_list() {
+    local out=`xrandr | grep ' connected ' | awk '{print $1}'`
+    echo -n $out
+}
+
+# 处理1k情况，安装器最高以1k显示
+monitors_mode_1k() {
+    local mode="1920x1080"
+    local cnt=`xrandr -q | awk '{print $1}' | grep -E [0-9]+x[0-9]+ | grep -E "^$mode$" | wc -l`
+    if [ $cnt -eq $(monitors_cnt) ]; then
+        echo $mode
+    else
+        echo ""
+    fi
+}
+
+# 获取所有屏幕共同支持的显示模式
+monitors_mode() {
+   local mode_1k=$(monitors_mode_1k)
+   ## 如果支持1k，最以1k屏显示
+   if [ -n "$mode_1k" ]; then
+       echo $mode_1k
+   else
+       local list=`xrandr -q | awk '{print $1}' | grep -E [0-9]+x[0-9]+`
+       for line in $list; do
+           local cnt=`xrandr -q | awk '{print $1}' | grep -E [0-9]+x[0-9]+ | grep -E "^$line$" | wc -l`
+           if [ $cnt -eq $(monitors_cnt) ]; then
+               echo $line
+               return;
+           fi
+       done
+
+       # 最低的默认分辨率，防止如果所有分辨率都不满足的情况下使用800x600
+       echo "800x600"
+   fi
+}
+
+print_log() {
+    xrandr
+    monitors_list | xargs -d" " -I {} echo "xrandr --output {} --auto --primary"
+    monitors_primary | xargs -d" " -I {} echo "xrandr --output {} --mode $(monitors_mode)"
+    monitors_othe_list | xargs -d" " -I {} echo "xrandr --output $(monitors_primary) --same-as {} --mode $(monitors_mode)"
+    monitors_othe_list | xargs -d" " -I {} echo "xrandr --output {} --mode $(monitors_mode)"
+}
+
+# 获取最高分辨率
+max_mode() {
+    local mode=`xrandr -q | awk '{print $1}' | grep -E '[0-9]+x[0-9]+$' | sort -rn | sed -n 1p`
+    echo ${mode}
+}
+
+# 获取最优分辨率
+optimal_mode() {
+   local mode=`xrandr -q | grep + | awk '{print $1}' | grep -E [0-9]+[0-9] | sort -rn | sed -n 1p`
+   echo ${mode}
+}
+
+# 处理设置屏幕
+setup_monitors() {
+    local pri_mon=$(monitors_primary)
+    if [ ! -n "$pri_mon" ];then
+        # 设置主屏幕，兼容都是dpi输出且输出屏幕位置重合的情况,兼容无主屏输出的情况
+        monitors_list | xargs -d" " -I {} xrandr --output {} --auto --primary || xrandr
+    fi
+
+    local cnt=$(monitors_cnt)
+    local system_monitor_enable=$(installer_get system_monitor_enable)
+    echo "system_monitor_enable=$system_monitor_enable"
+    if [ "x$system_monitor_enable" = "xtrue" ] && [ $cnt -gt 1 ]; then
+        # 设置主屏分辨率
+        monitors_primary | xargs -d" " -I {} xrandr --output {} --mode $(monitors_mode)
+        # 克隆模式
+        monitors_othe_list | xargs -d" " -I {} xrandr --output $(monitors_primary) --same-as {} --mode $(monitors_mode)
+        # 设置多屏共同支持的最大分辨率
+        monitors_othe_list | xargs -d" " -I {} xrandr --output {} --mode $(monitors_mode)
+
+        ## 输出调试日志
+        print_log
+    else
+        echo "Single output"
+        if [ -n "$(optimal_mode)" ]; then
+            # 设置屏幕的最优分辨率
+            echo "optimal mode:$(optimal_mode)"
+            xrandr -s $(optimal_mode)
+        else
+            # 设置屏幕的最高分辨率
+            echo "max mode:$(max_mode)"
+            xrandr -s $(max_mode)
+        fi
+    fi
+}
+
+# 将安装器后配置的运行目录改为/usr/share/deepin-installer-exec
+first_boot_move() {
+
+    installerRunDir=/usr/share/deepin-installer-exec/
+    mkdir -p ${installerRunDir}
+
+    firstBoot="/usr/bin/deepin-installer-first-boot"
+    hookPath="/usr/share/deepin-installer/hooks"
+
+    if [ -f ${firstBoot} ]; then
+        cp -vrf /usr/bin/deepin-installer-first-boot ${installerRunDir}
+    fi
+
+    if [ -d ${hookPath} ]; then
+        cp -vrf /usr/share/deepin-installer/hooks/ ${installerRunDir}
+    fi
+}
+
+setup_kwin_env() {
+   export HOME=/root
+
+   #识别到景嘉微显卡屏蔽窗口特效
+   #lshw -c video | grep "driver=mwv206"
+   #if [ $? -eq 0 ]; then
+   #    export KWIN_COMPOSE=N
+   #fi
+
+   env
+}
+
+installer_get() {
+  local key="$1"
+  local CONF_FILE=/etc/deepin-installer.conf
+  [ -z "${CONF_FILE}" ] && exit "CONF_FILE is not defined"
+  which deepin-installer-settings 1>/dev/null || \
+    exit "deepin-installer-settings not found!"
+  deepin-installer-settings get "${CONF_FILE}" "${key}"
+}
+
+
+is_empty_dir() {
+    local dir=$1
+    [ ! -d $dir ] && return 0
+
+    local count=$(ls $dir | wc -w)
+    if [ $count -ne 0 ];then
+        return 1
+    else
+        return 0
+    fi
+}
+
+setup_live_workdir() {
+    # 光驱安装时，启动盘的挂载点可能会是/run/live/medium
+    local live_dir=$1
+    if is_empty_dir $live_dir; then
+        info "$live_dir is empty dir"
+        mount -v --bind /run/live/medium/ $live_dir
+    fi
+
+    info "$live_dir not empty dir"
+}
+
+setup_oem_squashfs() {
+    echo "setup oem squashfs start..."
+    local live_dir=$1
+    if [ -f $live_dir/oem.squashfs ]; then
+        mount -v $live_dir/oem.squashfs $live_dir/oem
+    fi
+    echo "setup oem squashfs end!"
+}
+
+main() {
+    ## 挂载oem.squashfs
+    local live_dir="/usr/lib/live/mount/medium/"
+    setup_live_workdir "$live_dir"
+    setup_oem_squashfs "$live_dir"
+
+    ## 初始化安装配置和环境
+    /usr/bin/deepin-installer-init
+    cat /etc/deepin-installer.conf
+
+    ## 处理后配置卸载自己后有小概率启动不了桌面问题，安装器后配置运行路径变为/usr/share/deepin-installer-exec
+    first_boot_move
+
+    ## 处理多屏的情况，安装器以克隆模式运行多屏的情况
+    setup_monitors
+
+    # 启动窗管，解决部分机型上界面花屏问题, 窗管启动失败不影响安装器本身程序的启动
+    setup_kwin_env
+    kwin_x11 -platform dde-kwin-xcb || true &
+}
+
+main >> /var/log/deepin-installer-init.log 2>&1
+
+

@@ -1,0 +1,177 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Mount root partition to /target.
+
+select_efi_part
+target="/target"
+mkdir -pv ${target}
+chown -v root:root ${target}
+chmod -v 0755 ${target}
+
+DI_LUPIN=$(installer_get "DI_LUPIN")
+DI_LUPIN_ROOT=$(installer_get "DI_LUPIN_ROOT")
+DI_ROOT_PARTITION=$(installer_get "DI_ROOT_PARTITION")
+DI_LOOP_ROOT_FILE=$(installer_get "DI_LOOP_ROOT_FILE")
+DI_MOUNTPOINTS=$(installer_get "DI_MOUNTPOINTS")
+DI_UEFI=$(installer_get "DI_UEFI")
+DI_BOOTLOADER=$(installer_get "DI_BOOTLOADER")
+DATA_MOUNT_POINT=$(installer_get "DI_DATA_MOUNT_POINT")
+
+
+[ -n "${DI_ROOT_PARTITION}" ] || error "DI_ROOT_PARTITION is empty!"
+
+# Mount for lupin
+if [ x${DI_LUPIN} = xtrue ]; then
+  hostdev=`df ${DI_LUPIN_ROOT} | tail -1 | awk '{printf $1}'`
+  installer_set "DI_HOST_DEV" "${hostdev}"
+  mkdir -v /host
+  mount --bind ${DI_LUPIN_ROOT} /host || \
+    error "mount failed: ${DI_LUPIN_ROOT}"
+  losetup ${DI_ROOT_PARTITION} /host/${DI_LOOP_ROOT_FILE} || \
+    error "losetup failed /host/${DI_LOOP_ROOT_FILE} -> ${DI_ROOT_PARTITION}"
+  mkfs.ext4 -L "Computer" -F -F ${DI_ROOT_PARTITION} || \
+    error "mkfs.ext4 failed: ${DI_ROOT_PARTITION}"
+fi
+
+get_fstype() {
+  local PART_PATH FSTYPE RET
+  PART_PATH="${1}"
+  if [ -n "${PART_PATH}" ]; then
+    # Make sure that ${PART_PATH} is not empty, or else `blkid` will print
+    # fs names of all partitions.
+    FSTYPE=$(blkid -o value -s TYPE "${PART_PATH}")
+    RET=$?
+  else
+    FSTYPE=""
+    RET=1
+  fi
+  echo "${FSTYPE:-unknown}"
+  return ${RET}
+}
+
+find_target() {
+  local target="$1"
+  for p in $(cat /proc/mounts | awk '{print $2}'); do
+    if [ ${p} = "${target}" ]; then
+      echo "${target}"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# mount rootfs first
+msg "mount rootfs(${DI_ROOT_PARTITION}) to ${target}"
+n=0
+DI_ROOT_FSTYPE=$(get_fstype ${DI_ROOT_PARTITION})
+while [ "$n" -lt 10 ]; do
+  if [ ${DI_ROOT_FSTYPE} != "unknown" ]; then
+    mount -t ${DI_ROOT_FSTYPE} ${DI_ROOT_PARTITION} ${target}
+  else
+    mount ${DI_ROOT_PARTITION} ${target}
+  fi
+  result=$(find_target $target)
+  if [ -n "${result}" ]; then
+    break
+  fi
+  sleep 1
+  n="$(($n + 1))"
+done
+
+if [ -z ${result} ]; then
+  error "Failed to mount ${target}!"
+fi
+
+[ ! -d ${target}/deepinhost ] && mkdir -p ${target}/deepinhost
+mount --bind / ${target}/deepinhost
+
+# Mount other mountpoints
+# Split mount-point list.
+mount_points=$(echo ${DI_MOUNTPOINTS//;/ })
+for i in $(echo "${mount_points}"); do
+  mountpoint=$(echo $i | cut -d'=' -f1)
+  mountpath=$(echo $i | cut -d'=' -f2)
+  if [ "$mountpath" != "/" ] && [ "$mountpath" != "swap" ] && [ "$mountpath" != "/boot/efi" ]; then
+    msg "mount ${mountpoint} -> ${mountpath}"
+    mkdir -pv ${target}${mountpath}
+    mount $mountpoint ${target}${mountpath} || \
+      error "Failed to mount ${mountpoint}"
+  elif [ "$mountpath" == "swap" ]; then
+    msg "Detect swap partition, try swapon it first"
+    swapon $mountpoint || true
+    installer_set DI_SWAP_MOUNTPOINT "$mountpoint"
+  fi
+done
+
+if [ x"${DI_UEFI}" = xtrue ]; then
+    if ! is_sw; then
+        mkdir -p /target/boot/efi
+        mount ${DI_BOOTLOADER} /target/boot/efi || \
+            error "Failed to mount bootloader ${DI_BOOTLOADER}"
+    fi
+else
+    #解决bug50960,兆芯逻辑分区的引导无法安装到mbr，原因需要激活扩展分区
+    cpuVendorId=$(lscpu | grep "Vendor ID" | awk '{print $3}')
+    echo $cpuVendorId
+    if [ $cpuVendorId = "CentaurHauls" ]; then
+       echo $cpuVendorId
+       diskInfo=$(parted ${DI_BOOTLOADER} print)
+       tempDisk={1 1 1 1 1}
+       extendedNumber=1
+       for diskUnit in ${diskInfo[@]}
+           do
+             tempDisk[0]=${tempDisk[1]}
+             tempDisk[1]=${tempDisk[2]}
+             tempDisk[2]=${tempDisk[3]}
+             tempDisk[3]=${tempDisk[4]}
+             tempDisk[4]=$diskUnit
+
+              echo $diskUnit
+              if [ $diskUnit = "extended" ]; then
+
+                      extendedNumber=${tempDisk[0]}
+                      echo $extendedNumber
+              fi
+        done
+        fdisk ${DI_BOOTLOADER} << EOF
+a
+$extendedNumber
+w
+EOF
+    fi
+
+fi
+
+if [ -d /target/${DATA_MOUNT_POINT}/ ];then
+    mkdir -p /target/${DATA_MOUNT_POINT}/home
+    mkdir -p /target/home
+    mount --bind /target/${DATA_MOUNT_POINT}/home /target/home || error "Faild to mount /target/home"
+
+    mkdir -p /target/${DATA_MOUNT_POINT}/opt
+    mkdir -p /target/opt
+    mount --bind /target/${DATA_MOUNT_POINT}/opt /target/opt || error "Faild to mount /target/opt"
+
+    mkdir -p /target/root
+    mkdir -p /target/${DATA_MOUNT_POINT}/root
+    mount --bind /target/${DATA_MOUNT_POINT}/root /target/root || error "Faild to mount /target/root"
+
+    mkdir -p /target/var
+    mkdir -p /target/${DATA_MOUNT_POINT}/var
+    mount --bind /target/${DATA_MOUNT_POINT}/var /target/var || error "Failed to mount /target/var"
+fi

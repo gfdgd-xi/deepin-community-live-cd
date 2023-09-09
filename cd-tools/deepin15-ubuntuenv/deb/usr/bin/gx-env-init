@@ -1,0 +1,21 @@
+#!/bin/bash
+chrootEnvPath=/opt/new-system-env
+if [[ ! -d $chrootEnvPath ]]; then
+    echo Chroot 环境不存在，请部署环境后再试
+    exit 1
+fi
+echo aa > /tmp/env-$USER.txt
+if [[ ! -f $chrootEnvPath/tmp/env-$USER.txt ]]; then
+    echo 未挂载目录，立即挂载
+    pkexec env `printenv` gx-env-mount-root
+fi
+#user=`whoami`
+if [[ ! -f $chrootEnvPath/user/$USER ]]; then
+    gx-env-adduser-root
+    if [[ $? != 0 ]]; then
+        echo Create User Error!
+        exit 1
+    fi
+    pkexec env `printenv` mkdir $chrootEnvPath/user/ -p #$USER
+    pkexec env `printenv` touch $chrootEnvPath/user/$USER
+fi

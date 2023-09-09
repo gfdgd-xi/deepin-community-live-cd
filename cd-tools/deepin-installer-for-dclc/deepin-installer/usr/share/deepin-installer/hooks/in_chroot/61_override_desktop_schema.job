@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Update default settings of desktop environment.
+readonly SCHEMA_FILE=/usr/share/glib-2.0/schemas/99_deepin_installer_settings.gschema.override
+
+LAUNCHER_HOLD_PKGS=$(installer_get "dde_launcher_hold_packages")
+if [ -n "${LAUNCHER_HOLD_PKGS}" ]; then
+  # Remove any quotes around value.
+  # Or else QSettings::value()::toStringList() will fail in dde-launcher.
+  msg "LAUNCHER_HOLD_PKGS :${LAUNCHER_HOLD_PKGS}:"
+  installer_set "dde_launcher_hold_packages" "${LAUNCHER_HOLD_PKGS}"
+fi
+
+LAUNCHER_APPS=$(installer_get "dde_launcher_app_list")
+if [ -n "${LAUNCHER_APPS}" ]; then
+  echo "[com.deepin.dde.launcher]" >> "${SCHEMA_FILE}"
+  REAL_LAUNCHER_APPS=$(echo ${LAUNCHER_APPS} | sed "s/ //g" | \
+    sed "s/,/','/g" | sed "s/^/'/" | sed "s/$/'/")
+  echo "apps-order = [${REAL_LAUNCHER_APPS}]" >> "${SCHEMA_FILE}"
+  echo "apps-order-zh-cn = [${REAL_LAUNCHER_APPS}]" >> "${SCHEMA_FILE}"
+  echo "apps-order-zh-tw = [${REAL_LAUNCHER_APPS}]" >> "${SCHEMA_FILE}"
+fi
+
+DOCK_APPS=$(installer_get "dde_dock_app_list")
+if [ -n "${DOCK_APPS}" ]; then
+  echo "[com.deepin.dde.dock]" >> "${SCHEMA_FILE}"
+  REAL_DOCK_APPS=$(echo ${DOCK_APPS} | sed "s/ //g" | \
+    sed "s/,/','/g" | sed "s/^/'/" | sed "s/$/'/")
+  echo "docked-apps = [${REAL_DOCK_APPS}]" >> "${SCHEMA_FILE}"
+fi
+
+SOUND_EFFECT=$(installer_get "dde_sound_effect_switches")
+if [ -n "${SOUND_EFFECT}" ]; then
+  echo "[com.deepin.dde.sound-effect]" >> "${SCHEMA_FILE}"
+  SOUND_EFFECT_ARR=$(echo ${SOUND_EFFECT} | sed "s/ //g" | sed "s/,/ /")
+  for SOUND_EFFECT_ITEM in $(echo "${SOUND_EFFECT_ARR}"); do
+    msg "sound effect: ${SOUND_EFFECT_ITEM}"
+    echo "${SOUND_EFFECT_ITEM}" | sed "s/=/ = /" >> "${SCHEMA_FILE}"
+  done
+fi
+
+msg "installer override schema file:"
+[ -f "${SCHEMA_FILE}" ] && cat "${SCHEMA_FILE}"
+
+# need refresh all gsettings schemas
+glib-compile-schemas /usr/share/glib-2.0/schemas
+
+return 0

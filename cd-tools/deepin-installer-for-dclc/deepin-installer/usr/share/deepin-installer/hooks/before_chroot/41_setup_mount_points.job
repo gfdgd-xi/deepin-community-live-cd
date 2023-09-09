@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Mount virtual fs and efi to /target.
+
+CDROM=$(installer_get "CDROM")
+DI_BOOTLOADER=$(installer_get "DI_BOOTLOADER")
+
+mkdir -p /target/dev
+mount --bind -v --bind /dev/ /target/dev || error "Failed to bind /dev"
+
+mkdir -p /target/dev/pts
+mount -vt devpts devpts /target/dev/pts || error "Failed to bind devpts"
+
+mkdir -p /target/proc
+mount -vt proc proc /target/proc || error "Failed to bind proc"
+
+mkdir -p /target/sys
+mount -vt sysfs sysfs /target/sys || error "Failed to bind sysfs"
+
+mkdir -p /target/media/cdrom
+mount --bind ${CDROM} /target/media/cdrom || error "Failed to bind ${CDROM}"
+
+if [ -f /target/media/cdrom/oem.squashfs ]; then
+    mount --bind ${CDROM}/oem /target/media/cdrom/oem || error "Failed to bind ${CDROM}/oem"
+fi
+
+mkdir -p /target/run
+mount --bind /run /target/run || error "Failed to bind /run"
+
+# Mount /var/run
+mkdir -p /target/var/run
+mount --bind /var/run /target/var/run || error "Failed to bind /var/run"
+
+# Mount /tmp/.X11-unix/
+mkdir -p /target/tmp/.X11-unix
+mount --bind /tmp/.X11-unix/ /target/tmp/.X11-unix || error "Failed to bind /tmp/.X11-unix"

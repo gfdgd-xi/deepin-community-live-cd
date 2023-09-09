@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Read kernel bootstrap options from /proc/cmdline
+if grep -q boot=casper /proc/cmdline; then
+  BOOT=casper
+  CDROM=/cdrom
+  LUPIN_ROOT=/isodevice
+  DISTRIBUTION=ubuntu
+elif grep -q boot=live /proc/cmdline; then
+  BOOT=live
+
+  if [ -d /lib/live/mount/medium/live ]; then
+    CDROM=/lib/live/mount/medium
+  else
+    CDROM=/run/live/medium
+  fi
+
+  LUPIN_ROOT=/lib/live/mount/findiso
+  DISTRIBUTION=debian
+else
+  error "No boot value found!"
+fi
+
+LIVE_FILESYSTEM="${CDROM}/${BOOT}"
+installer_set "DISTRIBUTION" "${DISTRIBUTION}"
+installer_set "LIVE" "${BOOT}"
+installer_set "LIVE_FILESYSTEM" "${LIVE_FILESYSTEM}"
+installer_set "CDROM" "${CDROM}"
+installer_set "DI_LUPIN_ROOT" "${LUPIN_ROOT}"

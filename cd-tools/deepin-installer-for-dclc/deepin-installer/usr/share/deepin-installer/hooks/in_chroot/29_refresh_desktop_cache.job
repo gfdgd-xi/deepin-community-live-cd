@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Refresh desktop cache
+
+DB_PATH=/var/cache/deepin-store/new-desktop.db
+DSTORE_BACKEND=/usr/lib/deepin-store/deepin-store-backend
+[ -e "${DB_PATH}" ] && rm -f "${DB_PATH}"
+[ -x "${DSTORE_BACKEND}" ] && "${DSTORE_BACKEND}" --init
+
+if [ -x /var/lib/lastore/scripts/build_system_info ]; then
+  /usr/bin/lastore-tools update -j=desktop -o /var/lib/lastore/ || true
+fi
+msg "refresh desktop cache done."
+
+return 0

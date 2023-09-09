@@ -1,0 +1,56 @@
+[ {
+        "filesystem": "ext4",
+        "mountPoint": "/boot",
+        "label": "Boot",
+        "usage": "1536Mib",
+        "alignStart": true,
+        "device": "",
+        "platform": [ "loongson" , "x86", "arm", "loongarch64" ]
+    },
+    {
+        "filesystem": "ext4",
+        "mountPoint": "/boot",
+        "label": "Boot",
+        "usage": "3072Mib",
+        "alignStart": true,
+        "device": "",
+        "platform": [ "sw" ]
+    },
+    {
+        "filesystem": "linux-swap",
+        "mountPoint": "swap",
+        "label": "SWAP",
+        "usage": "swap-size",
+        "alignStart": false,
+        "device": "",
+        "platform": [ "x86", "sw", "loongson", "arm", "loongarch64" ]
+    },
+    {
+        "filesystem": "recovery",
+        "mountPoint": "/recovery",
+        "label": "Backup",
+        "usage": "backup-size",
+        "alignStart": false,
+        "device": "",
+        "platform": [ "x86", "sw", "loongson", "arm", "loongarch64" ]
+    },
+    {
+        "filesystem": "xfs",
+        "mountPoint": "/",
+        "label": "Roota",
+        "usage": "root-size",
+        "alignStart": true,
+        "device": "",
+        "platform": [ "x86", "arm", "sw", "loongson", "loongarch64" ]
+    },
+    {
+        "filesystem": "xfs",
+        "mountPoint": "/deepin/userdata",
+        "label": "_dde_data",
+        "usage": "100%",
+        "alignStart": true,
+        "isDataPartition": true,
+        "device": "",
+        "platform": [ "x86", "arm", "sw", "loongson", "loongarch64"]
+    }
+]

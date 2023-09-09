@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+reload_conf() {
+    loacl allow=$1
+    dbus-send --system --type=method_call --print-reply --dest=com.deepin.daemon.Accounts /com/deepin/daemon/Accounts com.deepin.daemon.Accounts.EnablePasswdChangedHandler boolean:$allow
+}
+
+# Override default settings for user.
+customize_user() {
+  local DI_USERNAME USER_CONF ROOT_CONF ROOTPASSWORD LOCALE XLAYOUT
+  DI_USERNAME=$(installer_get "DI_USERNAME")
+  USER_CONF="/var/lib/AccountsService/deepin/users/${DI_USERNAME}"
+  ROOT_CONF="/var/lib/AccountsService/deepin/users/root"
+  ROOTPASSWORD=$(installer_get "DI_ROOTPASSWORD")
+  LOCALE=$(installer_get "DI_LOCALE")
+  XLAYOUT=$(installer_get "DI_LAYOUT")
+  # Disable fallback mode
+  deepin-installer-settings set "${USER_CONF}" \
+    "User" "XSession" "deepin"
+  deepin-installer-settings set "${USER_CONF}" \
+    "User" "SystemAccount" "false"
+
+  #task101679
+  #把键盘和语言的配置写到/var/lib/AccountsService/deepin/users/下
+  deepin-installer-settings set "${USER_CONF}" \
+  "User" "Layout" "${XLAYOUT}"
+  deepin-installer-settings set "${USER_CONF}" \
+  "User" "Locale" "${LOCALE}.UTF-8"
+  echo "cat ${USER_CONF}"
+  cat ${USER_CONF}
+  #如果启用root
+  if [ -n "${ROOTPASSWORD}" ]; then
+    deepin-installer-settings set "${ROOT_CONF}" \
+    "User" "Layout" "${XLAYOUT}"
+    deepin-installer-settings set "${ROOT_CONF}" \
+    "User" "Locale" "${LOCALE}.UTF-8"
+    echo "cat ${ROOT_CONF}"
+    cat ${ROOT_CONF}
+  fi
+
+  local DI_AVATAR
+  DI_AVATAR=$(installer_get "DI_AVATAR")
+  if [ -f "${DI_AVATAR}" ]; then
+    deepin-installer-settings set "${USER_CONF}" \
+      "User" "Icon" "file://${DI_AVATAR}"
+  fi
+
+  local SYS_LIGHTDM_BACKGROUND=/usr/share/backgrounds/oem-lightdm.png
+  if [ -f "${SYS_LIGHTDM_BACKGROUND}" ]; then
+    deepin-installer-settings set "${USER_CONF}" \
+      "User" "GreeterBackground" "file://${SYS_LIGHTDM_BACKGROUND}"
+  fi
+}
+
+if [ x$(installer_get "system_info_setup_after_reboot") != xtrue ]; then
+   reload_conf false   # 传false的时候,是system-daemon不会更新那些用户设置
+   customize_user
+   reload_conf true    # 传true的时候,是会重新加载一遍配置,并会根据passwd的变化去更新
+fi
+
+return 0

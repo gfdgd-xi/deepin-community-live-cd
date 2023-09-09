@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+import os
+
+for i in os.environ:
+    print("'{}={}'".format(i, os.getenv(i)))

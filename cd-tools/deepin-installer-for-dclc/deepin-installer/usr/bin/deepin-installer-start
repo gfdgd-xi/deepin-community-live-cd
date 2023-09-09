@@ -1,0 +1,62 @@
+#!/bin/bash
+
+ . /usr/share/deepin-installer/hooks/basic_utils.sh
+
+start_checkmode() {
+    echo "start checkmode..."
+    init_checkmode
+}
+
+start_backup() {
+    echo "start backup..."
+    init_backup
+    # /sbin/shutdown -r now
+}
+
+start_firstboot() {
+    echo "start first boot..."
+    init_firstboot
+    systemctl disable deepin-installer
+}
+
+start_system() {
+    echo "start systemd..."
+}
+
+init_start() {
+    local arg1=$1
+    local system_backup_disable=$(installer_get "system_backup_disable")
+    local system_check_mode=$(installer_get "system_check_mode")
+
+    ## 判断是否进入审核模式
+    if [ "x$system_check_mode" = "xtrue" ]; then
+        start_checkmode
+    fi
+
+    ## 判断是否备份
+    if [ ! -f /recovery/backup.flag ] && [ "x$system_backup_disable" != "xtrue" ]; then
+        start_backup
+    fi
+
+    ## 判断是否进入后配置
+    if [ "$arg1" = "0" ]; then
+        start_firstboot
+    elif [ "$arg1" = "2" ]; then
+        start_system
+    fi
+}
+
+main() {
+    local mode=$(installer_get "system_installer_start_mode")
+    echo "install mode: $mode"
+
+    if [ ! -n "$mode" ]; then
+        echo "installer start..."
+        /usr/bin/deepin-installer-both  # 正常安装系统
+    else
+        echo "init start..."
+        init_start $mode 　             # 启动烧录流程
+    fi
+}
+
+main >> /var/log/deepin-installer-init.log 2>&1

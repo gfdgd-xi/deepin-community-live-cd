@@ -1,0 +1,162 @@
+#!/bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#set -x
+#exec &> /var/log/01_multi_system_set.log
+
+# Check device capacity of $DEVICE.
+check_device_size() {
+  local index=$1
+  echo "index={${index}}"
+  local minimum_disk_size=$(installer_get disk_minimum_space_required)
+  local large_disk_threshold=$(installer_get partition_full_disk_large_disk_threshold)
+  DEVICE_SIZE=$(($(blockdev --getsize64 "$DEVICE") / 1024**2))
+
+  if ((DEVICE_SIZE < minimum_disk_size * 1024 && index == 0)); then
+    error "At least ${minimum_disk_size}Gib is required to install system!"
+  elif ((DEVICE_SIZE > large_disk_threshold * 1024)); then
+    declare -g LARGE=true
+  fi
+}
+
+# 返回磁盘空闲空间大小，单位G
+get_disk_freesize() {
+  local devpath=$1
+  # 将 /dev/sda 截取为 sda
+  devpath=${devpath##*/}
+  disksizes=$(cat /proc/partitions | grep $devpath | awk '{print $3}')
+  # 根据换行符初始化数组disksizes
+  disksizes=(${disksizes//\n/})
+  # 数组第1项即为磁盘总空间大小
+  disksizesfree=${disksizes[0]}
+  disksizessize=${#disksizes[*]}
+  if [ $disksizessize -gt 1 ]; then
+    # 数组多于一项时，从数组的第2项开始遍历，数组第1项的值减去后面所有的值，便是磁盘剩余空间
+    for (( disksizesindex=1;disksizesindex<$disksizessize;disksizesindex++ )); do
+      let disksizesfree=disksizesfree-${disksizes[disksizesindex]}
+    done
+  fi
+
+  let disksizesfree=$(expr $disksizesfree / 1024 / 1024)
+  echo $disksizesfree
+}
+
+# 检测全盘安装
+check_fulldisk_install() {
+    local device_todo=$1
+    device_todo=${device_todo##*/}
+
+    local part_labels=("Boot" "SWAP" "Backup" "Roota" "Rootb" "_dde_data")
+    local device_todo_labels=$(lsblk -f -o NAME,LABEL | grep $device_todo | awk '{print $2}')
+    device_todo_labels=(${device_todo_labels//\n/})
+    local device_todo_labelsnum=${#device_todo_labels[@]}
+    let device_todo_labelsnum--
+    local is_fulldiskinstall=1
+
+    # 从后往前遍历获取到的LABEL数组，针对device_todo_labels数组中的每一项判断是否在预定义的part_labels数组中存在
+    # 最终根据is_fulldiskinstall的值判断存在连续的UOS系统分区，从而确定存在已经全盘安装的UOS
+    for (( label_index=$device_todo_labelsnum;label_index>=0; )); do
+        # 如果存在则is_fulldiskinstall加1，如果不存在则is_fulldiskinstall减1
+        if [[ "${part_labels[@]}" =~ "${device_todo_labels[$label_index]}" ]]; then
+          let is_fulldiskinstall++
+        else
+          let is_fulldiskinstall--
+        fi
+        let label_index--
+    done
+
+    echo $is_fulldiskinstall
+}
+
+# 获取新系统安装的起点，之前的分区的终点
+get_install_startpos() {
+  local devpath=$1
+  local part_endpos=$(fdisk -l $devpath -o Device,End | grep $devpath | awk '{print $2}' | awk 'END {print}')
+  let part_endpos++
+
+  echo $part_endpos
+}
+
+main() {
+  if [ x$(installer_get "multi_system_eanble") = "xtrue" ]; then
+    echo "multi_system is true"
+  else
+    return 0
+  fi
+
+  local part_device=$(installer_get DI_FULLDISK_MULTIDISK_DEVICE)
+  local part_device_array=(${part_device//;/ })
+  local dev_info=${part_device_array[0]}
+  local device_todo=$dev_info
+  device_todo=${device_todo##*/}
+
+  # 检测是否配置了全盘加密
+  if [ x$(installer_get partition_do_auto_part_crypt) = "xtrue" ]; then
+    error "can not t use crypto_luks with setup_multi_part"
+  else
+    echo "start setup_multi_part"
+  fi
+
+  # 探测是否存在全盘安装的UOS
+  local is_fulldiskinstall=$(check_fulldisk_install $dev_info)
+
+  # isfulldiskinstall>3 存在3个连续的分区则判定存在全盘安装的UOS，后面倒序寻找Boot分区并删除UOS分区
+  if [ ${is_fulldiskinstall} -gt 3 ]; then
+    # 删除全盘安装的分区
+    echo "the last is fulldiskinstall"
+    local device_todo_names=$(lsblk -lf -o NAME | grep $device_todo | awk '{print $1}')
+    # 换行符需要 \ 转义一下
+    device_todo_names=(${device_todo_names//\\n/})
+    local device_todo_namesnum=${#device_todo_names[@]}
+    let device_todo_namesnum--
+    local index_todelete
+    for (( name_index=$device_todo_namesnum;name_index>=0;name_index-- )); do
+        # 数组追加的方式，将需要删除掉分区编号保存在数组中稍后一起删除
+        index_todelete[${#index_todelete[@]}]=$name_index
+        local name_label=$(lsblk -f -o NAME,LABEL | grep ${device_todo_names[$name_index]} | awk '{print $2}')
+        if [ x$name_label = "xBoot" ]; then
+          break
+        fi
+    done
+    # 遍历分区编号数组删除分区
+    for indextmp in ${index_todelete[@]}; do
+        parted -s $dev_info rm $indextmp
+    done
+  else
+    # 检测剩余磁盘空间是否满足多系统安装要求
+    local disk_freesize=$(get_disk_freesize $device_todo)
+    local fulldisk_sizerequired=$(installer_get partition_full_disk_minimum_space)
+    if [ $fulldisk_sizerequired -gt $disk_freesize ]; then
+      error "disk space too small required $fulldisk_sizerequired G but $disk_freesize G can get"
+    fi
+  fi
+  
+  # 寻找安装的起点，之前的分区的终点
+  local install_startpos=$(get_install_startpos $dev_info)
+  
+  local part_num=$(fdisk -l $dev_info | grep  "^$dev_info" | wc -l)
+
+  # 寻找EFI
+  part_path=$(fdisk -l -o Device,Type | grep -E 'EFI|"$dev_info"' | awk '{print $1}')
+
+  installer_set "DI_BOOTLOADER" $part_path
+  installer_set "DI_INSTALL_STARTPOS" $install_startpos
+  installer_set "DI_PART_NUM" $part_num
+}
+
+main

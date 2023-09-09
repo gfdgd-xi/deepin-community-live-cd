@@ -1,0 +1,109 @@
+#!/bin/sh
+set -e
+# Copyright (c) 2016 Deepin Ltd. All rights reserved.
+# Use of this source is governed by General Public License that can be found
+# in the LICENSE file.
+
+# Generate background image of installer with blur effect.
+# Enable all locales defined in language list.
+
+# NOTE(xushaohua): This script is used to speed up installer program.
+# Also it is ok to generate blur-image when installer program starts up,
+# it takes some seconds to minutes to finish this job.
+# Call service/system_language::GenerateLocale() in SystemLanguageFrame
+# may also update system locale based on using settings, it is not so fluent
+# before switching to SystemInfoFrame.
+
+# Absolute path to installer misc folder.
+SHARE_DIR=/usr/share/deepin-installer
+
+# Update /etc/locale.gen and generate new locale cache.
+# Or else neither timezone page nor keyboard layout page work well with
+# gettext.
+# Only enable en_US and zh_CN on non-x86 platform.
+generate_locale() {
+  local JSON="${SHARE_DIR}/resources/languages.json"
+  local LOCALES="$(grep 'locale' "${JSON}" | awk '{ print $2 }' | \
+            sed 's/"//g'  | sed 's/,//g')"
+  echo "locales: ${LOCALES}"
+  for LOCALE_NAME in $(echo "${LOCALES}"); do
+    sed -i "s/# \(${LOCALE_NAME}\.UTF-8.*$\)/\1/g" /etc/locale.gen
+  done
+
+  locale-gen
+
+}
+
+generate_extral_locales() {
+  localedef --no-archive -i zh_CN -c -f GB2312 -A /usr/share/locale/locale.alias zh_CN
+  localedef --no-archive -i zh_CN -c -f GB18030 -A /usr/share/locale/locale.alias zh_CN.GB18030
+  localedef --no-archive -i zh_CN -c -f GBK -A /usr/share/locale/locale.alias zh_CN.GBK
+}
+
+# Bluring image from $1 to $2
+blur_image() {
+  local SRC=$1
+  local DST=$2
+  local TMP=/tmp/installer-$(date +%s)-$(basename "${SRC}")
+
+  if which image-worsener >/dev/null; then
+    image-worsener -crop -x1/4 ${SRC} ${TMP} && \
+      image-worsener -blur 40 -filter gaussian ${TMP} ${TMP} && \
+      image-worsener -crop -x4/1 ${TMP} ${TMP}
+  elif which convert >/dev/null; then
+    convert "${SRC}" -resize 25% -brightness-contrast -10 \
+        -modulate 100,120,100 -blur 0x16 -resize 400% "${TMP}"
+  else
+      echo "Please install imagemaic or image-worsener to blur image" >&2
+  fi
+
+  [ -f "${DST}" ] && mv -f "${TMP}" "${DST}"
+}
+
+# Generate new background image.
+generate_background_image() {
+  local SRC="/usr/share/backgrounds/default_background.jpg"
+  local TMP_SRC="/tmp/installer_default_background.jpg"
+  local DST="${SHARE_DIR}/resources/default_wallpaper.jpg"
+
+  if [ -f "${TMP_SRC}" ]; then
+    # Copy pre-generated background image.
+    install -Dm644 "${TMP_SRC}" "${DST}"
+  elif [ -f "${SRC}" ]; then
+    echo "Generate default wallpaper.."
+    blur_image "${SRC}" "${DST}"
+  fi
+
+  return 0
+}
+
+case "$1" in
+  configure)
+    generate_locale
+    generate_extral_locales
+    generate_background_image
+    # Update initramfs to include current boot scripts.
+    update-initramfs -u
+    ;;
+esac
+
+# Automatically added by dh_systemd_enable/13.3.3~bpo10+1
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-deconfigure" ] || [ "$1" = "abort-remove" ] ; then
+	# This will only remove masks created by d-s-h on package removal.
+	deb-systemd-helper unmask 'deepin-installer.service' >/dev/null || true
+
+	# was-enabled defaults to true, so new installations run enable.
+	if deb-systemd-helper --quiet was-enabled 'deepin-installer.service'; then
+		# Enables the unit on first installation, creates new
+		# symlinks on upgrades if the unit file has changed.
+		deb-systemd-helper enable 'deepin-installer.service' >/dev/null || true
+	else
+		# Update the statefile to add new symlinks (if any), which need to be
+		# cleaned up on purge. Also remove old symlinks.
+		deb-systemd-helper update-state 'deepin-installer.service' >/dev/null || true
+	fi
+fi
+# End automatically added section
+
+
+exit 0

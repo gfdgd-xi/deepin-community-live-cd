@@ -1,0 +1,9 @@
+#!/bin/bash
+# 删除软件缓存（留着也没什么用了）
+# 缓存目录：~/.cache/deepin-wine-runner
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    rm -rf /usr/share/applications/gx-env/*.desktop
+    rm -rf /usr/share/applications/gx-env-*.desktop
+else
+	echo "非卸载，跳过清理"
+fi

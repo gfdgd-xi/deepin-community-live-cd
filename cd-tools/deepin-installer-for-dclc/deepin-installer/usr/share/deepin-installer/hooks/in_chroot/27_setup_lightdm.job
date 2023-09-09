@@ -1,0 +1,46 @@
+#! /bin/bash
+#
+# Copyright (C) 2017 ~ 2018 Deepin Technology Co., Ltd.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Config lightdm greeter to deepin-lightdm-greeter.
+# Update background of lightdm.
+
+# Set lightdm as default display manager.
+setup_default_dm() {
+  cat > /etc/X11/default-display-manager <<EOF
+/usr/sbin/lightdm
+EOF
+}
+
+enable_deepin_lightdm_greeter() {
+  local CONF_FILE=/etc/lightdm/lightdm.conf
+  if [ -f "${CONF_FILE}" ]; then
+    sed -i -r \
+      -e "s|^#.*greeter-session=.*\$|greeter-session=lightdm-deepin-greeter|" \
+      -e "s|^#.*user-session=.*\$|user-session=deepin|" \
+      "${CONF_FILE}"
+  fi
+}
+
+main() {
+  setup_default_dm
+  enable_deepin_lightdm_greeter
+}
+
+main
+
+return 0

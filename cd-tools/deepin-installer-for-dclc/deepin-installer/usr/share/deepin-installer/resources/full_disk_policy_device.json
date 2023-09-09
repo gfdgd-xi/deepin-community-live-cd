@@ -1,0 +1,30 @@
+[
+    {
+        "filesystem": "ext4",
+        "mountPoint": "/",
+        "label": "Roota",
+        "usage": "10Gib",
+        "alignStart": true,
+        "device": "",
+        "platform": [ "x86", "sw", "loongson", "arm","loongarch64"]
+    },
+    {
+        "filesystem": "linux-swap",
+        "mountPoint": "swap",
+        "label": "SWAP",
+        "usage": "swap-size",
+        "alignStart": false,
+        "device": "",
+        "platform": [ "x86", "sw", "loongson", "arm", "loongarch64" ]
+    },
+    {
+        "filesystem": "ext4",
+        "mountPoint": "",
+        "label": "_user_data",
+        "usage": "100%",
+        "alignStart": true,
+        "isDataPartition": false,
+        "device": "",
+        "platform": [ "x86", "sw", "loongson", "arm", "loongarch64" ]
+    }
+]
