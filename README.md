@@ -67,5 +67,275 @@ amd64、arm64
 ![VirtualBox_Live CD Test_01_07_2022_20_18_48.png](https://storage.deepin.org/thread/202207012018581211_VirtualBox_LiveCDTest_01_07_2022_20_18_48.png)
 #### New Kernel（amd64）
 基于 Deepin 15/20/23，使用更新版本的内核，项目地址：https://github.com/gfdgd-xi/dclc-kernel 。  
+
+## Live CD 默认账号和密码（使用 sudo 时均不需要输入密码）
+### Tiny
+未知
+### Mini
+未知
+### Full
+root: 123456  
+live: 123456
+### Install
+root: 123456  
+live: 123456  
+### Install Kernel
+未知
+### Debian
+root: 123456  
+live: 123456  
+### Debian-Core
+root: 123456
+
+## 历史版本
+<table>
+<thead>
+<tr>
+<th align="center">版本号</th>
+<th align="center">tiny</th>
+<th align="center">mini</th>
+<th align="center">full</th>
+<th align="center">install</th>
+<th align="center">tiny(本地版本)</th>
+<th align="center">mini(本地版本)</th>
+<th align="center">full(本地版本)</th>
+<th align="center">install(本地版本)</th>
+<th align="center">15.11</th>
+<th align="center">debian_amd64</th>
+<th align="center">debian-core_amd64</th>
+<th align="center">debian_amd64（本地版本）</th>
+<th align="center">debian-core_amd64（本地版本）</th>
+<th align="center">debian_arm64</th>
+<th align="center">debian-core_arm64</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">2.0.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">×</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+</tr>
+<tr>
+<td align="center">1.7.0</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.6.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.5.0</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.4.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.3.0</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.2.1</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.2.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.1.1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.1.0</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.5</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">×</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.4</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.3</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.2</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.1</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.0-rc</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1.0.0-beta</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">●</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
   
 # ©2022-Now gfdgd xi
