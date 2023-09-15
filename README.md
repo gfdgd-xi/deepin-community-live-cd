@@ -11,9 +11,7 @@ Deepin Community Live CD QQ 交流群：881201853
 ### 支持架构
 amd64、arm64
 ### 下载地址
-123云盘：https://www.123pan.com/s/pDSKVv-yRpWv  
-百度网盘：链接: https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w 提取码: ejr7  
-和彩云：链接: https://caiyun.139.com/m/i?0r5CLA9upgtMT 提取码:nEy6  
+
 
 ## 系列划分
 ### 不支持系统安装功能的系列（Tiny、Mini、Full、Full-15.11、Debian、Debian-Core）
