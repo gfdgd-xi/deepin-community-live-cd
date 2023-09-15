@@ -36,6 +36,9 @@ amd64、arm64
 
 #### Full（amd64）
 基于 Deepin 20，预装了一些常用的维护软件（使用 `dde20` 桌面环境）。  
+![image.png](https://storage.deepin.org/thread/202209112150178582_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112151255384_image.png)  
 
 #### Debian-Core（amd64、arm64）
 基于 Debian，没有 GUI。  
