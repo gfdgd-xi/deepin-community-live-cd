@@ -337,5 +337,62 @@ root: 123456
 <td align="center"></td>
 </tr>
 </tbody></table>
+
+## 历史版本更新（如无特殊注明则代表是非 Install 版）  
+### 2.0.0
+***该版本更新的系列：tiny、mini、full、install、debian-gui、debian-core***
+
+1. 新增 `debian`（全称为 `debian-gui`）、`debian-core` 系列
+2. 更新至 6.1.11 内核（arm 为 4.19 内核），`full`、`install` 版升级为 Deepin 20.9
+3. 移除有问题的 gitlink 源并更新预装软件
+4. 新增 arm 支持（只限 `debian-gui`、`debian-core`）
+5. 修复 Full 版无法从 UEFI 启动的问题
+6. 更换 squashfs 的压缩参数，使其体积更小
+7. 预装星火应用商店终端版
+
+![图片.png](https://storage.deepin.org/thread/202307281450084351_图片.png)
+
+![图片.png](https://storage.deepin.org/thread/202307281456338116_图片.png)
+
+![图片.png](https://storage.deepin.org/thread/202307281534467482_图片.png)
+
+![图片.png](https://storage.deepin.org/thread/202307281504127679_图片.png)
+
+![图片.png](https://storage.deepin.org/thread/202307281500568596_图片.png)
+
+### 1.7.0
+#### Install 版
+1. 跟进系统版本为 20.8  
+2. 更新预装的星火应用商店和 Wine 运行器版本，星火应用商店版本号：4.0.1，Wine 运行器版本号：3.0.0.1-uos  
+3. 开始选择性安装 UEngine 安卓环境和 UEngine 运行器（若不想安装，可以通过断网或在体验模式下打开添加自定义脚本进行修改）  
+  
+![图片.png](https://storage.deepin.org/thread/202212240941481968_图片.png)  
+  
+![图片.png](https://storage.deepin.org/thread/202212240941227743_图片.png)  
+#### Mini 版  
+1. 更新 QQ For Linux 至镜像封装时最高版本    
+#### Full 15.11 版  
+1. 更新 QQ For Linux 至镜像封装时最高版本  
+2. 更新了部分 apt 源内更新内容  
+#### Full 版  
+1. 更新 QQ For Linux 至镜像封装时最高版本  
+2. 跟进 Deepin 20.8 更新内容  
+  
+### 1.6.0
+1. 新增 boot repair、Ghost  
+2. 有添加用户定制自定义脚本的小工具  
+     
+![image.png](https://storage.deepin.org/thread/202211091020099456_image.png)  
+  
+### 1.5.0 
+![image.png](https://storage.deepin.org/thread/202210231137072181_image.png)  
+  
+![image.png](https://storage.deepin.org/thread/202210231147038996_image.png)  
+  
+![image.png](https://storage.deepin.org/thread/202210231157439386_image.png)  
+  
+![image.png](https://storage.deepin.org/thread/202210231157552632_image.png)  
+  
+![image.png](https://storage.deepin.org/thread/202210231158032520_image.png)  
   
 # ©2022-Now gfdgd xi
