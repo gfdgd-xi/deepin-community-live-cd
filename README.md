@@ -46,5 +46,26 @@ amd64、arm64
 
 ![Screenshot_qemu_20230728120451.png](https://storage.deepin.org/thread/202307281231432359_Screenshot_qemu_20230728120451.png)
 
+#### Debian GUI（amd64、arm64）
+在 Debian-Core 的基础添加了桌面环境并预装常用维护软件（使用 `xfce4` 桌面环境）。
+#### Full-15.11（停止维护）（amd64）
+基于 Deepin 15.11 制作，预装一些常用维护软件。  
+![image.png](https://storage.deepin.org/thread/202209112153411297_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112155289267_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112157046137_image.png)
+
+
+### 支持系统安装功能的系列（Install、New Kernel）
+#### Install（amd64）
+基于 Deepin 20，在预装 Live 模式下常用的维护软件的基础上，新增了系统安装程序并预装一些常用软件。  
+![VirtualBox_Live CD Test_01_07_2022_20_26_44.png](https://storage.deepin.org/thread/202207012027242790_VirtualBox_LiveCDTest_01_07_2022_20_26_44.png)
+
+![VirtualBox_Live CD Test_01_07_2022_20_15_47.png](https://storage.deepin.org/thread/202207012015595089_VirtualBox_LiveCDTest_01_07_2022_20_15_47.png)
+![VirtualBox_Live CD Test_01_07_2022_20_17_13.png](https://storage.deepin.org/thread/202207012017254728_VirtualBox_LiveCDTest_01_07_2022_20_17_13.png)
+![VirtualBox_Live CD Test_01_07_2022_20_18_48.png](https://storage.deepin.org/thread/202207012018581211_VirtualBox_LiveCDTest_01_07_2022_20_18_48.png)
+#### New Kernel（amd64）
+基于 Deepin 15/20/23，使用更新版本的内核，项目地址：https://github.com/gfdgd-xi/dclc-kernel 。  
   
 # ©2022-Now gfdgd xi
