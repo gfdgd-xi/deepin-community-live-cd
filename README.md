@@ -5,11 +5,28 @@
 <a href='https://gitee.com/gfdgd-xi/deepin-community-live-cd/members'><img src='https://gitee.com/gfdgd-xi/deepin-community-live-cd/badge/fork.svg?theme=dark' alt='fork'></img></a>  
 
 ## 介绍
+> Deepin 官方的 Live CD 过于老旧，内核老+维护工具老旧，且维护工具也很少，官方也没有继续维护
+> ![](https://storage.deepin.org/thread/202203201424371318_image.png)  
+> ![](https://storage.deepin.org/thread/202203201425394425_image.png)  
 Deepin Community Live CD 是一个让用户能够在系统出现问题时进行临时的维护和工作的镜像，预装了较为常用的维护工具，部分安装镜像还带系统安装功能。  
-类似于 Windows PE 的东西  
+类似于 Windows PE 的东西。  
 Deepin Community Live CD QQ 交流群：881201853  
 ### 支持架构
 amd64、arm64
+### 优势
+相比于 Deepin 官方的 Live CD，解决了以下痛点：
+- 维护工具更多且更新
+- 内核、系统底层更新（Deepin15=>Deepin20，Deepin15=>Debian12）
+- 部分镜像提供了系统安装功能，做到单 Live CD 兼顾维护和重装功能（适用于全系 Live CD 的系统安装工具还在制作）
+- 支持 arm 架构
+- 提供纯命令版本以及基于 Debian12 制作的 Live CD
+- 内置了星火应用商店（终端版）用于在线安装一些 Live CD 没有的维护工具（旧的星火应用商店终端版：https://gitee.com/spark-community-works-collections/spark-store-console ，目前已由星火团队维护）
+- ……
+
+当然也有新的缺点：
+- 体积大
+- 系列混乱
+- ……
 ### 下载地址
 123云盘：https://www.123pan.com/s/pDSKVv-yRpWv  
 百度网盘：链接: https://pan.baidu.com/s/1n5J8M8iqfI-kMbmHfR-x9w 提取码: ejr7  
