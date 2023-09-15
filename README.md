@@ -40,6 +40,7 @@ amd64、arm64
 #### Debian-Core（amd64、arm64）
 基于 Debian，没有 GUI。  
 
+![Screenshot_qemu_20230728120451.png](https://storage.deepin.org/thread/202307281231432359_Screenshot_qemu_20230728120451.png)
 
   
 # ©2022-Now gfdgd xi
