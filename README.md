@@ -33,5 +33,18 @@ amd64、arm64
 
 ![VirtualBox_Live CD Test_01_07_2022_20_22_23.png](https://storage.deepin.org/thread/202207012024191528_VirtualBox_LiveCDTest_01_07_2022_20_22_23.png)
 ![VirtualBox_Live CD Test_01_07_2022_20_20_24.png](https://storage.deepin.org/thread/202207012024185466_VirtualBox_LiveCDTest_01_07_2022_20_20_24.png) 
+
+#### Full（amd64）
+基于 Deepin 20，预装了一些常用的维护软件（使用 `dde20` 桌面环境）。  
+![image.png](https://storage.deepin.org/thread/202209112148168591_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112150178582_image.png)
+
+![image.png](https://storage.deepin.org/thread/202209112151255384_image.png)  
+#### Debian-Core（amd64、arm64）
+基于 Debian，没有 GUI。  
+
+![Screenshot_qemu_20230728120451.png](https://storage.deepin.org/thread/202307281231432359_Screenshot_qemu_20230728120451.png)
+
   
 # ©2022-Now gfdgd xi
