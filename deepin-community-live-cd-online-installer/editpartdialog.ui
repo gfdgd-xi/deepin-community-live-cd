@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EditPartDialog</class>
+ <widget class="QDialog" name="EditPartDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>编辑分区</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="icon.qrc">
+    <normaloff>:/icon/icon.svg</normaloff>:/icon/icon.svg</iconset>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QComboBox" name="mountPointChooser">
+       <item>
+        <property name="text">
+         <string>不设置挂载点</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/boot</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/boot/efi</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/home</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/opt</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>/usr</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="partFormatChooser">
+       <item>
+        <property name="text">
+         <string>不格式化</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ext2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ext3</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ext4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bfs</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>btrfs</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>cramfs</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>exfat</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>fat</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>minix</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>msdos</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ntfs</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>reiserfs</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>vfat</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>xfs</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="partFormatChooserTips">
+       <property name="text">
+        <string>分区格式：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="mountPointChooserTips">
+       <property name="text">
+        <string>挂载点：</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>EditPartDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>EditPartDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

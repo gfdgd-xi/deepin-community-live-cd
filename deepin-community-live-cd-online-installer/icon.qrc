@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>icon.png</file>
+        <file>icon.svg</file>
+        <file>no.png</file>
+        <file>no.svg</file>
+        <file>yes.png</file>
+        <file>yes.svg</file>
+    </qresource>
+</RCC>
