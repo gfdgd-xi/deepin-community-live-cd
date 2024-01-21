@@ -515,6 +515,14 @@ root: 123456
 ![截图_dde-desktop_20220320124833.png](https://storage.deepin.org/thread/202203201249349106_截图_dde-desktop_20220320124833.png)  
   
 
+## 请作者喝杯茶
+如果您觉得对你有帮助，可以请作者喝杯茶  
+<img src="Icon/QR/Wechat.png" width="250"  /> 
+<img src="Icon/QR/Alipay.jpg" width="250"  />
+<img src="Icon/QR/QQ.png" width="250" >
 
+### 广告
+支付宝官方活动，扫描获得支付红包！  
+<p><img src="Icon/QR/advertisement0.jpg" width="250" ></p>
   
 # ©2022-Now gfdgd xi
